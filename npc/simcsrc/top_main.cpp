@@ -17,7 +17,11 @@ int main(int argc, char** argv) {
     top->trace(tfp,0);
     tfp->open("wave.vcd");
     
+    int cycle=0;
+    
     while (!contextp->gotFinish()) {
+        if(cycle==20)
+            break;
         int a = rand() &1;
         int b = rand() &1;
         top->a=a;
@@ -29,6 +33,7 @@ int main(int argc, char** argv) {
         contextp->timeInc(1);
         
         assert(top->f == (a ^ b));
+        cycle++;
     }
     
     delete top;
