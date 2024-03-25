@@ -76,13 +76,13 @@ SIM_CSRCS = $(shell find $(abspath ./simcsrc) -name "*.c" -or -name "*.cc" -or -
 $(SIM_EXE): $(SIM_CSRCS) $(VSRCS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@rm -rf $(SIM_OBJ_DIR)
-	$(VERILATOR) --cc --build -j 0 -Wall --trace \
+	$(VERILATOR) --cc --build --exe -j 0 -Wall --trace \
 		--top-module $(TOPNAME) $^ \
 		--Mdir $(SIM_OBJ_DIR)
 
 sim: $(SIM_EXE)
 	@$^ 
-
+	gtkwave wave.vcd
 
 #	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 #	@echo "Write this Makefile by your self."
