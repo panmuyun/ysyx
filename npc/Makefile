@@ -16,6 +16,8 @@ SIM_EXE = $(SIM_OBJ_DIR)/V$(TOPNAME)
 # 创建simulate文件夹
 $(shell mkdir -p $(SIMULATE_DIR)) 
 
+# 找出vsrc文件夹中的.v文件
+VSRCS = $(shell find $(abspath ./vsrc) -name "*.v") 
 # 找出simcsrc文件夹中的.cpp文件
 SIM_CSRCS = $(shell find $(abspath ./simcsrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 
@@ -53,8 +55,7 @@ $(SRC_AUTO_BIND): $(NXDC_FILES)
 
 
 # project source
-# 找出vsrc文件夹中的.v文件
-VSRCS = $(shell find $(abspath ./vsrc) -name "*.v") 
+# 找出csrc文件夹中的.cpp文件
 CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
 CSRCS += $(SRC_AUTO_BIND)
 
