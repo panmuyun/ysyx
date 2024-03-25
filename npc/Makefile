@@ -80,7 +80,7 @@ $(SIM_EXE): $(SIM_CSRCS) $(VSRCS)
 		--Mdir $(SIM_OBJ_DIR)
 
 sim:$(SIM_EXE)
-	@$^; \ 
+	@$^ 
 	gtkwave wave.vcd
 
 #	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
