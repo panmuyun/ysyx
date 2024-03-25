@@ -29,7 +29,6 @@ $(SIM_EXE): $(SIM_CSRCS) $(VSRCS)
 		--Mdir $(SIM_OBJ_DIR)
 
 sim: $(SIM_EXE)
-	@rm wave.vcd
 	@$^     # 运行./simulate/obj_dir/Vtop可执行文件
 	gtkwave wave.vcd	# Display wave			
 				
