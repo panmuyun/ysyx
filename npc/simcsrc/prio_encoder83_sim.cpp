@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
         //int b = rand() &1;
         //top->a=a;
         //top->b=b;
-        int x=rand() & (1<<8 -1);
+        int x=rand() & ((1<<8) -1);
         int en=rand() & 1;
         top->x=x;
         top->en=en;
