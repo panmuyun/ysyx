@@ -1,4 +1,6 @@
+
 TOPNAME = top
+SIMFILE = mux41_main
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
 
@@ -17,9 +19,9 @@ SIM_EXE = $(SIM_OBJ_DIR)/V$(TOPNAME)
 $(shell mkdir -p $(SIMULATE_DIR)) 
 
 # 找出vsrc文件夹中的.v文件
-VSRCS = $(shell find $(abspath ./vsrc) -name "*.v") 
+VSRCS = $(shell find $(abspath ./vsrc) -name "$(TOPNAME).v") 
 # 找出simcsrc文件夹中的.cpp文件
-SIM_CSRCS = $(shell find $(abspath ./simcsrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
+SIM_CSRCS = $(shell find $(abspath ./simcsrc) -name "$(SIMFILE).c" -or -name "$(SIMFILE).cc" -or -name "$(SIMFILE).cpp")
 
 $(SIM_EXE): $(SIM_CSRCS) $(VSRCS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
