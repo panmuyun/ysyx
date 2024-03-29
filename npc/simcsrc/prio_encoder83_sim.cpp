@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
         //top->a=a;
         //top->b=b;
         int x=rand() & ((1<<8) -1);
-        int en=rand() & 1;
+        int en=1;
         top->x=x;
         top->en=en;
         step_and_dump_wave();
