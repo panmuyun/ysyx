@@ -1,6 +1,8 @@
 
-TOPNAME = mux41
-SIMFILE = mux41_main
+TOPNAME = prio_encoder83
+SIMFILE = $(TOPNAME)_sim
+WAVEFILE = wave_$(TOPNAME)
+IMPLEFILE = $(TOPNAME)_imple
 NXDC_FILES = constr/$(TOPNAME).nxdc
 INC_PATH ?=
 
@@ -32,7 +34,7 @@ $(SIM_EXE): $(SIM_CSRCS) $(VSRCS)
 
 sim: $(SIM_EXE)
 	@$^     # 运行./simulate/obj_dir/Vtop可执行文件
-	gtkwave wave.vcd	# Display wave			
+	gtkwave $(WAVEFILE).vcd	# Display wave			
 				
 
 
@@ -54,7 +56,7 @@ $(SRC_AUTO_BIND): $(NXDC_FILES)
 
 # project source
 # 找出csrc文件夹中的.cpp文件
-CSRCS = $(shell find $(abspath ./csrc) -name "*.c" -or -name "*.cc" -or -name "*.cpp")
+CSRCS = $(shell find $(abspath ./csrc) -name "$(IMPLEFILE).c" -or -name "$(IMPLEFILE).cc" -or -name "$(IMPLEFILE).cpp")
 CSRCS += $(SRC_AUTO_BIND)
 
 # rules for NVBoard
@@ -79,7 +81,7 @@ all: default
 clean:
 	rm -rf $(BUILD_DIR)
 	rm -rf $(SIMULATE_DIR)
-	rm wave.vcd
+	rm $(WAVEFILE).vcd
 
 .PHONY: default all clean run sim
 
