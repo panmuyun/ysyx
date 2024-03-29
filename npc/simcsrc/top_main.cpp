@@ -32,7 +32,7 @@ void sim_exit(){
     delete contextp;
 }
 int main(int argc, char** argv) {
-    sim_init(argc, atgv);
+    sim_init(argc, argv);
     int cycle=0;
     while (!contextp->gotFinish()) {
         if(cycle==20)   //设定最长时钟周期
