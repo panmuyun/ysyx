@@ -1,5 +1,5 @@
 
-TOPNAME = top
+TOPNAME = mux41
 SIMFILE = mux41_main
 NXDC_FILES = constr/top.nxdc
 INC_PATH ?=
