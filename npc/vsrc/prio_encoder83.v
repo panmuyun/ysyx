@@ -22,6 +22,6 @@ module prio_encoder83(
             encode_x=0;
     end
 
-    bcd7seg u_bcd7seg({1'b0,encode_x}, led);
+    bcd7segnew u_bcd7seg({1'b0,encode_x}, led);
     
 endmodule
