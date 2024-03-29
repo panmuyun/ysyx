@@ -6,16 +6,22 @@ module prio_encoder83(
     output [6:0] led
 );
     integer i;
-    always @(*) 
-    begin
+    always @(*) begin
         flag=0;
         if(en) begin
             encode_x=0;
-            for(i=7;i>=0;i=i-1)
-                if(x[i]==1) begin
-                    encode_x=i[2:0];
-                    flag=1;
-                end
+            flag=1;
+            casex(x)
+                8'b1xxx_xxxx: encode_x=3'd7;
+                8'b01xx_xxxx: encode_x=3'd6;
+                8'b001x_xxxx: encode_x=3'd5;
+                8'b0001_xxxx: encode_x=3'd4;
+                8'b0000_1xxx: encode_x=3'd3;
+                8'b0000_01xx: encode_x=3'd2;
+                8'b0000_001x: encode_x=3'd1;
+                8'b0000_0001: encode_x=3'd0;
+                default:begin encode_x=3'd0;flag=0; end
+            endcasex
         end
         else
             encode_x=0;
