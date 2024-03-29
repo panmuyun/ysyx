@@ -1,7 +1,7 @@
 
 TOPNAME = mux41
 SIMFILE = mux41_main
-NXDC_FILES = constr/top.nxdc
+NXDC_FILES = constr/$(TOPNAME).nxdc
 INC_PATH ?=
 
 VERILATOR = verilator
