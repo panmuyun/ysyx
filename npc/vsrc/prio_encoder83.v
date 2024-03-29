@@ -1,4 +1,3 @@
-`include "./bcd7seg.v"
 module prio_encoder83(
     input [7:0] x,
     input en,
