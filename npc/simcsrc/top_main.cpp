@@ -10,7 +10,7 @@ VerilatedVcdC* tfp = NULL;
 
 static Vtop* top;
 
-void sim_init(){
+void sim_init(int argc, char** argv){
     contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);
     top = new Vtop{contextp};
@@ -32,7 +32,7 @@ void sim_exit(){
     delete contextp;
 }
 int main(int argc, char** argv) {
-    sim_init();
+    sim_init(argc, atgv);
     int cycle=0;
     while (!contextp->gotFinish()) {
         if(cycle==20)   //设定最长时钟周期
