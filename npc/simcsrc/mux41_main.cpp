@@ -48,9 +48,7 @@ int main(int argc, char** argv) {
         top->X3 = X3;
         top->Y = Y;
         step_and_dump_wave();
-        printf("X0 = %d, X1 = %d, X2 = %d, X3 = %d;\n
-                Y = %d;\n
-                F = %d\n", X0, X1, X2, X3, Y, top->F);
+        printf("X0 = %d, X1 = %d, X2 = %d, X3 = %d;\nY = %d;\nF = %d\n", X0, X1, X2, X3, Y, top->F);
         //assert(top->f == (a ^ b));
         cycle++;
     }
