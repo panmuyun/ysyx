@@ -65,7 +65,7 @@ VL_ATTR_COLD void Vmux41___024root___eval_settle(Vmux41___024root* vlSelf) {
 #ifdef VL_DEBUG
                 Vmux41___024root___dump_triggers__stl(vlSelf);
 #endif
-                VL_FATAL_MT("/home/panmy/ysyx-workbench/npc/vsrc/mux41.v", 45, "", "Settle region did not converge.");
+                VL_FATAL_MT("/home/panmy/ysyx-workbench/npc/vsrc/mux41.v", 1, "", "Settle region did not converge.");
             }
             vlSelf->__VstlIterCount = ((IData)(1U) 
                                        + vlSelf->__VstlIterCount);
