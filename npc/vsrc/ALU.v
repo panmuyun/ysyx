@@ -23,7 +23,7 @@ module ALU(
                 zeroflag = (out[2:0]==0)? 1:0;
             end 
             3'b001: begin   //减法
-                {carryflag, out} = a + (~b + 1'b1);
+                {carryflag, out} = a + ~{1'b0,b} + 5'b00001;
                 overflow = (a[3]==b[3])&&(out[3]!=a[3]);
                 zeroflag = (out[2:0]==0)? 1:0;
             end
