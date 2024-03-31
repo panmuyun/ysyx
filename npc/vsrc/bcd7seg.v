@@ -19,6 +19,6 @@ module bcd7seg(
         4'd9:begin a=1;f=1;g=1;bb=1;c=1;d=1; end
         default:begin a=0;bb=0;c=0;d=0;e=0;f=0;g=0; end
         endcase
-        h={a, bb, c, d, e, f, g};
+        h={~a, ~bb, ~c, ~d, ~e, ~f, ~g};//共阴极
     end
 endmodule

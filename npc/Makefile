@@ -1,5 +1,6 @@
 
-# TOPNAME = prio_encoder83
+# TOPNAME = 顶级模块的模块名；可在命令行中输入“make TOPNAME=top sim”
+TOPNAME ?=
 SIMFILE = $(TOPNAME)_sim
 WAVEFILE = wave_$(TOPNAME)
 IMPLEFILE = $(TOPNAME)_imple
