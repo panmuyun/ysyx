@@ -1,5 +1,5 @@
 
-TOPNAME = prio_encoder83
+# TOPNAME = prio_encoder83
 SIMFILE = $(TOPNAME)_sim
 WAVEFILE = wave_$(TOPNAME)
 IMPLEFILE = $(TOPNAME)_imple
