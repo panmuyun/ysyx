@@ -13,7 +13,7 @@ static VALU* top;
 void sim_init(int argc, char** argv){
     contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);
-    top = new V模块名{contextp};
+    top = new VALU{contextp};
     tfp= new VerilatedVcdC;
     contextp->traceEverOn(true); //打开追踪
     top->trace(tfp,0);
