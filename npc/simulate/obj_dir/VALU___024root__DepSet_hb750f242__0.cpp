@@ -28,7 +28,7 @@ VL_INLINE_OPT void VALU___024root___ico_sequent__TOP__0(VALU___024root* vlSelf) 
     }
     vlSelf->out = 0U;
     vlSelf->overflow = 0U;
-    vlSelf->zeroflag = 1U;
+    vlSelf->zeroflag = 0U;
     if ((4U & (IData)(vlSelf->op))) {
         if ((2U & (IData)(vlSelf->op))) {
             if ((1U & (IData)(vlSelf->op))) {
