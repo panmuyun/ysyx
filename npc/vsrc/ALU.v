@@ -14,7 +14,7 @@ module ALU(
             out=0;
             overflow=0;
             carryflag=0;
-            zeroflag=1;
+            zeroflag=0;
         end
         case (op)
             3'b000: begin   //加法
