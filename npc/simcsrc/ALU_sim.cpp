@@ -38,8 +38,8 @@ int main(int argc, char** argv) {
         if(cycle==30)   //设定最长时钟周期
             break;
         top->op=0;
-        int a = rand() &1;
-        int b = rand() &1;
+        int a = rand() & ((1<<4)-1);
+        int b = rand() & ((1<<4)-1);
         top->a=a;
         top->b=b;
 
