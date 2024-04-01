@@ -27,7 +27,6 @@ class Vshifter VL_NOT_FINAL : public VerilatedModel {
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clk,0,0);
     VL_IN8(&rst,0,0);
-    VL_IN8(&shiftreg,7,0);
     VL_OUT8(&ledL,6,0);
     VL_OUT8(&ledR,6,0);
 

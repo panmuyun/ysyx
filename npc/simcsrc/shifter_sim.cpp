@@ -38,11 +38,13 @@ int main(int argc, char** argv) {
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
-        top->clk=1-clk;
+        top->clk=1;
         //int a = rand() & ((1<<位数) -1);
         //int b = rand() & ((1<<位数) -1);
         //top->a=a;
         //top->b=b;
+        step_and_dump_wave();
+        top->clk=0;
         step_and_dump_wave();
         //printf("a = %d, b = %d, f = %d\n", a, b, top->f);
         //assert(top->f == (a ^ b));

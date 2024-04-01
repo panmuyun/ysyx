@@ -46,9 +46,8 @@ void Vshifter___024root__trace_chg_sub_0(Vshifter___024root* vlSelf, VerilatedVc
     }
     bufp->chgBit(oldp+18,(vlSelf->clk));
     bufp->chgBit(oldp+19,(vlSelf->rst));
-    bufp->chgCData(oldp+20,(vlSelf->shiftreg),8);
-    bufp->chgCData(oldp+21,(vlSelf->ledL),7);
-    bufp->chgCData(oldp+22,(vlSelf->ledR),7);
+    bufp->chgCData(oldp+20,(vlSelf->ledL),7);
+    bufp->chgCData(oldp+21,(vlSelf->ledR),7);
 }
 
 void Vshifter___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {

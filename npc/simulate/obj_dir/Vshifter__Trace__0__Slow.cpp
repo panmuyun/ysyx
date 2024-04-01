@@ -13,20 +13,18 @@ VL_ATTR_COLD void Vshifter___024root__trace_init_sub__TOP__0(Vshifter___024root*
     // Body
     tracep->declBit(c+19,"clk", false,-1);
     tracep->declBit(c+20,"rst", false,-1);
-    tracep->declBus(c+21,"shiftreg", false,-1, 7,0);
-    tracep->declBus(c+22,"ledL", false,-1, 6,0);
-    tracep->declBus(c+23,"ledR", false,-1, 6,0);
+    tracep->declBus(c+21,"ledL", false,-1, 6,0);
+    tracep->declBus(c+22,"ledR", false,-1, 6,0);
     tracep->pushNamePrefix("shifter ");
     tracep->declBit(c+19,"clk", false,-1);
     tracep->declBit(c+20,"rst", false,-1);
-    tracep->declBus(c+21,"shiftreg", false,-1, 7,0);
-    tracep->declBus(c+22,"ledL", false,-1, 6,0);
-    tracep->declBus(c+23,"ledR", false,-1, 6,0);
+    tracep->declBus(c+21,"ledL", false,-1, 6,0);
+    tracep->declBus(c+22,"ledR", false,-1, 6,0);
     tracep->declBit(c+1,"highest", false,-1);
     tracep->declBus(c+2,"out_shiftreg", false,-1, 7,0);
     tracep->pushNamePrefix("LH ");
     tracep->declBus(c+3,"b", false,-1, 3,0);
-    tracep->declBus(c+22,"h", false,-1, 6,0);
+    tracep->declBus(c+21,"h", false,-1, 6,0);
     tracep->declBit(c+4,"a", false,-1);
     tracep->declBit(c+5,"bb", false,-1);
     tracep->declBit(c+6,"c", false,-1);
@@ -37,7 +35,7 @@ VL_ATTR_COLD void Vshifter___024root__trace_init_sub__TOP__0(Vshifter___024root*
     tracep->popNamePrefix(1);
     tracep->pushNamePrefix("RH ");
     tracep->declBus(c+11,"b", false,-1, 3,0);
-    tracep->declBus(c+23,"h", false,-1, 6,0);
+    tracep->declBus(c+22,"h", false,-1, 6,0);
     tracep->declBit(c+12,"a", false,-1);
     tracep->declBit(c+13,"bb", false,-1);
     tracep->declBit(c+14,"c", false,-1);
@@ -109,7 +107,6 @@ VL_ATTR_COLD void Vshifter___024root__trace_full_sub_0(Vshifter___024root* vlSel
     bufp->fullBit(oldp+18,(vlSelf->shifter__DOT__RH__DOT__g));
     bufp->fullBit(oldp+19,(vlSelf->clk));
     bufp->fullBit(oldp+20,(vlSelf->rst));
-    bufp->fullCData(oldp+21,(vlSelf->shiftreg),8);
-    bufp->fullCData(oldp+22,(vlSelf->ledL),7);
-    bufp->fullCData(oldp+23,(vlSelf->ledR),7);
+    bufp->fullCData(oldp+21,(vlSelf->ledL),7);
+    bufp->fullCData(oldp+22,(vlSelf->ledR),7);
 }

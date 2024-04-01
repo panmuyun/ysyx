@@ -6,10 +6,24 @@
 
 #include "Vshifter___024root.h"
 
+VL_ATTR_COLD void Vshifter___024root___eval_static__TOP(Vshifter___024root* vlSelf);
+
 VL_ATTR_COLD void Vshifter___024root___eval_static(Vshifter___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vshifter__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vshifter___024root___eval_static\n"); );
+    // Body
+    Vshifter___024root___eval_static__TOP(vlSelf);
+    vlSelf->__Vm_traceActivity[1U] = 1U;
+    vlSelf->__Vm_traceActivity[0U] = 1U;
+}
+
+VL_ATTR_COLD void Vshifter___024root___eval_static__TOP(Vshifter___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vshifter__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vshifter___024root___eval_static__TOP\n"); );
+    // Body
+    vlSelf->shifter__DOT__out_shiftreg = 0U;
 }
 
 VL_ATTR_COLD void Vshifter___024root___eval_initial(Vshifter___024root* vlSelf) {
@@ -348,7 +362,6 @@ VL_ATTR_COLD void Vshifter___024root___ctor_var_reset(Vshifter___024root* vlSelf
     // Body
     vlSelf->clk = VL_RAND_RESET_I(1);
     vlSelf->rst = VL_RAND_RESET_I(1);
-    vlSelf->shiftreg = VL_RAND_RESET_I(8);
     vlSelf->ledL = VL_RAND_RESET_I(7);
     vlSelf->ledR = VL_RAND_RESET_I(7);
     vlSelf->shifter__DOT__highest = VL_RAND_RESET_I(1);

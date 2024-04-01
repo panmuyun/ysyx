@@ -13,7 +13,6 @@ Vshifter::Vshifter(VerilatedContext* _vcontextp__, const char* _vcname__)
     , vlSymsp{new Vshifter__Syms(contextp(), _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
     , rst{vlSymsp->TOP.rst}
-    , shiftreg{vlSymsp->TOP.shiftreg}
     , ledL{vlSymsp->TOP.ledL}
     , ledR{vlSymsp->TOP.ledR}
     , rootp{&(vlSymsp->TOP)}
