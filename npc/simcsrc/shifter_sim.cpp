@@ -1,4 +1,4 @@
-#include "VALU.h" 
+#include "Vshifter.h" 
 #include "verilated.h"
 #include "verilated_vcd_c.h" 
 #include <stdio.h>
@@ -8,16 +8,16 @@
 VerilatedContext* contextp = NULL;
 VerilatedVcdC* tfp = NULL;
 
-static VALU* top;
+static Vshifter* top;
 
 void sim_init(int argc, char** argv){
     contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);
-    top = new VALU{contextp};
+    top = new Vshifter{contextp};
     tfp= new VerilatedVcdC;
     contextp->traceEverOn(true); //打开追踪
     top->trace(tfp,0);
-    tfp->open("wave_ALU.vcd"); //保存位置
+    tfp->open("wave_shifter.vcd"); //保存位置
 }
 
 void step_and_dump_wave(){  
@@ -34,17 +34,17 @@ void sim_exit(){
 int main(int argc, char** argv) {
     sim_init(argc, argv);
     int cycle=0;
+    int clk=0;
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
-        top->op=7;
-        int a = rand() & ((1<<4)-1);
-        int b = rand() & ((1<<4)-1);
-        top->a=a;
-        top->b=b;
-
+        top->clk=1-clk;
+        //int a = rand() & ((1<<位数) -1);
+        //int b = rand() & ((1<<位数) -1);
+        //top->a=a;
+        //top->b=b;
         step_and_dump_wave();
-        printf("a = %d, b = %d, out = %d, overflow = %d, carryflag = %d, zeroflag = %d\n", a, b, top->out, top->overflow, top->carryflag, top->zeroflag);
+        //printf("a = %d, b = %d, f = %d\n", a, b, top->f);
         //assert(top->f == (a ^ b));
         cycle++;
     }
