@@ -1,5 +1,4 @@
-`include "./bcd7seg.v"
-`include "./bcd7seg.v"
+
 module shifter(
     input clk,
     input rst,
