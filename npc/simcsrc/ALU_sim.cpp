@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
-        top->op=2;
+        top->op=6;
         int a = rand() & ((1<<4)-1);
         int b = rand() & ((1<<4)-1);
         top->a=a;
