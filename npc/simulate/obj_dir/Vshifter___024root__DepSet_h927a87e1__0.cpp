@@ -17,21 +17,24 @@ VL_INLINE_OPT void Vshifter___024root___nba_sequent__TOP__0(Vshifter___024root* 
     Vshifter__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vshifter___024root___nba_sequent__TOP__0\n"); );
     // Body
-    vlSelf->shifter__DOT__highest = (1U & VL_REDXOR_8(
-                                                      (0x1dU 
-                                                       & (IData)(vlSelf->shiftreg))));
-    vlSelf->shifter__DOT__out_shiftreg = (0xffU & (
-                                                   (0U 
-                                                    == (IData)(vlSelf->shiftreg))
-                                                    ? 
-                                                   ((IData)(1U) 
-                                                    + (IData)(vlSelf->shiftreg))
-                                                    : 
-                                                   (((IData)(vlSelf->shifter__DOT__highest) 
-                                                     << 7U) 
-                                                    | (0x7fU 
-                                                       & ((IData)(vlSelf->shiftreg) 
-                                                          >> 1U)))));
+    vlSelf->shifter__DOT__out_shiftreg = ((IData)(vlSelf->rst)
+                                           ? 0U : (0xffU 
+                                                   & ((0U 
+                                                       == (IData)(vlSelf->shiftreg))
+                                                       ? 
+                                                      ((IData)(1U) 
+                                                       + (IData)(vlSelf->shiftreg))
+                                                       : 
+                                                      (((IData)(vlSelf->shifter__DOT__highest) 
+                                                        << 7U) 
+                                                       | (0x7fU 
+                                                          & ((IData)(vlSelf->shiftreg) 
+                                                             >> 1U))))));
+    if ((1U & (~ (IData)(vlSelf->rst)))) {
+        vlSelf->shifter__DOT__highest = (1U & VL_REDXOR_8(
+                                                          (0x1dU 
+                                                           & (IData)(vlSelf->shiftreg))));
+    }
     vlSelf->shifter__DOT__LH__DOT__a = 0U;
     vlSelf->shifter__DOT__LH__DOT__bb = 0U;
     vlSelf->shifter__DOT__LH__DOT__c = 0U;
