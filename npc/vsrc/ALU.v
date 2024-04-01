@@ -24,7 +24,7 @@ module ALU(
             end 
             3'b001: begin   //减法
                 {carryflag, out} = a + ~{b[3],b} + 5'b00001;
-                overflow = (a[3]==b[3])&&(out[3]!=a[3]);
+                overflow = (a[3]!=b[3])&&(out[3]!=a[3]);
                 zeroflag = (out[2:0]==0)? 1:0;
             end
             3'b010: begin   //取反

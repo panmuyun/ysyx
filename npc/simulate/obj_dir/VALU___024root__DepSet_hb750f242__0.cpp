@@ -19,7 +19,11 @@ VL_INLINE_OPT void VALU___024root___ico_sequent__TOP__0(VALU___024root* vlSelf) 
                                                   + 
                                                   ((IData)(vlSelf->a) 
                                                    + 
-                                                   (~ (IData)(vlSelf->b)))) 
+                                                   (~ 
+                                                    ((0x10U 
+                                                      & ((IData)(vlSelf->b) 
+                                                         << 1U)) 
+                                                     | (IData)(vlSelf->b))))) 
                                                  >> 4U))
                                         : (1U & (((IData)(vlSelf->a) 
                                                   + (IData)(vlSelf->b)) 
