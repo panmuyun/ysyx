@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
         int a = rand() & ((1<<4)-1);
         int b = rand() & ((1<<4)-1);
         top->a=a;
-        top->b=b;
+        top->b=a;
 
         step_and_dump_wave();
         printf("a = %d, b = %d, out = %d, overflow = %d, carryflag = %d, zeroflag = %d\n", a, b, top->out, top->overflow, top->carryflag, top->zeroflag);
