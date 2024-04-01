@@ -9,11 +9,15 @@ module shifter(
     reg highest;
     reg [7:0] out_shiftreg;
     always @(posedge clk) begin
-        highest=shiftreg[4]^shiftreg[3]^shiftreg[2]^shiftreg[0];
-        if(shiftreg==0)
-            out_shiftreg = shiftreg+1;
-        else
-            out_shiftreg = {highest, shiftreg[7:1]};
+        if(rst)
+            out_shiftreg<=0;
+        else begin
+            highest<=shiftreg[4]^shiftreg[3]^shiftreg[2]^shiftreg[0];
+            if(shiftreg==0)
+                out_shiftreg <= shiftreg+1;
+            else
+                out_shiftreg <= {highest, shiftreg[7:1]};
+        end
     end
     
     bcd7seg LH(
