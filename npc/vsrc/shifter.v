@@ -6,27 +6,25 @@ module shifter(
     output [6:0] ledL,
     output [6:0] ledR
 );
-    reg highest;
-    reg [7:0] out_shiftreg=0;
-    always @(posedge clk) begin
+    reg [7:0] data=0;
+    always @(posedge clk or rst) begin
         if(rst)
-            out_shiftreg<=0;
+            data<=0;
         else begin
-            highest<=out_shiftreg[4]^out_shiftreg[3]^out_shiftreg[2]^out_shiftreg[0];
-            if(out_shiftreg==0)
-                out_shiftreg <= out_shiftreg+1;
-            else
-                out_shiftreg <= {highest, out_shiftreg[7:1]};
+            if(data==0)
+                data <= data+1;
+            else 
+                data <= {data[4]^data[3]^data[2]^data[0], data[7:1]};
         end
     end
     
     bcd7seg LH(
-        .b 	( out_shiftreg[7:4] ),
+        .b 	( data[7:4] ),
         .h 	( ledL  )
     );
     
     bcd7seg RH(
-        .b 	( out_shiftreg[3:0]  ),
+        .b 	( data[3:0]  ),
         .h 	( ledR  )
     );
 endmodule //shifter
