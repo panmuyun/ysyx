@@ -1,23 +1,102 @@
-VERILATOR_FLAGS=--cc --exe --build -j 0 -Wall --trace
 
-all:
-	@echo "Write this Makefile by your self."
+# TOPNAME = 顶级模块的模块名；可在命令行中输入“make TOPNAME=top sim”
+TOPNAME ?=
+SIMFILE = $(TOPNAME)_sim
+WAVEFILE = wave_$(TOPNAME)
+IMPLEFILE = $(TOPNAME)_imple
+NXDC_FILES = constr/$(TOPNAME).nxdc
+INC_PATH ?=
 
-sim:
+VERILATOR = verilator
+VERILATOR_CFLAGS += -MMD --build -cc  \
+				-O3 --x-assign fast --x-initial fast --noassert 
+				
+
+
+				
+SIMULATE_DIR = ./simulate
+SIM_OBJ_DIR = $(SIMULATE_DIR)/obj_dir
+SIM_EXE = $(SIM_OBJ_DIR)/V$(TOPNAME)
+
+# 创建simulate文件夹
+$(shell mkdir -p $(SIMULATE_DIR)) 
+
+# 找出vsrc文件夹中的.v文件
+VSRCS = $(shell find $(abspath ./vsrc) -name "*.v") 
+# 找出simcsrc文件夹中的.cpp文件
+SIM_CSRCS = $(shell find $(abspath ./simcsrc) -name "$(SIMFILE).c" -or -name "$(SIMFILE).cc" -or -name "$(SIMFILE).cpp")
+
+$(SIM_EXE): $(SIM_CSRCS) $(VSRCS)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	@echo "Write this Makefile by your self."
-	verilator $(VERILATOR_FLAGS) test_our/top_main.cpp test_our/top.v
+	@rm -rf $(SIM_OBJ_DIR)
+	$(VERILATOR) --cc --build --exe -j 0 -Wall --trace \
+		--top-module $(TOPNAME) $^ \
+		--Mdir $(SIM_OBJ_DIR)
 
-run:
-	obj_dir/Vtop
+sim: $(SIM_EXE)
+	@$^     # 运行./simulate/obj_dir/Vtop可执行文件
+	gtkwave $(WAVEFILE).vcd	# Display wave			
+				
 
-wave:
-	gtkwave wave.vcd
-    
-.PHONY: clean
+
+
+BUILD_DIR = ./build
+OBJ_DIR = $(BUILD_DIR)/obj_dir
+BIN = $(BUILD_DIR)/$(TOPNAME)
+
+default: $(BIN)
+
+# 创建build文件夹
+$(shell mkdir -p $(BUILD_DIR))  
+
+# constraint file
+SRC_AUTO_BIND = $(abspath $(BUILD_DIR)/auto_bind.cpp)   # auto_bind.cpp的绝对路径
+
+$(SRC_AUTO_BIND): $(NXDC_FILES)
+	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $^ $@
+
+# project source
+# 找出csrc文件夹中的.cpp文件
+CSRCS = $(shell find $(abspath ./csrc) -name "$(IMPLEFILE).c" -or -name "$(IMPLEFILE).cc" -or -name "$(IMPLEFILE).cpp")
+CSRCS += $(SRC_AUTO_BIND)
+
+# rules for NVBoard
+include $(NVBOARD_HOME)/scripts/nvboard.mk
+
+# rules for verilator
+INCFLAGS = $(addprefix -I, $(INC_PATH))
+CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
+
+$(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
+	@rm -rf $(OBJ_DIR)
+	$(VERILATOR) $(VERILATOR_CFLAGS) \
+		--top-module $(TOPNAME) $^ \
+		$(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
+		--Mdir $(OBJ_DIR) --exe -o $(abspath $(BIN))
+
+run: $(BIN)
+	@$^     # 运行./build/top可执行文件
+
+all: default
 
 clean:
-	rm -rf obj_dir
-	rm wave.vcd
+	rm -rf $(BUILD_DIR)
+	rm -rf $(SIMULATE_DIR)
+	rm $(WAVEFILE).vcd
+
+.PHONY: default all clean run sim
+
 
 include ../Makefile
+
+
+
+#	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+#	@echo "Write this Makefile by your self."
+#	verilator $(VERILATOR_FLAGS) test_our/top_main.cpp test_our/top.v
+
+
+#wave:
+#	gtkwave wave.vcd
+    
+
