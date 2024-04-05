@@ -1,9 +1,10 @@
-#include "Vkeyboard_sim.h" 
+#include "Vps2_keyboard.h" 
 #include "verilated.h"
 #include "verilated_vcd_c.h" 
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <bitset>
 
 VerilatedContext* contextp = NULL;
 VerilatedVcdC* tfp = NULL;
@@ -13,11 +14,11 @@ static Vkeyboard_sim* top;
 void sim_init(int argc, char** argv){
     contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);
-    top = new Vkeyboard_sim{contextp};
+    top = new Vps2_keyboard{contextp};
     tfp= new VerilatedVcdC;
     contextp->traceEverOn(true); //打开追踪
     top->trace(tfp,0);
-    tfp->open("wave_keyboard_sim.vcd"); //保存位置
+    tfp->open("wave_ps2_keyboard.vcd"); //保存位置
 }
 
 void step_and_dump_wave(){  
@@ -31,20 +32,35 @@ void sim_exit(){
     tfp->close();
     delete contextp;
 }
+// void kbd_sendcode(bitset<8> code){
+//     int i;
+//     //bitset<1> startbit(0);
+//     bitset<1> oddparitybit=code[0];
+//     for(int k=1;k<8;k++)
+//         oddparitybit = oddparitybit ^ code[k];
+//     //bitset<1> stopbit(1);
+//     bitset<11> send_buffer("0"+code.to_string()+oddparitybit.to_string()+"1");
+//     i=10;
+//     while(i<11){
+//         top->ps2_data = send_buffer[i];
+
+//     }
+// }
 int main(int argc, char** argv) {
     sim_init(argc, argv);
-    //int cycle=0;
+    int cycle=0;
     while (!contextp->gotFinish()) {
-        //if(cycle==30)   //设定最长时钟周期
-        //    break;
+        if(cycle==30)   //设定最长时钟周期
+            break;
         //int a = rand() & ((1<<位数) -1);
         //int b = rand() & ((1<<位数) -1);
         //top->a=a;
         //top->b=b;
+
         step_and_dump_wave();
         //printf("a = %d, b = %d, f = %d\n", a, b, top->f);
         //assert(top->f == (a ^ b));
-        //cycle++;
+        cycle++;
     }
     sim_exit();
     return 0;

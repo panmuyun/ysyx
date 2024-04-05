@@ -20,11 +20,13 @@ module shifter(
     
     bcd7seg LH(
         .b 	( data[7:4] ),
+        .en(1),
         .h 	( ledL  )
     );
     
     bcd7seg RH(
         .b 	( data[3:0]  ),
+        .en(1),
         .h 	( ledR  )
     );
 endmodule //shifter

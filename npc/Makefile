@@ -9,7 +9,7 @@ INC_PATH ?=
 
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --build -cc  \
-				-O3 --x-assign fast --x-initial fast --noassert --timing
+				-O3 --x-assign fast --x-initial fast --noassert 
 				
 
 
