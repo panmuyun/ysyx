@@ -27,7 +27,7 @@ void isa_reg_display() {
   for(int i=0;i<32;i++){
     printf("%s\t\t0x%08x\t\t%u\n", reg_name(i), gpr(i), gpr(i));
   }
-  
+  printf("isa_reg_display finished.\n");
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
