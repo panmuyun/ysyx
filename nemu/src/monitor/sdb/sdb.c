@@ -43,13 +43,19 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  cpu_exec(-1);
+  cpu_exec(-1); //void cpu_exec(uint64_t n);所以将-1传给cpu_exec函数时，实际上会变成2^64-1
   return 0;
 }
 
 
 static int cmd_q(char *args) {
   return -1;
+}
+
+static int cmd_si(char *args) { //单步执行
+  uint64_t n = (args==NULL)? 1 : (uint64_t)atoi(args);
+  cpu_exec(n);
+  return 0;
 }
 
 static int cmd_help(char *args);
@@ -62,6 +68,7 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "step", cmd_si},
 
   /* TODO: Add more commands */
 
@@ -112,7 +119,7 @@ void sdb_mainloop() {
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
-    char *args = cmd + strlen(cmd) + 1;
+    char *args = cmd + strlen(cmd) + 1; //新建指针args,指向参数的起始位置
     if (args >= str_end) {
       args = NULL;
     }
