@@ -97,7 +97,7 @@ static int cmd_x(char *args) {//扫描内存
   }
   //printf("addr=%08x\n",addr);
 
-  printf("Address\t\tDword block\t\tByte sequence\n");
+  printf("Address\t\tDword block\tByte sequence\n");
   for(uint64_t i=0;i<n;i++){
     word_t value = vaddr_read(addr, 4);
     printf("0x%08x\t0x%08x\t",addr,value);
