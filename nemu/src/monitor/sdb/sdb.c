@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/vaddr.h>
 
 static int is_batch_mode = false;
 
@@ -64,9 +65,9 @@ static int cmd_info(char *args) {//打印程序状态
   case 'r':
     isa_reg_display();  //打印寄存器状态
     break;
-  // case 'w':
-  //     //打印监视点信息
-  //   break;
+  case 'w':
+      //打印监视点信息
+    break;
   default:
     break;
   }
@@ -74,7 +75,32 @@ static int cmd_info(char *args) {//打印程序状态
 }
 
 static int cmd_x(char *args) {//扫描内存
+  char *args_end = args + strlen(args);
+
+  char *num = strtok(args, " ");
+  Assert(num != NULL, "scan memory: Input invalid N");
+  uint64_t n=0;
+  if (num!=NULL){
+    n=(uint64_t)atoi(num);
+  }
   
+  char *hexnum = num + strlen(num) + 1;
+  if (hexnum >= args_end) {
+    hexnum = NULL;
+  }
+  Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
+  vaddr_t addr;
+  char *endptr;
+  if(hexnum!=NULL){
+    addr = (vaddr_t)strtol(hexnum, &endptr, 0);
+  }
+
+  printf("Address\t\tDword block\t\tByte sequence\n");
+  for(uint64_t i=0;i<=n;i++){
+    word_t value = vaddr_read(addr, 4*i);
+    printf("0x%08x\t\t0x%08x\t\t",addr,value);
+    printf("%02x %02x %02x %02x\n",(value >> 24) & 0xFF, (value >> 16) & 0xFF, (value >> 8) & 0xFF, value & 0xFF);
+  }
   return 0;
 }
 
