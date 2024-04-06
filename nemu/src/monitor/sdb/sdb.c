@@ -83,7 +83,7 @@ static int cmd_x(char *args) {//扫描内存
   if (num!=NULL){
     n=(uint64_t)atoi(num);
   }
-  printf("n=%lu\n",n);
+  //printf("n=%lu\n",n);
 
   char *hexnum = num + strlen(num) + 1;
   if (hexnum >= args_end) {
@@ -95,13 +95,14 @@ static int cmd_x(char *args) {//扫描内存
   if(hexnum!=NULL){
     addr = (vaddr_t)strtol(hexnum, &endptr, 0);
   }
-  printf("addr=%08x\n",addr);
+  //printf("addr=%08x\n",addr);
 
   printf("Address\t\tDword block\t\tByte sequence\n");
-  for(uint64_t i=0;i<=n;i++){
-    word_t value = vaddr_read(addr, 4*i);
+  for(uint64_t i=0;i<n;i++){
+    word_t value = vaddr_read(addr, 4);
     printf("0x%08x\t\t0x%08x\t\t",addr,value);
     printf("%02x %02x %02x %02x\n",(value >> 24) & 0xFF, (value >> 16) & 0xFF, (value >> 8) & 0xFF, value & 0xFF);
+    addr += 4;
   }
   return 0;
 }
