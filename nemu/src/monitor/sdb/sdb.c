@@ -58,6 +58,41 @@ static int cmd_si(char *args) { //单步执行
   return 0;
 }
 
+static int cmd_info(char *args) {//打印程序状态
+  switch (*args)
+  {
+  case 'r':
+    isa_reg_display();  //打印寄存器状态
+    break;
+  // case 'w':
+  //     //打印监视点信息
+  //   break;
+  default:
+    break;
+  }
+  return 0;
+}
+
+static int cmd_x(char *args) {//扫描内存
+  
+  return 0;
+}
+
+static int cmd_p(char *args) {//表达式求值
+  
+  return 0;
+}
+
+static int cmd_w(char *args) {//设置监视点
+  
+  return 0;
+}
+
+static int cmd_d(char *args) {//删除监视点
+  
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -68,8 +103,12 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "step", cmd_si},
-
+  { "si", "step through the program", cmd_si},
+  { "info", "print program state", cmd_info},
+  { "x", "scan memory", cmd_x},
+  { "p", "expression evaluation", cmd_p},
+  { "w", "set monitoring point", cmd_w},
+  { "d", "delete monitoring point", cmd_d}
   /* TODO: Add more commands */
 
 };
