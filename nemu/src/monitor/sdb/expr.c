@@ -99,7 +99,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        char substr[32];
+        char substr[32]={};
         for (int index = 0; index < substr_len; index++){
           substr[index]=*(substr_start+index);
         }
@@ -166,7 +166,7 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-  for (int i = 0; i < 33; i++){
+  for (int i = 0; i < 32; i++){
     if (tokens[i].type != 0){
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
     }
