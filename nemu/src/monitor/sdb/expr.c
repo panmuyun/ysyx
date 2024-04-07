@@ -166,8 +166,10 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-  for (int i = 0; i < 32; i++){
-    printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+  for (int i = 0; i < 33; i++){
+    if (tokens[i].type != 0){
+      printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+    }
   }
   
 
