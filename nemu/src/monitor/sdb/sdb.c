@@ -108,7 +108,9 @@ static int cmd_x(char *args) {//扫描内存
 }
 
 static int cmd_p(char *args) {//表达式求值
-  
+  bool *success=NULL;
+  expr(args, success);
+  assert(*success);
   return 0;
 }
 

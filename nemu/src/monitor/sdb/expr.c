@@ -37,7 +37,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"[0-9]", TK_NUMBER},
+  {"[0-9]+", TK_NUMBER},
   {"\\+", '+'},         // plus
   {"\\-", '-'},
   {"\\*", '*'},
@@ -60,7 +60,7 @@ void init_regex() {
   int ret;
 
   for (i = 0; i < NR_REGEX; i ++) {
-    ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
+    ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED); //编译rules中的正则表达式
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
@@ -86,7 +86,7 @@ static bool make_token(char *e) {
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
-      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) { //匹配成功 且 从目标串的第一个字符开始匹配
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
@@ -99,9 +99,49 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+        char substr[32];
+        for (int index = 0; index < substr_len; index++){
+          substr[index]=*(substr_start+index);
+        }
+        
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NUMBER:
+            tokens[nr_token].type=TK_NUMBER;
+            strcpy(tokens[nr_token].str, substr);
+            nr_token++;
+            break;
+          case '+':
+            tokens[nr_token].type='+';
+            strcpy(tokens[nr_token].str, substr);
+            nr_token++;
+            break;
+          case '-':
+            tokens[nr_token].type='-';
+            strcpy(tokens[nr_token].str, substr);
+            nr_token++;
+            break;
+          case '*':
+            tokens[nr_token].type='*';
+            strcpy(tokens[nr_token].str, substr);
+            nr_token++;
+            break;
+          case '/':
+            tokens[nr_token].type='/';
+            strcpy(tokens[nr_token].str, substr);
+            nr_token++;
+            break;
+          case '(':
+            tokens[nr_token].type='(';
+            strcpy(tokens[nr_token].str, substr);
+            nr_token++;
+            break;
+          case ')':
+            tokens[nr_token].type=')';
+            strcpy(tokens[nr_token].str, substr);
+            nr_token++;
+            break;
+          //TK_EQ:
+          default: break; //TODO();
         }
 
         break;
@@ -125,7 +165,11 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  //TODO();
+  for (int i = 0; i < 32; i++){
+    printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+  }
+  
 
   return 0;
 }
