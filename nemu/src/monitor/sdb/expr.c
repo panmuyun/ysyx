@@ -171,7 +171,7 @@ word_t expr(char *e, bool *success) {
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
     }
   }
-  
+  *success = true;
 
   return 0;
 }
