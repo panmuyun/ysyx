@@ -99,50 +99,50 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        char substr[32]={};
-        for (int index = 0; index < substr_len; index++){
-          substr[index]=*(substr_start+index);
-        }
+        // char substr[32]={};
+        // for (int index = 0; index < substr_len; index++){
+        //   substr[index]=*(substr_start+index);
+        // }
         
-        switch (rules[i].token_type) {
-          case TK_NUMBER:
-            tokens[nr_token].type=TK_NUMBER;
-            strcpy(tokens[nr_token].str, substr);
-            nr_token++;
-            break;
-          case '+':
-            tokens[nr_token].type='+';
-            strcpy(tokens[nr_token].str, substr);
-            nr_token++;
-            break;
-          case '-':
-            tokens[nr_token].type='-';
-            strcpy(tokens[nr_token].str, substr);
-            nr_token++;
-            break;
-          case '*':
-            tokens[nr_token].type='*';
-            strcpy(tokens[nr_token].str, substr);
-            nr_token++;
-            break;
-          case '/':
-            tokens[nr_token].type='/';
-            strcpy(tokens[nr_token].str, substr);
-            nr_token++;
-            break;
-          case '(':
-            tokens[nr_token].type='(';
-            strcpy(tokens[nr_token].str, substr);
-            nr_token++;
-            break;
-          case ')':
-            tokens[nr_token].type=')';
-            strcpy(tokens[nr_token].str, substr);
-            nr_token++;
-            break;
-          //TK_EQ:
-          default: break; //TODO();
-        }
+        // switch (rules[i].token_type) {
+        //   case TK_NUMBER:
+        //     tokens[nr_token].type=TK_NUMBER;
+        //     strcpy(tokens[nr_token].str, substr);
+        //     nr_token++;
+        //     break;
+        //   case '+':
+        //     tokens[nr_token].type='+';
+        //     strcpy(tokens[nr_token].str, substr);
+        //     nr_token++;
+        //     break;
+        //   case '-':
+        //     tokens[nr_token].type='-';
+        //     strcpy(tokens[nr_token].str, substr);
+        //     nr_token++;
+        //     break;
+        //   case '*':
+        //     tokens[nr_token].type='*';
+        //     strcpy(tokens[nr_token].str, substr);
+        //     nr_token++;
+        //     break;
+        //   case '/':
+        //     tokens[nr_token].type='/';
+        //     strcpy(tokens[nr_token].str, substr);
+        //     nr_token++;
+        //     break;
+        //   case '(':
+        //     tokens[nr_token].type='(';
+        //     strcpy(tokens[nr_token].str, substr);
+        //     nr_token++;
+        //     break;
+        //   case ')':
+        //     tokens[nr_token].type=')';
+        //     strcpy(tokens[nr_token].str, substr);
+        //     nr_token++;
+        //     break;
+        //   //TK_EQ:
+        //   default: break; //TODO();
+        // }
 
         break;
       }
