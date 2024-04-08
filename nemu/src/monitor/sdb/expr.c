@@ -77,7 +77,7 @@ typedef struct token {
 void resetTokens(Token tmptokens[], int size) {
     for (int i = 0; i < size; i++) {
         tmptokens[i].type = 0; // 设置默认值
-        //strcpy(tmptokens[i].str, "\0");// 设置其他成员的默认值...
+        strcpy(tmptokens[i].str, "\0");// 设置其他成员的默认值...
     }
 }
 
@@ -241,17 +241,15 @@ uint32_t eval(int p, int q){
 }
 
 word_t expr(char *e, bool *success) {
+  int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
+  resetTokens(tokens, length_tokens);
+
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
   
   /* TODO: Insert codes to evaluate the expression. */
-  
-
-  int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
-  resetTokens(tokens, length_tokens);
-
   int q=0;
   for (int i = 0; i < length_tokens; i++){
     if (tokens[i].type != 0){
@@ -259,7 +257,7 @@ word_t expr(char *e, bool *success) {
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
     }
   }
-  printf("q = %d\n", q);
+  //printf("q = %d\n", q);
 
   *success = true;
 
