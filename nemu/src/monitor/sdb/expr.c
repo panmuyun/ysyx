@@ -219,7 +219,7 @@ uint32_t eval(int p, int q){
   }else{
     int mainop=-1;
     find_mainop(p, q, &mainop);
-    Assert(mainop!=-1, "expression invalid (parenthese)");
+    Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
     uint32_t val1 = eval(p, mainop-1);
     uint32_t val2 = eval(mainop+1, q);
     switch (tokens[mainop].type){
