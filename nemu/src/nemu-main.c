@@ -23,7 +23,7 @@ int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {
   unsigned num;
-  char expression[200];
+  char expression[500];
   int line=0;
   while(scanf("%u %[^\n]", &num, expression)!=EOF){
     printf("%s\n", expression);
