@@ -232,8 +232,8 @@ float eval(int p, int q){
     Assert(p<=q, "expression is missing");
     return 0;
   }else if(p == q){
-    char *ptr;
-    return strtof(tokens[p].str, &ptr); //atoi(tokens[p].str);
+    //char *ptr;
+    return strtof(tokens[p].str, NULL); //atoi(tokens[p].str);
   }else if(check_parentheses(p, q) == true){
     return eval(p+1,q-1);
   }else{
