@@ -98,6 +98,17 @@ static bool make_token(char *e) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
+        if(tokens[nr_token-1].type==TK_NUMBER && *substr_start=='-'){ //上一个token是数字 且 当前获取了一个‘-’
+          substr_len=1;
+          Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+            i, "\\-", position, substr_len, substr_len, substr_start);
+          position += substr_len;
+          tokens[nr_token].type='-';
+          strcpy(tokens[nr_token].str, "-");
+          nr_token++;
+          break;
+        }
+
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
