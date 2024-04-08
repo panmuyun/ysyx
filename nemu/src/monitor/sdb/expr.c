@@ -81,7 +81,7 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[100] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -267,7 +267,8 @@ int expr(char *e, bool *success) {
     if (tokens[i].type != 0){
       q++;
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
-    }
+    }else
+      break;
   }
   //printf("q = %d\n", q);
 

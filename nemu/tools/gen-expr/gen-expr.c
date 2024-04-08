@@ -32,7 +32,42 @@ static char *code_format =
 "}";
 
 static void gen_rand_expr() {
-  buf[0] = '\0';
+  int choose = rand() % 3;
+  switch (choose)
+  {
+    case 0:
+      gen_rand_expr();
+      switch (rand() & 3){
+        case 0:
+          strcat(buf, "+");
+          break;
+        case 1:
+          strcat(buf, "-");
+          break;
+        case 2:
+          strcat(buf, "*");
+          break;
+        case 3:
+          strcat(buf, "/");
+          break;
+        default:
+          break;
+      }
+      gen_rand_expr();
+      break;
+    case 1:
+      strcat(buf, "(");
+      gen_rand_expr();
+      strcat(buf, ")");
+      break;
+    default:
+      char num[16];
+      snprintf(num, sizeof(num), "%d", rand()%1000+1);
+      //printf("randnum = %s\n", num);
+      strcat( buf, num );
+      break;
+  }
+  //buf[0] = '\0';
 }
 
 int main(int argc, char *argv[]) {
