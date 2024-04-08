@@ -157,6 +157,79 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses(int p, int q){
+  if(tokens[p].type=='(' && tokens[q].type==')'){
+    int left_parenthese = 0;
+    for (int i = p+1; i < q; i++){
+      if(left_parenthese<0)
+        return false;
+      if(tokens[i].type=='(')
+        left_parenthese++;
+      else if(tokens[i].type==')')
+        left_parenthese--;
+    }
+    if(left_parenthese==0)
+      return true;
+    else{
+      Assert(left_parenthese==0, "expression invalid (parenthese)");
+      return false;
+    }
+      
+  }else
+    return false;
+}
+
+void find_mainop(int p, int q, int *mainop){
+  int flag_parentheses=0;
+  for (int op = p; op <= q; op++){
+    if (tokens[op].type=='('){
+      flag_parentheses=1;
+      continue;
+    }
+    if (tokens[op].type==')'){
+      flag_parentheses=0;
+      continue;
+    }
+    if (tokens[op].type == TK_NUMBER || flag_parentheses==1){
+      continue;
+    }
+    if (*mainop ==-1){
+      *mainop=op;
+      continue;
+    }
+    if(tokens[*mainop].type=='*' || tokens[*mainop].type=='/'){
+      if(tokens[op].type=='*' || tokens[op].type=='/' || tokens[op].type=='+' || tokens[op].type=='-')
+        *mainop=op;
+    } 
+    if (tokens[*mainop].type=='+' || tokens[*mainop].type=='-'){
+      if(tokens[op].type=='+' || tokens[op].type=='-')
+        *mainop=op;
+    }
+  }
+}
+
+uint32_t eval(int p, int q){
+  if(p > q){
+    Assert(p<=q, "expression is missing");
+    return 0;
+  }else if(p == q){
+    return (uint32_t)atoi(tokens[p].str);
+  }else if(check_parentheses(p, q) == true){
+    return eval(p+1,q-1);
+  }else{
+    int mainop=-1;
+    find_mainop(p, q, &mainop);
+    uint32_t val1 = eval(p, mainop-1);
+    uint32_t val2 = eval(mainop+1, q);
+    switch (tokens[mainop].type){
+      case '+': return val1+val2;
+      case '-': return val1-val2;
+      case '*': return val1*val2;
+      case '/': return val1/val2;
+      default:  assert(0);break;
+    }
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -166,11 +239,15 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-  for (int i = 0; i < 32; i++){
-    if (tokens[i].type != 0){
+  int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
+  for (int i = 0; i < length_tokens; i++){
+    //if (tokens[i].type != 0){
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
-    }
+    //}
   }
+
+
+
   *success = true;
 
   return 0;
