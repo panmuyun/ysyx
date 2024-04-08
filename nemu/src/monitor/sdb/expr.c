@@ -227,7 +227,7 @@ void find_mainop(int p, int q, int *mainop){
   }
 }
 
-float eval(int p, int q){
+int eval(int p, int q){
   if(p > q){
     Assert(p<=q, "expression is missing");
     return 0;
@@ -240,8 +240,8 @@ float eval(int p, int q){
     int mainop=-1;
     find_mainop(p, q, &mainop);
     Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
-    float val1 = eval(p, mainop-1);
-    float val2 = eval(mainop+1, q);
+    int val1 = eval(p, mainop-1);
+    int val2 = eval(mainop+1, q);
     switch (tokens[mainop].type){
       case '+': return val1+val2;
       case '-': return val1-val2;
@@ -252,7 +252,7 @@ float eval(int p, int q){
   }
 }
 
-float expr(char *e, bool *success) {
+int expr(char *e, bool *success) {
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
   resetTokens(tokens, length_tokens);
 
