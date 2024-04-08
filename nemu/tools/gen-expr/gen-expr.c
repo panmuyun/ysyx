@@ -31,43 +31,58 @@ static char *code_format =
 "  return 0; "
 "}";
 
-static void gen_rand_expr() {
-  int choose = rand() % 3;
-  switch (choose)
-  {
-    case 0:
-      gen_rand_expr();
-      switch (rand() & 3){
-        case 0:
-          strcat(buf, "+");
-          break;
-        case 1:
-          strcat(buf, "-");
-          break;
-        case 2:
-          strcat(buf, "*");
-          break;
-        case 3:
-          strcat(buf, "/");
-          break;
-        default:
-          break;
-      }
-      gen_rand_expr();
-      break;
-    case 1:
-      strcat(buf, "(");
-      gen_rand_expr();
-      strcat(buf, ")");
-      break;
-    default:
-      char num[16];
-      snprintf(num, sizeof(num), "%d", rand()%1000+1);
-      //printf("randnum = %s\n", num);
-      strcat( buf, num );
-      break;
+static void gen_rand_expr(int depth) {
+  if (rand() & 1){
+    strcat(buf, " "); //随机插入空格
   }
-  //buf[0] = '\0';
+  if(depth > 20){
+    char num_str[16];
+    unsigned num = rand()%1000+1;
+    snprintf(num_str, sizeof(num_str), "%u", num);
+    //printf("randnum = %s\n", num);
+    strcat( buf, num_str );
+  }else{
+    int choose = rand() % 3;
+    switch (choose)
+    {
+      case 0:
+        gen_rand_expr(depth+1);
+        int op_choose = rand() % 4;
+        //printf("op_choose = %d\n", op_choose);
+        switch (op_choose){
+          case 0:
+            strcat(buf, "+");
+            break;
+          case 1:
+            strcat(buf, "-");
+            break;
+          case 2:
+            strcat(buf, "*");
+            break;
+          case 3:
+            strcat(buf, "/");
+            break;
+          default:
+            printf("missing op!!!\n");
+            break;
+        }
+        gen_rand_expr(depth+1);
+        break;
+      case 1:
+        strcat(buf, "(");
+        gen_rand_expr(depth+1);
+        strcat(buf, ")");
+        break;
+      default:
+        char num_str[16];
+        unsigned num = rand()%1000+1;
+        snprintf(num_str, sizeof(num_str), "%d", num);
+        //printf("randnum = %s\n", num);
+        strcat( buf, num_str );
+        break;
+    }
+  }
+
 }
 
 int main(int argc, char *argv[]) {
@@ -79,7 +94,8 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
-    gen_rand_expr();
+    buf[0] = '\0';
+    gen_rand_expr(0);
 
     sprintf(code_buf, code_format, buf);
 
@@ -88,7 +104,7 @@ int main(int argc, char *argv[]) {
     fputs(code_buf, fp);
     fclose(fp);
 
-    int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
+    int ret = system("gcc -Werror /tmp/.code.c -o /tmp/.expr");
     if (ret != 0) continue;
 
     fp = popen("/tmp/.expr", "r");
