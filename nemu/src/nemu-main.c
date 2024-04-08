@@ -28,11 +28,11 @@ int main(int argc, char *argv[]) {
   while(scanf("%d %[^\n]", &num, expression)!=EOF){
     printf("%s\n", expression);
     line++;
-    bool success=NULL;
-    if(num == expr(expression, &success)){
-      printf("line %d : YES!!", line);
-    }else
-      printf("line %d : NO-------------------", line);
+    // bool success=NULL;
+    // if(num == expr(expression, &success)){
+    //   printf("line %d : YES!!", line);
+    // }else
+    //   printf("line %d : NO-------------------", line);
   }
 
 
