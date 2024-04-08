@@ -24,14 +24,14 @@ int is_exit_status_bad();
 int main(int argc, char *argv[]) {
   int num;
   char expression[500];
-  int line=0;
+  int linenum=0;
   while(scanf("%d %[^\n]", &num, expression)!=EOF){
-    line++;
-    printf("line %d : %s\n", line, expression);
+    linenum++;
+    printf("line %d : %s\n", linenum, expression);
     if(num == expr(expression, NULL)){
-      printf("line %d : YES!!\n", line);
+      printf("line %d : YES!!\n", linenum);
     }else
-      printf("line %d : NO-------------------\n", line);
+      printf("line %d : NO-------------------\n", linenum);
   }
 
 
