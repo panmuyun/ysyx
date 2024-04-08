@@ -90,19 +90,25 @@ static int cmd_x(char *args) {//扫描内存
     hexnum = NULL;
   }
   Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
-  vaddr_t addr;
-  char *endptr;
-  if(hexnum!=NULL){
-    addr = (vaddr_t)strtol(hexnum, &endptr, 0);
-  }
+
+  bool success=NULL;
+  word_t exprvalue = expr(hexnum, &success);
+  printf("value of the expression = %u\n", exprvalue);
+  assert(success==true);
+
+  // vaddr_t addr;
+  // char *endptr;
+  // if(hexnum!=NULL){
+  //   addr = (vaddr_t)strtol(hexnum, &endptr, 0);
+  // }
   //printf("addr=%08x\n",addr);
 
   printf("Address\t\tDword block\tByte sequence\n");
   for(uint64_t i=0;i<n;i++){
-    word_t value = vaddr_read(addr, 4);
-    printf("0x%08x\t0x%08x\t",addr,value);
+    word_t value = vaddr_read(exprvalue, 4);
+    printf("0x%08x\t0x%08x\t",exprvalue,value);
     printf("%02x %02x %02x %02x\n", value & 0xFF, (value >> 8) & 0xFF, (value >> 16) & 0xFF, (value >> 24) & 0xFF);
-    addr += 4;
+    exprvalue += 4;
   }
   return 0;
 }
