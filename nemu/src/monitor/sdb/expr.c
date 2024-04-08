@@ -191,6 +191,7 @@ bool check_parentheses(int p, int q){
     if(left_parenthese==0)
       return true;
     else{
+      printf("left_parenthese = %d\n", left_parenthese);
       Assert(left_parenthese==0, "expression invalid (parenthese)");
       return false;
     }
