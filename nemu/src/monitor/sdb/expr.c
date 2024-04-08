@@ -37,7 +37,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"-?[0-9]+", TK_NUMBER},
+  {"-?[0-9]+(\\.[0-9]+)?", TK_NUMBER},
   {"\\+", '+'},         // plus
   {"\\-", '-'},
   {"\\*", '*'},
@@ -227,20 +227,21 @@ void find_mainop(int p, int q, int *mainop){
   }
 }
 
-int eval(int p, int q){
+float eval(int p, int q){
   if(p > q){
     Assert(p<=q, "expression is missing");
     return 0;
   }else if(p == q){
-    return atoi(tokens[p].str);
+    char *ptr;
+    return strtof(tokens[p].str, &ptr); //atoi(tokens[p].str);
   }else if(check_parentheses(p, q) == true){
     return eval(p+1,q-1);
   }else{
     int mainop=-1;
     find_mainop(p, q, &mainop);
     Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
-    int val1 = eval(p, mainop-1);
-    int val2 = eval(mainop+1, q);
+    float val1 = eval(p, mainop-1);
+    float val2 = eval(mainop+1, q);
     switch (tokens[mainop].type){
       case '+': return val1+val2;
       case '-': return val1-val2;
@@ -251,7 +252,7 @@ int eval(int p, int q){
   }
 }
 
-int expr(char *e, bool *success) {
+float expr(char *e, bool *success) {
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
   resetTokens(tokens, length_tokens);
 
