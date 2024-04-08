@@ -259,7 +259,7 @@ word_t expr(char *e, bool *success) {
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
     }
   }
-  //printf("q = %d\n", q);
+  printf("q = %d\n", q);
 
   *success = true;
 
