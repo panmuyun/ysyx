@@ -21,6 +21,14 @@ void engine_start();
 int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {
+  unsigned num;
+  char expression[200];
+  while(scanf("%u %[^\n]", &num, expression)!=EOF){
+    printf("%s\n", expression);
+  }
+
+
+  
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
