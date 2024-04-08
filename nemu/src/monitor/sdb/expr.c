@@ -37,7 +37,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"[0-9]+", TK_NUMBER},
+  {"-?[0-9]+", TK_NUMBER},
   {"\\+", '+'},         // plus
   {"\\-", '-'},
   {"\\*", '*'},
@@ -251,5 +251,5 @@ word_t expr(char *e, bool *success) {
 
   *success = true;
 
-  return eval(0, q-1);
+  return 0;//eval(0, q-1);
 }
