@@ -233,7 +233,7 @@ float eval(int p, int q){
     return 0;
   }else if(p == q){
     //char *ptr;
-    return strtof(tokens[p].str, NULL); //atoi(tokens[p].str);
+    return strtod(tokens[p].str, NULL); //atoi(tokens[p].str);
   }else if(check_parentheses(p, q) == true){
     return eval(p+1,q-1);
   }else{
