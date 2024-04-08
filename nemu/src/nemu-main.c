@@ -14,6 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
+#include "monitor/sdb/sdb.h"
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -23,12 +24,19 @@ int is_exit_status_bad();
 int main(int argc, char *argv[]) {
   unsigned num;
   char expression[200];
+  int line=0;
   while(scanf("%u %[^\n]", &num, expression)!=EOF){
-    printf("%s\n", expression);
+    //printf("%s\n", expression);
+    line++;
+    bool success=NULL;
+    if(num == expr(expression, &success)){
+      printf("line %d : YES!!", line);
+    }else
+      printf("line %d : NO-------------------", line);
   }
 
 
-  
+
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
