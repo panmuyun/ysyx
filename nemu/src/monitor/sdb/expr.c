@@ -227,20 +227,20 @@ void find_mainop(int p, int q, int *mainop){
   }
 }
 
-uint32_t eval(int p, int q){
+int eval(int p, int q){
   if(p > q){
     Assert(p<=q, "expression is missing");
     return 0;
   }else if(p == q){
-    return (uint32_t)atoi(tokens[p].str);
+    return atoi(tokens[p].str);
   }else if(check_parentheses(p, q) == true){
     return eval(p+1,q-1);
   }else{
     int mainop=-1;
     find_mainop(p, q, &mainop);
     Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
-    uint32_t val1 = eval(p, mainop-1);
-    uint32_t val2 = eval(mainop+1, q);
+    int val1 = eval(p, mainop-1);
+    int val2 = eval(mainop+1, q);
     switch (tokens[mainop].type){
       case '+': return val1+val2;
       case '-': return val1-val2;
@@ -251,7 +251,7 @@ uint32_t eval(int p, int q){
   }
 }
 
-word_t expr(char *e, bool *success) {
+int expr(char *e, bool *success) {
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
   resetTokens(tokens, length_tokens);
 
@@ -272,5 +272,5 @@ word_t expr(char *e, bool *success) {
 
   *success = true;
 
-  return 0;//eval(0, q-1);
+  return eval(0, q-1);
 }
