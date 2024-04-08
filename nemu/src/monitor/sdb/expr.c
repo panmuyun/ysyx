@@ -77,7 +77,7 @@ typedef struct token {
 void resetTokens(Token tmptokens[], int size) {
     for (int i = 0; i < size; i++) {
         tmptokens[i].type = 0; // 设置默认值
-        strcpy(tmptokens[i].str, "\0");// 设置其他成员的默认值...
+        //strcpy(tmptokens[i].str, "\0");// 设置其他成员的默认值...
     }
 }
 
