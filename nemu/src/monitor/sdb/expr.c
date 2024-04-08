@@ -81,7 +81,7 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-static Token tokens[100] __attribute__((used)) = {};
+static Token tokens[200] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -276,3 +276,4 @@ int expr(char *e, bool *success) {
 
   return eval(0, q-1);
 }
+//((((((381*(345)*((87-(194))))-418))))-((((819-(556)-(603/974-((((674*768-563))))/739))))-646))
