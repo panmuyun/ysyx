@@ -204,14 +204,14 @@ void find_mainop(int p, int q, int *mainop){
   int flag_parentheses=0;
   for (int op = p; op <= q; op++){
     if (tokens[op].type=='('){
-      flag_parentheses=1;
+      flag_parentheses++;
       continue;
     }
     if (tokens[op].type==')'){
-      flag_parentheses=0;
+      flag_parentheses--;
       continue;
     }
-    if (tokens[op].type == TK_NUMBER || flag_parentheses==1){
+    if (tokens[op].type == TK_NUMBER || flag_parentheses>=1){
       continue;
     }
     if (*mainop ==-1){// +-*/
