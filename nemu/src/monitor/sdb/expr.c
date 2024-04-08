@@ -73,6 +73,14 @@ typedef struct token {
   char str[32];
 } Token;
 
+// 初始化结构体数组 tokens 的默认值
+void resetTokens(Token tmptokens[], int size) {
+    for (int i = 0; i < size; i++) {
+        tmptokens[i].type = 0; // 设置默认值
+        strcpy(tmptokens[i].str, "\0");// 设置其他成员的默认值...
+    }
+}
+
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
@@ -237,9 +245,13 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
+  
   /* TODO: Insert codes to evaluate the expression. */
+  
+
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
+  resetTokens(tokens, length_tokens);
+
   int q=0;
   for (int i = 0; i < length_tokens; i++){
     if (tokens[i].type != 0){
