@@ -219,6 +219,7 @@ uint32_t eval(int p, int q){
   }else{
     int mainop=-1;
     find_mainop(p, q, &mainop);
+    Assert(mainop!=-1, "expression invalid (parenthese)");
     uint32_t val1 = eval(p, mainop-1);
     uint32_t val2 = eval(mainop+1, q);
     switch (tokens[mainop].type){
@@ -240,15 +241,17 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
+  int q=0;
   for (int i = 0; i < length_tokens; i++){
-    //if (tokens[i].type != 0){
+    if (tokens[i].type != 0){
+      q++;
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
-    //}
+    }
   }
-
+  printf("q = %d\n", q);
 
 
   *success = true;
 
-  return 0;
+  return eval(0, q-1);
 }
