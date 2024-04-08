@@ -109,7 +109,8 @@ static int cmd_x(char *args) {//扫描内存
 
 static int cmd_p(char *args) {//表达式求值
   bool success=NULL;
-  expr(args, &success);
+  word_t exprvalue = expr(args, &success);
+  printf("value of the expression = %u\n", exprvalue);
   assert(success==true);
   return 0;
 }
