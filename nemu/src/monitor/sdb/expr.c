@@ -193,7 +193,7 @@ void find_mainop(int p, int q, int *mainop){
     if (tokens[op].type == TK_NUMBER || flag_parentheses==1){
       continue;
     }
-    if (*mainop ==-1){
+    if (*mainop ==-1){// +-*/
       *mainop=op;
       continue;
     }
@@ -239,7 +239,6 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
   int q=0;
   for (int i = 0; i < length_tokens; i++){
@@ -248,8 +247,7 @@ word_t expr(char *e, bool *success) {
       printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
     }
   }
-  printf("q = %d\n", q);
-
+  //printf("q = %d\n", q);
 
   *success = true;
 
