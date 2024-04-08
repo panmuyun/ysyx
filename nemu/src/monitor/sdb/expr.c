@@ -201,7 +201,7 @@ bool check_parentheses(int p, int q){
 }
 
 void find_mainop(int p, int q, int *mainop){
-  int flag_parentheses=0;
+  int flag_parentheses=0; //不能简单用0/1值，否则“2+(((2+3)*4)-1)”时，由于右括号的出现，会让mainop指向'-'
   for (int op = p; op <= q; op++){
     if (tokens[op].type=='('){
       flag_parentheses++;
