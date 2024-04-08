@@ -26,13 +26,12 @@ int main(int argc, char *argv[]) {
   char expression[500];
   int line=0;
   while(scanf("%d %[^\n]", &num, expression)!=EOF){
-    printf("%s\n", expression);
     line++;
-    // bool success=NULL;
-    // if(num == expr(expression, &success)){
-    //   printf("line %d : YES!!", line);
-    // }else
-    //   printf("line %d : NO-------------------", line);
+    printf("line %d : %s\n", line, expression);
+    if(num == expr(expression, NULL)){
+      printf("line %d : YES!!\n", line);
+    }else
+      printf("line %d : NO-------------------\n", line);
   }
 
 
