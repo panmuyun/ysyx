@@ -22,10 +22,10 @@ void engine_start();
 int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {
-  unsigned num;
+  int num;
   char expression[500];
   int line=0;
-  while(scanf("%u %[^\n]", &num, expression)!=EOF){
+  while(scanf("%d %[^\n]", &num, expression)!=EOF){
     printf("%s\n", expression);
     line++;
     bool success=NULL;
