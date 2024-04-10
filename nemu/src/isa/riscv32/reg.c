@@ -24,7 +24,7 @@ const char *regs[] = {
 };
 
 void isa_reg_display() {
-  printf("Regname\t\tHex_value\tDec_value\n");
+  printf("Regname\t\tHex_value\t\tDec_value\n");
   for(int i=0;i<32;i++){
     printf("%s\t\t0x%08x\t\t%u\n", reg_name(i), gpr(i), gpr(i));
   }
