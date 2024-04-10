@@ -94,7 +94,7 @@ static bool make_token(char *e) {
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
-      printf("@@@@@@\n");
+      printf("@@@@@@ %s\n", e+position);
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) { //匹配成功 且 从目标串的第一个字符开始匹配
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
