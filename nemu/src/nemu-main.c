@@ -30,7 +30,8 @@ int main(int argc, char *argv[]) {
     linenum++;
     printf("line %d : %s\n", linenum, expressions);
     char *e = expressions;
-    expr(e, NULL);
+    printf("%s\n", e);
+    //expr(e, NULL);
 
     //printf("line %d : %d\n", linenum, val );
 
