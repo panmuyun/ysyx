@@ -20,12 +20,14 @@ void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
+void init_regex();
 
 int main(int argc, char *argv[]) {
   int num;
   //char *expressions;
   char expressions[500];
   int linenum=0;
+  init_regex();
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){
     linenum++;
     printf("line %d : %s\n", linenum, expressions);
