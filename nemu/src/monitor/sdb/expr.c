@@ -252,8 +252,10 @@ int eval(int p, int q){
         int r;
         int regs_num = ARRLEN(registers);
         for(r=0;r<regs_num;r++){
-          if(strcmp(registers[r], regname))
+          if(strcmp(registers[r], regname)){
+            printf("reg_index : %d\n", r);
             return (int)gpr(r);  //寄存器中的值
+          }
         }
         Assert(r<regs_num, "regitser name isn't exist");
         return -1;
