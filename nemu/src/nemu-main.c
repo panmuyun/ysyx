@@ -42,8 +42,8 @@ int main(int argc, char *argv[]) {
     linenum++;
     printf("line %d : %s\n", linenum, expressions);
 
-    //bool success;
-    if(num == expr(expressions, NULL)){
+    bool success;
+    if(num == expr(expressions, &success)){
       printf("line %d : YES!!\n", linenum);
     }else
       printf("line %d : NO-------------------\n", linenum);
