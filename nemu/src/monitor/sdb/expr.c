@@ -92,13 +92,12 @@ static bool make_token(char *e) {
   nr_token = 0;
 
   while (e[position] != '\0') {
-    printf("@@@@@@\n");
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) { //匹配成功 且 从目标串的第一个字符开始匹配
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
-
+        printf("@@@@@@\n");
         if( ( tokens[nr_token-1].type==TK_NUMBER || tokens[nr_token-1].type=='(' ||  tokens[nr_token-1].type==')' )
         && *substr_start=='-'){ //上一个token是数字 且 当前获取了一个‘-’
           substr_len=1;
