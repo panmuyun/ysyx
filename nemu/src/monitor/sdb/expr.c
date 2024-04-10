@@ -249,6 +249,7 @@ int eval(int p, int q){
         return (int)vaddr_read(addr, 4); //内存中的值
       case TK_REGNAME:
         char *regname = tokens[p].str+1;
+        printf("regname : %s\n", regname);
         int r;
         int regs_num = ARRLEN(registers);
         for(r=0;r<regs_num;r++){
