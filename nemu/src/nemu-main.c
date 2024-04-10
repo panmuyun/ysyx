@@ -24,20 +24,25 @@ void init_regex();
 void init_wp_pool();
 
 int main(int argc, char *argv[]) {
+
+  /* Initialize the monitor. */
+#ifdef CONFIG_TARGET_AM
+  am_init_monitor();
+#else
+  init_monitor(argc, argv);
+#endif
+
+
+
   int num;
   //char *expressions;
   char expressions[500];
   int linenum=0;
-  init_regex();
-  init_wp_pool();
+
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){
     linenum++;
     printf("line %d : %s\n", linenum, expressions);
-    //char *e = expressions;
-    //printf("%s\n", e);
-    //expr(e, NULL);
 
-    //printf("line %d : %d\n", linenum, val );
     bool success;
     if(num == expr(expressions, &success)){
       printf("line %d : YES!!\n", linenum);
@@ -48,12 +53,6 @@ int main(int argc, char *argv[]) {
 
 
 
-  /* Initialize the monitor. */
-#ifdef CONFIG_TARGET_AM
-  am_init_monitor();
-#else
-  init_monitor(argc, argv);
-#endif
 
   /* Start engine. */
   engine_start();
