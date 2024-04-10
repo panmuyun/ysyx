@@ -259,11 +259,10 @@ int expr(char *e, bool *success) {
   resetTokens(tokens, length_tokens);
   //printf("@@@@@@\n");
   if (!make_token(e)) {
-    printf("@@@@@@\n");
     *success = false;
     return 0;
   }
-  
+  printf("@@@@@@\n");
   /* TODO: Insert codes to evaluate the expression. */
   int q=0;
   for (int i = 0; i < length_tokens; i++){
