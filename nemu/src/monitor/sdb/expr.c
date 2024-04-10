@@ -94,8 +94,6 @@ static bool make_token(char *e) {
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
-      printf("@@@@@@ %d\n", regexec(&re[i], e + position, 1, &pmatch, 0));
-      printf("@@@@\n");
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) { //匹配成功 且 从目标串的第一个字符开始匹配
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
@@ -114,7 +112,7 @@ static bool make_token(char *e) {
         
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
-        printf("####\n");
+
         position += substr_len;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -259,12 +257,12 @@ int eval(int p, int q){
 int expr(char *e, bool *success) {
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
   resetTokens(tokens, length_tokens);
-  //printf("@@@@@@\n");
+
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-  //printf("@@@@@\n");
+
   /* TODO: Insert codes to evaluate the expression. */
   int q=0;
   for (int i = 0; i < length_tokens; i++){
