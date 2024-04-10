@@ -253,7 +253,7 @@ int eval(int p, int q){
         int r;
         int regs_num = ARRLEN(registers);
         for(r=0;r<regs_num;r++){
-          if(strcmp(registers[r], regname)){
+          if(strcmp(registers[r], regname)==0){
             printf("registers[r] : %s\n", registers[r]);
             printf("reg_index : %d\n", r);
             return (int)gpr(r);  //寄存器中的值
