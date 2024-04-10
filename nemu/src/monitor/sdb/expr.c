@@ -238,7 +238,7 @@ void find_mainop(int p, int q, int *mainop){
 int eval(int p, int q){
   if(p > q){
     Assert(p<=q, "expression is missing");
-    return 0;
+    return -1;
   }else if(p == q){
     switch (tokens[p].type){
       case TK_NUMBER:
@@ -256,7 +256,7 @@ int eval(int p, int q){
             return (int)gpr(r);  //寄存器中的值
         }
         Assert(r<regs_num, "regitser name isn't exist");
-        return 0;
+        return -1;
       default:
         break;
     }
@@ -279,7 +279,7 @@ int eval(int p, int q){
       default:  assert(0);break;
     }
   }
-  return 0;
+  return -1;
 }
 
 int expr(char *e, bool *success) {
