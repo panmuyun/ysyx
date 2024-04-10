@@ -167,6 +167,7 @@ static bool make_token(char *e) {
 
         break;
       }
+      printf("@@@@@@\n");
     }
 
     if (i == NR_REGEX) {
