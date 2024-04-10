@@ -257,8 +257,9 @@ int eval(int p, int q){
 int expr(char *e, bool *success) {
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
   resetTokens(tokens, length_tokens);
-  printf("@@@@@@\n");
+  //printf("@@@@@@\n");
   if (!make_token(e)) {
+    printf("@@@@@@\n");
     *success = false;
     return 0;
   }
