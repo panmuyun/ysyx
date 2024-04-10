@@ -143,9 +143,12 @@ static bool make_token(char *e) {
           substr[index]=*(substr_start+index);
         }
 
-        tokens[nr_token].type = rules[i].token_type;
-        strcpy(tokens[nr_token].str, substr);
-        nr_token++;
+        if(rules[i].token_type != TK_NOTYPE){
+          tokens[nr_token].type = rules[i].token_type;
+          strcpy(tokens[nr_token].str, substr);
+          nr_token++;
+        }
+        
 
         // switch (rules[i].token_type) {
         //   case TK_NUMBER:
