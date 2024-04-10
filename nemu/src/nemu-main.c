@@ -14,14 +14,13 @@
 ***************************************************************************************/
 
 #include <common.h>
-#include "monitor/sdb/sdb.h"
+//#include "monitor/sdb/sdb.h"
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
-void init_regex();
-void init_wp_pool();
+
 
 int main(int argc, char *argv[]) {
 
