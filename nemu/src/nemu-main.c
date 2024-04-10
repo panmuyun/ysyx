@@ -29,7 +29,8 @@ int main(int argc, char *argv[]) {
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){
     linenum++;
     printf("line %d : %s\n", linenum, expressions);
-    int val = expr(&expressions[0], NULL);
+    char *e = &expressions[0];
+    int val = expr(e, NULL);
 
     printf("line %d : %d\n", linenum, val );
 
