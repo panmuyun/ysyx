@@ -12,7 +12,7 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-
+#include "common.h"
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>

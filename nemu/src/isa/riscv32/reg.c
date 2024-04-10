@@ -13,6 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+// #include "/home/panmy/ysyx-workbench/nemu/include/common.h"
 #include <isa.h>
 #include "local-include/reg.h"
 

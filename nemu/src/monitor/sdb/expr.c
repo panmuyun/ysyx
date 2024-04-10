@@ -13,12 +13,17 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+#include "common.h"
 #include <isa.h>
-
+//#include "isa/riscv32/local-include/reg.h"
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include "/home/panmy/ysyx-workbench/nemu/src/isa/riscv32/local-include/reg.h"
+#include <memory/vaddr.h>
+
+
 
 enum {
   TK_NOTYPE = 256,
@@ -28,7 +33,7 @@ enum {
   TK_EQ,
   TK_NOTEQ,
   TK_AND,
-  TK_DEREFERENCE
+  //TK_DEREFERENCE
 
   /* TODO: Add more token types */
 
@@ -46,7 +51,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"0x[0-9]+", TK_HEXADECIMAL},
   {"-?[0-9]+", TK_NUMBER},
-  {"\\$[a-z]?[0-9]?", TK_REGNAME},
+  {"\\$[a-z]?[0-9]+", TK_REGNAME},
   //{"\\*[a-zA-Z]+[0-9]*", TK_DEREFERENCE}
   {"\\+", '+'},         // plus
   {"\\-", '-'},
@@ -190,6 +195,15 @@ static bool make_token(char *e) {
   return true;
 }
 
+
+
+const char *registers[] = {
+  "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
+  "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
+  "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
+  "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
+};
+
 bool check_parentheses(int p, int q){
   if(tokens[p].type=='(' && tokens[q].type==')'){
     int left_parenthese = 0;
@@ -224,7 +238,8 @@ void find_mainop(int p, int q, int *mainop){
       flag_parentheses--;
       continue;
     }
-    if (tokens[op].type == TK_NUMBER || flag_parentheses>=1){
+    if (tokens[op].type == TK_NUMBER || tokens[op].type == TK_HEXADECIMAL 
+    || tokens[op].type == TK_REGNAME || flag_parentheses>=1){
       continue;
     }
     if (*mainop ==-1){// +-*/ == != &&
@@ -259,24 +274,42 @@ int eval(int p, int q){
     Assert(p<=q, "expression is missing");
     return 0;
   }else if(p == q){
-    //char *ptr;
-    return atoi(tokens[p].str);
-  }else if(check_parentheses(p, q) == true){
+    switch (tokens[p].type){
+      case TK_NUMBER:
+        return atoi(tokens[p].str); //整数
+      case TK_HEXADECIMAL:
+        char *endptr;
+        vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
+        return (int)vaddr_read(addr, 4); //内存中的值
+      case TK_REGNAME:
+        char *regname = tokens[p].str;
+        for(int r=0;r<ARRLEN(registers);r++){
+          if(strcmp(registers[r], regname))
+            return (int)gpr(r);  //寄存器中的值
+        }
+      default:
+        break;
+    }
+  }else if(check_parentheses(p, q) == true){  //是否删除最外层的括号
     return eval(p+1,q-1);
-  }else{
+  }else{ //处理 expr <op> expr的情况
     int mainop=-1;
     find_mainop(p, q, &mainop);
     Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
     int val1 = eval(p, mainop-1);
     int val2 = eval(mainop+1, q);
     switch (tokens[mainop].type){
-      case '+': return val1+val2;
-      case '-': return val1-val2;
-      case '*': return val1*val2;
-      case '/': return val1/val2;
+      case '+': return val1 + val2;
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': return val1 / val2;
+      case TK_EQ: return val1 == val2 ? 1:0; 
+      case TK_NOTEQ: return val1 != val2 ? 1:0;
+      case TK_AND: return val1 && val2 ? 1:0;
       default:  assert(0);break;
     }
   }
+  return 0;
 }
 
 int expr(char *e, bool *success) {
