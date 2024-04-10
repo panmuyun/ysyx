@@ -119,8 +119,8 @@ static bool make_token(char *e) {
         if( ( tokens[nr_token-1].type==TK_NUMBER || tokens[nr_token-1].type=='(' ||  tokens[nr_token-1].type==')' )
         && *substr_start=='-'){ //上一个token是数字 且 当前获取了一个‘-’
           substr_len=1;
-          // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-          //   i, "\\-", position, substr_len, substr_len, substr_start);
+          Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+            i, "\\-", position, substr_len, substr_len, substr_start);
           position += substr_len;
           tokens[nr_token].type='-';
           strcpy(tokens[nr_token].str, "-");
@@ -128,8 +128,8 @@ static bool make_token(char *e) {
           break;
         }
         
-        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+            i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
@@ -148,49 +148,7 @@ static bool make_token(char *e) {
           strcpy(tokens[nr_token].str, substr);
           nr_token++;
         }
-        
-
-        // switch (rules[i].token_type) {
-        //   case TK_NUMBER:
-        //     tokens[nr_token].type=TK_NUMBER;
-        //     strcpy(tokens[nr_token].str, substr);
-        //     nr_token++;
-        //     break;
-          
-        //   case '+':
-        //     tokens[nr_token].type='+';
-        //     strcpy(tokens[nr_token].str, substr);
-        //     nr_token++;
-        //     break;
-        //   case '-':
-        //     tokens[nr_token].type='-';
-        //     strcpy(tokens[nr_token].str, substr);
-        //     nr_token++;
-        //     break;
-        //   case '*':
-        //     tokens[nr_token].type='*';
-        //     strcpy(tokens[nr_token].str, substr);
-        //     nr_token++;
-        //     break;
-        //   case '/':
-        //     tokens[nr_token].type='/';
-        //     strcpy(tokens[nr_token].str, substr);
-        //     nr_token++;
-        //     break;
-        //   case '(':
-        //     tokens[nr_token].type='(';
-        //     strcpy(tokens[nr_token].str, substr);
-        //     nr_token++;
-        //     break;
-        //   case ')':
-        //     tokens[nr_token].type=')';
-        //     strcpy(tokens[nr_token].str, substr);
-        //     nr_token++;
-        //     break;
-        //   //TK_EQ:
-        //   default: break; //TODO();
-        // }
-        
+      
         break;
       }
     }
@@ -285,20 +243,20 @@ int eval(int p, int q){
     switch (tokens[p].type){
       case TK_NUMBER:
         return atoi(tokens[p].str); //整数
-      // case TK_HEXADECIMAL:
-      //   char *endptr;
-      //   vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
-      //   return (int)vaddr_read(addr, 4); //内存中的值
-      // case TK_REGNAME:
-      //   char *regname = tokens[p].str+1;
-      //   int r;
-      //   int regs_num = ARRLEN(registers);
-      //   for(r=0;r<regs_num;r++){
-      //     if(strcmp(registers[r], regname))
-      //       return (int)gpr(r);  //寄存器中的值
-      //   }
-      //   Assert(r<regs_num, "regitser name isn't exist");
-      //   return 0;
+      case TK_HEXADECIMAL:
+        char *endptr;
+        vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
+        return (int)vaddr_read(addr, 4); //内存中的值
+      case TK_REGNAME:
+        char *regname = tokens[p].str+1;
+        int r;
+        int regs_num = ARRLEN(registers);
+        for(r=0;r<regs_num;r++){
+          if(strcmp(registers[r], regname))
+            return (int)gpr(r);  //寄存器中的值
+        }
+        Assert(r<regs_num, "regitser name isn't exist");
+        return 0;
       default:
         break;
     }
@@ -338,7 +296,7 @@ int expr(char *e, bool *success) {
   for (int i = 0; i < length_tokens; i++){
     if (tokens[i].type != 0){
       q++;
-      //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+      printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
     }else
       break;
   }
