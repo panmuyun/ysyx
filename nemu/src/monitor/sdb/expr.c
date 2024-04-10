@@ -164,7 +164,7 @@ static bool make_token(char *e) {
           //TK_EQ:
           default: break; //TODO();
         }
-
+        
         break;
       }
     }
@@ -263,7 +263,7 @@ int expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
+  printf("@@@@@\n");
   /* TODO: Insert codes to evaluate the expression. */
   int q=0;
   for (int i = 0; i < length_tokens; i++){
