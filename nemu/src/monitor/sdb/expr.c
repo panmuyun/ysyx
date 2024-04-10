@@ -13,7 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-#include "common.h"
+#include "/home/panmy/ysyx-workbench/nemu/include/common.h"
 #include <isa.h>
 //#include "isa/riscv32/local-include/reg.h"
 /* We use the POSIX regex functions to process regular expressions.
@@ -22,7 +22,6 @@
 #include <regex.h>
 #include "/home/panmy/ysyx-workbench/nemu/src/isa/riscv32/local-include/reg.h"
 #include <memory/vaddr.h>
-
 
 
 enum {
@@ -235,18 +234,18 @@ void find_mainop(int p, int q, int *mainop){
   }
 }
 
-int eval(int p, int q){
+EXPR_value_TYPE eval(int p, int q){
   if(p > q){
     Assert(p<=q, "expression is missing");
     return -1;
   }else if(p == q){
     switch (tokens[p].type){
       case TK_NUMBER:
-        return atoi(tokens[p].str); //整数
+        return (EXPR_value_TYPE)atoi(tokens[p].str); //整数
       case TK_HEXADECIMAL:
         char *endptr;
         vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
-        return (int)vaddr_read(addr, 4); //内存中的值
+        return (EXPR_value_TYPE)vaddr_read(addr, 4); //内存中的值
       case TK_REGNAME:
         char *regname = tokens[p].str+1;
         printf("regname : %s\n", regname);
@@ -256,7 +255,7 @@ int eval(int p, int q){
           if(strcmp(registers[r], regname)==0){
             printf("registers[r] : %s\n", registers[r]);
             printf("reg_index : %d\n", r);
-            return (int)gpr(r);  //寄存器中的值
+            return (EXPR_value_TYPE)gpr(r);  //寄存器中的值
           }
         }
         Assert(r<regs_num, "regitser name isn't exist");
@@ -270,8 +269,8 @@ int eval(int p, int q){
     int mainop=-1;
     find_mainop(p, q, &mainop);
     Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
-    int val1 = eval(p, mainop-1);
-    int val2 = eval(mainop+1, q);
+    EXPR_value_TYPE val1 = eval(p, mainop-1);
+    EXPR_value_TYPE val2 = eval(mainop+1, q);
     switch (tokens[mainop].type){
       case '+': return val1 + val2;
       case '-': return val1 - val2;
@@ -286,7 +285,7 @@ int eval(int p, int q){
   return -1;
 }
 
-int expr(char *e, bool *success) {
+EXPR_value_TYPE expr(char *e, bool *success) {
   int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
   resetTokens(tokens, length_tokens);
 
