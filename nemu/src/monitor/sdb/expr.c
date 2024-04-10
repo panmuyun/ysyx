@@ -51,7 +51,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"0x[0-9]+", TK_HEXADECIMAL},
   {"-?[0-9]+", TK_NUMBER},
-  {"$([a-z])*([0-9])+", TK_REGNAME},
+  {"\\$[a-z]*[0-9]+", TK_REGNAME},
   //{"\\*[a-zA-Z]+[0-9]*", TK_DEREFERENCE}
   {"\\+", '+'},         // plus
   {"\\-", '-'},
