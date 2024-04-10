@@ -247,7 +247,7 @@ EXPR_value_TYPE eval(int p, int q){
         vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
         return (EXPR_value_TYPE)vaddr_read(addr, 4); //内存中的值
       case TK_REGNAME:
-        char *regname = tokens[p].str+1;
+        char *regname = (tokens[p].str[1]=='0') ? tokens[p].str : tokens[p].str+1;
         printf("regname : %s\n", regname);
         int r;
         int regs_num = ARRLEN(registers);
