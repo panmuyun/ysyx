@@ -81,7 +81,7 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-static Token tokens[200] __attribute__((used)) = {};
+static Token tokens[500] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
