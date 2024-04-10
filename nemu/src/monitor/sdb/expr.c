@@ -111,7 +111,7 @@ static bool make_token(char *e) {
           nr_token++;
           break;
         }
-
+        printf("####\n");
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
@@ -121,7 +121,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        printf("####\n");
+        
         char substr[32]={};
         for (int index = 0; index < substr_len; index++){
           substr[index]=*(substr_start+index);
