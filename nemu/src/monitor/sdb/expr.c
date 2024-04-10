@@ -51,7 +51,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"0x[0-9]+", TK_HEXADECIMAL},
   {"-?[0-9]+", TK_NUMBER},
-  {"\\$[a-z]?[0-9]+", TK_REGNAME},
+  {"\\$[a-z]*[0-9]+", TK_REGNAME},
   //{"\\*[a-zA-Z]+[0-9]*", TK_DEREFERENCE}
   {"\\+", '+'},         // plus
   {"\\-", '-'},
@@ -282,7 +282,7 @@ int eval(int p, int q){
         vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
         return (int)vaddr_read(addr, 4); //内存中的值
       case TK_REGNAME:
-        char *regname = tokens[p].str;
+        char *regname = tokens[p].str+1;
         for(int r=0;r<ARRLEN(registers);r++){
           if(strcmp(registers[r], regname))
             return (int)gpr(r);  //寄存器中的值
