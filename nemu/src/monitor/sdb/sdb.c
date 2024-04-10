@@ -12,7 +12,7 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-#include "common.h"
+#include "/home/panmy/ysyx-workbench/nemu/include/common.h"
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>
@@ -92,8 +92,8 @@ static int cmd_x(char *args) {//扫描内存
   Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
 
   // bool success=NULL;
-  // int exprvalue = expr(hexnum, &success);
-  // printf("value of the expression = %d\n", exprvalue);
+  // EXPR_value_TYPE exprvalue = expr(hexnum, &success);
+  // printf("value of the expression = %u\n", exprvalue);
   // assert(success==true);
 
   vaddr_t addr;
@@ -115,8 +115,8 @@ static int cmd_x(char *args) {//扫描内存
 
 static int cmd_p(char *args) {//表达式求值
   bool success=NULL;
-  int exprvalue = expr(args, &success);
-  printf("value of the expression = %d\n", exprvalue);
+  EXPR_value_TYPE exprvalue = expr(args, &success);
+  printf("value of the expression = %u\n", exprvalue);
   assert(success==true);
   return 0;
 }
