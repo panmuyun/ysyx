@@ -56,7 +56,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"!=", TK_NOTEQ},
   {"&&", TK_AND},
-  {"\\*", TK_DEREFERENCE}
+  //{"\\*", TK_DEREFERENCE}
 
 };
 
