@@ -85,6 +85,7 @@ static Token tokens[500] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
+  printf("@@@@@@\n");
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -262,7 +263,7 @@ int expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  printf("@@@@@@\n");
+
   /* TODO: Insert codes to evaluate the expression. */
   int q=0;
   for (int i = 0; i < length_tokens; i++){
