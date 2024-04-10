@@ -282,20 +282,20 @@ int eval(int p, int q){
     switch (tokens[p].type){
       case TK_NUMBER:
         return atoi(tokens[p].str); //整数
-      case TK_HEXADECIMAL:
-        char *endptr;
-        vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
-        return (int)vaddr_read(addr, 4); //内存中的值
-      case TK_REGNAME:
-        char *regname = tokens[p].str+1;
-        int r;
-        int regs_num = ARRLEN(registers);
-        for(r=0;r<regs_num;r++){
-          if(strcmp(registers[r], regname))
-            return (int)gpr(r);  //寄存器中的值
-        }
-        Assert(r<regs_num, "regitser name isn't exist");
-        return 0;
+      // case TK_HEXADECIMAL:
+      //   char *endptr;
+      //   vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
+      //   return (int)vaddr_read(addr, 4); //内存中的值
+      // case TK_REGNAME:
+      //   char *regname = tokens[p].str+1;
+      //   int r;
+      //   int regs_num = ARRLEN(registers);
+      //   for(r=0;r<regs_num;r++){
+      //     if(strcmp(registers[r], regname))
+      //       return (int)gpr(r);  //寄存器中的值
+      //   }
+      //   Assert(r<regs_num, "regitser name isn't exist");
+      //   return 0;
       default:
         break;
     }
