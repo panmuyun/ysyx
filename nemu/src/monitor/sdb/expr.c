@@ -121,11 +121,12 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
+        printf("####\n");
         char substr[32]={};
         for (int index = 0; index < substr_len; index++){
           substr[index]=*(substr_start+index);
         }
-        printf("####\n");
+        
         switch (rules[i].token_type) {
           case TK_NUMBER:
             tokens[nr_token].type=TK_NUMBER;
