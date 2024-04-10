@@ -22,8 +22,8 @@
 
 enum {
   TK_NOTYPE = 256,
-  TK_NUMBER,
   TK_HEXADECIMAL,
+  TK_NUMBER,
   TK_REGNAME,
   TK_EQ,
   TK_NOTEQ,
@@ -47,6 +47,7 @@ static struct rule {
   {"0x[0-9]+", TK_HEXADECIMAL},
   {"-?[0-9]+", TK_NUMBER},
   {"\\$[a-z]?[0-9]?", TK_REGNAME},
+  //{"\\*[a-zA-Z]+[0-9]*", TK_DEREFERENCE}
   {"\\+", '+'},         // plus
   {"\\-", '-'},
   {"\\*", '*'},
@@ -55,8 +56,7 @@ static struct rule {
   {"\\)", ')'},
   {"==", TK_EQ},        // equal
   {"!=", TK_NOTEQ},
-  {"&&", TK_AND},
-  //{"\\*", TK_DEREFERENCE}
+  {"&&", TK_AND}
 
 };
 
@@ -227,17 +227,29 @@ void find_mainop(int p, int q, int *mainop){
     if (tokens[op].type == TK_NUMBER || flag_parentheses>=1){
       continue;
     }
-    if (*mainop ==-1){// +-*/
+    if (*mainop ==-1){// +-*/ == != &&
       *mainop=op;
       continue;
     }
     if(tokens[*mainop].type=='*' || tokens[*mainop].type=='/'){
-      if(tokens[op].type=='*' || tokens[op].type=='/' || tokens[op].type=='+' || tokens[op].type=='-')
+      if(tokens[op].type=='*' || tokens[op].type=='/' || tokens[op].type=='+' || tokens[op].type=='-' 
+      || tokens[op].type==TK_EQ || tokens[op].type==TK_NOTEQ || tokens[op].type==TK_AND){
         *mainop=op;
+        continue;
+      }
     } 
     if (tokens[*mainop].type=='+' || tokens[*mainop].type=='-'){
-      if(tokens[op].type=='+' || tokens[op].type=='-')
-        *mainop=op;
+      if(tokens[op].type=='+' || tokens[op].type=='-' || tokens[op].type==TK_EQ 
+      || tokens[op].type==TK_NOTEQ || tokens[op].type==TK_AND){
+        *mainop=op;   
+        continue;     
+      }
+    }
+    if (tokens[*mainop].type==TK_EQ || tokens[*mainop].type==TK_NOTEQ){
+      if(tokens[op].type==TK_EQ || tokens[op].type==TK_NOTEQ || tokens[op].type==TK_AND){
+        *mainop=op;   
+        continue;     
+      }
     }
   }
 }
