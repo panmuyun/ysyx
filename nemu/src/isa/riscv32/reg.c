@@ -13,7 +13,6 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-// #include "/home/panmy/ysyx-workbench/nemu/include/common.h"
 #include <isa.h>
 #include "local-include/reg.h"
 
@@ -25,6 +24,7 @@ const char *regs[] = {
 };
 
 void isa_reg_display() {
+  printf("Regname\t\tHex_value\tDec_value\n");
   for(int i=0;i<32;i++){
     printf("%s\t\t0x%08x\t\t%u\n", reg_name(i), gpr(i), gpr(i));
   }
