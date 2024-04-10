@@ -29,13 +29,13 @@ int main(int argc, char *argv[]) {
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){
     linenum++;
     printf("line %d : %s\n", linenum, expressions);
-    //char *e = expressions;
+    char *e = expressions;
     //printf("%s\n", e);
     //expr(e, NULL);
 
     //printf("line %d : %d\n", linenum, val );
     bool success;
-    if(num == expr(expressions, &success)){
+    if(num == expr(e, &success)){
       printf("line %d : YES!!\n", linenum);
     }else
       printf("line %d : NO-------------------\n", linenum);
