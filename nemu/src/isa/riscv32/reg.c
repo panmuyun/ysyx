@@ -32,5 +32,17 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+  //char *regname = (s[1]=='0') ? s : s+1;
+  int r;
+  int regs_num = ARRLEN(regs);
+  for(r=0;r<regs_num;r++){
+    if(strcmp(regs[r], s)==0){
+      //printf("reg_index : %d\n", r);
+      *success = true;
+      return (word_t)gpr(r);  //寄存器中的值
+    }
+  }
+  *success = false;
+  Assert(r<regs_num, "regitser name isn't exist");
+  return -1;
 }

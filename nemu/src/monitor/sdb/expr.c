@@ -248,18 +248,8 @@ EXPR_value_TYPE eval(int p, int q){
         return (EXPR_value_TYPE)vaddr_read(addr, 4); //内存中的值
       case TK_REGNAME:
         char *regname = (tokens[p].str[1]=='0') ? tokens[p].str : tokens[p].str+1;
-        printf("regname : %s\n", regname);
-        int r;
-        int regs_num = ARRLEN(registers);
-        for(r=0;r<regs_num;r++){
-          if(strcmp(registers[r], regname)==0){
-            printf("registers[r] : %s\n", registers[r]);
-            printf("reg_index : %d\n", r);
-            return (EXPR_value_TYPE)gpr(r);  //寄存器中的值
-          }
-        }
-        Assert(r<regs_num, "regitser name isn't exist");
-        return -1;
+        bool success;
+        return (EXPR_value_TYPE)isa_reg_str2val(regname, &success);
       default:
         break;
     }
@@ -279,7 +269,7 @@ EXPR_value_TYPE eval(int p, int q){
       case TK_EQ: return val1 == val2 ? 1:0; 
       case TK_NOTEQ: return val1 != val2 ? 1:0;
       case TK_AND: return val1 && val2 ? 1:0;
-      default:  assert(0);break;
+      default:  assert(0);return -1;
     }
   }
   return -1;
