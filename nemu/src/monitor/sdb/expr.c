@@ -260,6 +260,7 @@ EXPR_value_TYPE eval(int p, int q){
       default:
         break;
     }
+    Assert(0, "expression after deference '*' is missing");
   }else if(check_parentheses(p, q) == true){  //是否删除最外层的括号
     return eval(p+1,q-1);
   }else{ //处理 expr <op> expr的情况
@@ -287,7 +288,7 @@ EXPR_value_TYPE eval(int p, int q){
       }
     }
   }
-  return -1;
+  // return -1;
 }
 
 EXPR_value_TYPE expr(char *e, bool *success) {
