@@ -12,12 +12,13 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-
+#include "/home/panmy/ysyx-workbench/nemu/include/common.h"
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/vaddr.h>
 
 static int is_batch_mode = false;
 
@@ -43,13 +44,91 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  cpu_exec(-1);
+  cpu_exec(-1); //void cpu_exec(uint64_t n);所以将-1传给cpu_exec函数时，实际上会变成2^64-1
   return 0;
 }
 
 
 static int cmd_q(char *args) {
   return -1;
+}
+
+static int cmd_si(char *args) { //单步执行
+  uint64_t n = (args==NULL)? 1 : (uint64_t)atoi(args);
+  cpu_exec(n);
+  return 0;
+}
+
+static int cmd_info(char *args) {//打印程序状态
+  switch (*args)
+  {
+  case 'r':
+    isa_reg_display();  //打印寄存器状态
+    break;
+  case 'w':
+      //打印监视点信息
+    break;
+  default:
+    break;
+  }
+  return 0;
+}
+
+static int cmd_x(char *args) {//扫描内存
+  char *args_end = args + strlen(args);
+
+  char *num = strtok(args, " ");
+  Assert(num != NULL, "scan memory: Input invalid N");
+  uint64_t n=0;
+  if (num!=NULL){
+    n=(uint64_t)atoi(num);
+  }
+  //printf("n=%lu\n",n);
+
+  char *hexnum = num + strlen(num) + 1;
+  if (hexnum >= args_end) {
+    hexnum = NULL;
+  }
+  Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
+
+  // bool success=NULL;
+  // EXPR_value_TYPE exprvalue = expr(hexnum, &success);
+  // printf("value of the expression = %u\n", exprvalue);
+  // assert(success==true);
+
+  vaddr_t addr;
+  char *endptr;
+  if(hexnum!=NULL){
+    addr = (vaddr_t)strtol(hexnum, &endptr, 0);
+  }
+  //printf("addr=%08x\n",addr);
+
+  printf("Address\t\tDword block\tByte sequence\n");
+  for(uint64_t i=0;i<n;i++){
+    word_t value = vaddr_read(addr, 4);
+    printf("0x%08x\t0x%08x\t",addr,value);
+    printf("%02x %02x %02x %02x\n", value & 0xFF, (value >> 8) & 0xFF, (value >> 16) & 0xFF, (value >> 24) & 0xFF);
+    addr += 4;
+  }
+  return 0;
+}
+
+static int cmd_p(char *args) {//表达式求值
+  bool success=NULL;
+  EXPR_value_TYPE exprvalue = expr(args, &success);
+  printf("value of the expression = %u\n", exprvalue);
+  assert(success==true);
+  return 0;
+}
+
+static int cmd_w(char *args) {//设置监视点
+  
+  return 0;
+}
+
+static int cmd_d(char *args) {//删除监视点
+  
+  return 0;
 }
 
 static int cmd_help(char *args);
@@ -62,7 +141,12 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "step through the program", cmd_si},
+  { "info", "print program state", cmd_info},
+  { "x", "scan memory", cmd_x},
+  { "p", "expression evaluation", cmd_p},
+  { "w", "set monitoring point", cmd_w},
+  { "d", "delete monitoring point", cmd_d}
   /* TODO: Add more commands */
 
 };
@@ -112,7 +196,7 @@ void sdb_mainloop() {
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
-    char *args = cmd + strlen(cmd) + 1;
+    char *args = cmd + strlen(cmd) + 1; //新建指针args,指向参数的起始位置
     if (args >= str_end) {
       args = NULL;
     }

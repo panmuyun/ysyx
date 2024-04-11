@@ -14,19 +14,44 @@
 ***************************************************************************************/
 
 #include <common.h>
+//#include "monitor/sdb/sdb.h"
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
+
 int main(int argc, char *argv[]) {
+
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
 #else
   init_monitor(argc, argv);
 #endif
+
+
+
+  // int num;
+  // char expressions[500];
+  // int linenum=0;
+
+  // while(scanf("%d %[^\n]", &num, expressions)!=EOF){
+  //   linenum++;
+  //   //printf("line %d : %s\n", linenum, expressions);
+
+  //   bool success;
+  //   int val = expr(expressions, &success);
+  //   if(num == val){
+  //     printf("line %d : YES!! (%d)\n", linenum, val);
+  //   }else
+  //     printf("line %d : NO-------------------\n", linenum);
+
+  // }
+
+
+
 
   /* Start engine. */
   engine_start();
