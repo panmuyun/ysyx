@@ -169,12 +169,12 @@ static bool make_token(char *e) {
 
 
 
-const char *registers[] = {
-  "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
-  "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
-  "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
-  "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
-};
+// const char *registers[] = {
+//   "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
+//   "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
+//   "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
+//   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
+// };
 
 bool check_parentheses(int p, int q){
   if(tokens[p].type=='(' && tokens[q].type==')'){
@@ -211,7 +211,7 @@ void find_mainop(int p, int q, int *mainop){
       continue;
     }
     if (tokens[op].type == TK_NUMBER || tokens[op].type == TK_HEXADECIMAL 
-    || tokens[op].type == TK_REGNAME || flag_parentheses>=1){
+    || tokens[op].type == TK_REGNAME || tokens[op].type == TK_DEREFERENCE || flag_parentheses>=1){
       continue;
     }
     if (*mainop ==-1){// +-*/ == != &&
@@ -265,18 +265,26 @@ EXPR_value_TYPE eval(int p, int q){
   }else{ //处理 expr <op> expr的情况
     int mainop=-1;
     find_mainop(p, q, &mainop);
+    if(mainop==-1 && tokens[p].type==TK_DEREFERENCE){
+      mainop=p;
+    } 
     Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
-    EXPR_value_TYPE val1 = eval(p, mainop-1);
-    EXPR_value_TYPE val2 = eval(mainop+1, q);
-    switch (tokens[mainop].type){
-      case '+': return val1 + val2;
-      case '-': return val1 - val2;
-      case '*': return val1 * val2;
-      case '/': return val1 / val2;
-      case TK_EQ: return val1 == val2 ? 1:0; 
-      case TK_NOTEQ: return val1 != val2 ? 1:0;
-      case TK_AND: return val1 && val2 ? 1:0;
-      default:  assert(0);return -1;
+
+    if(tokens[mainop].type==TK_DEREFERENCE){
+      return eval(mainop+1, q);
+    }else{
+      EXPR_value_TYPE val1 = eval(p, mainop-1);
+      EXPR_value_TYPE val2 = eval(mainop+1, q);
+      switch (tokens[mainop].type){
+        case '+': return val1 + val2;
+        case '-': return val1 - val2;
+        case '*': return val1 * val2;
+        case '/': return val1 / val2;
+        case TK_EQ: return val1 == val2 ? 1:0; 
+        case TK_NOTEQ: return val1 != val2 ? 1:0;
+        case TK_AND: return val1 && val2 ? 1:0;
+        default:  assert(0);return -1;
+      }
     }
   }
   return -1;
