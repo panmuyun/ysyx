@@ -69,7 +69,7 @@ static int cmd_info(char *args) {//打印程序状态
     isa_reg_display();  //打印寄存器状态
     break;
   case 'w':
-      //打印监视点信息
+    watchpoints_display();  //打印监视点信息
     break;
   default:
     break;
