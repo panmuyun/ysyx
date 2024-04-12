@@ -79,7 +79,7 @@ void free_wp(WP *wp){
       p = p->next;
     p->next = wp;
   }
-  
+  printf("Delete watchpoint %d\n", wp->NO);
 }
 
 WP * wp_find(int index){
