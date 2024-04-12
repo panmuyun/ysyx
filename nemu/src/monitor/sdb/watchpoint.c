@@ -98,7 +98,7 @@ bool watchpoints_hit(){
     p->Newval = expr(p->What, &success);
     if(p->Newval != p->Oldval){
       p->Oldval = p->Newval; 
-      Log("Hit watchpoint %d : %s ", p->NO, p->What);//at address 0x%08x
+      Log("\033[0;33m Hit watchpoint %d : %s \033[0m", p->NO, p->What);//at address 0x%08x
       break;     
     }
     p = p->next;
