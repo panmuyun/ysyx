@@ -98,7 +98,8 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-static Token tokens[500] __attribute__((used)) = {};
+#define Tokens_LEN 500
+static Token tokens[Tokens_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -137,7 +138,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         
-        char substr[500]={};
+        char substr[Tokens_LEN]={};
         for (int index = 0; index < substr_len; index++){
           substr[index]=*(substr_start+index);
         }
