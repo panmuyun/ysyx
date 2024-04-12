@@ -39,7 +39,7 @@ WP* new_wp(char *e){
     Assert(0, "no available watchpoint");
   else{
     re = free_;
-    re->What = e;
+    strcpy(re->What, e);
     bool success;
     re->Oldval = expr(e, &success);
     free_ = free_->next;
@@ -69,7 +69,7 @@ void free_wp(WP *wp){
     p->next = wp->next;
   }
   //处理free_链表
-  wp->What='\0';
+  strcpy(wp->What, "\0");
   wp->next = NULL;
   if(free_ == NULL)
     free_ = wp;

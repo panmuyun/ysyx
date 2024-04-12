@@ -8,7 +8,7 @@
 
 typedef struct watchpoint {
   int NO;
-  char *What;
+  char What[500];
   word_t Newval;
   word_t Oldval;
   struct watchpoint *next;
