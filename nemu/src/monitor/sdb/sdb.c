@@ -21,6 +21,8 @@
 #include "watchpoint.h"
 #include <memory/vaddr.h>
 
+extern WP *head;
+
 static int is_batch_mode = false;
 
 void init_regex();

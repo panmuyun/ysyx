@@ -1,3 +1,6 @@
+#ifndef __WATCHPOINT_H__
+#define __WATCHPOINT_H__
+
 #include "common.h"
 #include "sdb.h"
 
@@ -21,64 +24,10 @@ typedef struct watchpoint {
 
 WP* new_wp(char *e);
 void free_wp(WP *wp);
+void watchpoints_display();
+WP* watchpoints_check();
+
+#endif
 
 
-// WP* new_wp(char *e){
-//   WP *re=NULL;
-//   if(free_==NULL)
-//     Assert(0, "no available watchpoint");
-//   else{
-//     re = free_;
-//     re->What = e;
-//     bool success;
-//     re->Oldval = expr(e, &success);
-//     free_ = free_->next;
-//     //处理head链表
-//     re->next=NULL;
-//     if (head==NULL)
-//       head=re;
-//     else{
-//       WP *p = head;
-//       while(p->next != NULL)
-//         p = p->next;
-//       p->next = re;
-//     }
-//   }
-//   return re;
-// }
 
-// void free_wp(WP *wp){
-//   //处理head链表
-//   if(wp==head){ 
-//     head=NULL;
-//   }else{
-//     WP *p = head;
-//     while(p->next != wp){
-//       p = p->next;
-//     }
-//     p->next = wp->next;
-//   }
-//   //处理free_链表
-//   wp->What='\0';
-//   wp->next = NULL;
-//   if(free_ == NULL)
-//     free_ = wp;
-//   else{
-//     WP *p = free_;
-//     while(p->next != NULL)
-//       p = p->next;
-//     p->next = wp;
-//   }
-  
-// }
-
-// void init_wp_pool() {
-//   int i;
-//   for (i = 0; i < NR_WP; i ++) {
-//     wp_pool[i].NO = i;
-//     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
-//   }
-
-//   head = NULL;
-//   free_ = wp_pool;
-// }
