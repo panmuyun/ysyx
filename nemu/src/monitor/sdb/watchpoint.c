@@ -91,7 +91,7 @@ void watchpoints_display(){
   }
 }
 
-WP* watchpoints_check(){
+bool watchpoints_hit(){
   WP *p = head;
   while (p != NULL){
     bool success;
@@ -103,6 +103,9 @@ WP* watchpoints_check(){
     }
     p = p->next;
   }
-  return p;
+  if(p!=NULL)
+    return true;
+  else
+    return false;
 }
 
