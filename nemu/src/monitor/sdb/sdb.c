@@ -125,6 +125,7 @@ static int cmd_p(char *args) {//表达式求值
 
 static int cmd_w(char *args) {//设置监视点
   WP *watchpoint = new_wp(args);
+  Assert(watchpoint!=NULL, "watchpoint allocation fail");
   printf("Set watchpoint #%d\nexpr\t= %s\nold value = 0x%08x\n", watchpoint->NO, watchpoint->What, watchpoint->Oldval);
   return 0;
 }
