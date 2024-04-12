@@ -1,7 +1,7 @@
 #ifndef __WATCHPOINT_H__
 #define __WATCHPOINT_H__
 
-#include "common.h"
+#include <common.h>
 #include "sdb.h"
 
 #define NR_WP 32

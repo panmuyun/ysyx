@@ -83,18 +83,12 @@ void free_wp(WP *wp){
 }
 
 void watchpoints_display(){
-  // WP *p = head;
-  // while (p != NULL){
-  //   bool success;
-  //   p->Newval = expr(p->What, &success);
-  //   if(p->Newval != p->Oldval){
-  //     nemu_state.state = NEMU_STOP;  
-  //     p->Oldval = p->Newval; 
-  //     printf("Hit watchpoint %d \n", p->NO);//at address 0x%08x
-  //     break;     
-  //   }
-  //   p = p->next;
-  // }
+  WP *p = head;
+  printf("NO\tExpr\t\tOld value\n");
+  while (p != NULL){
+    printf("%d\t%s\t\t0x%08x\n", p->NO, p->What, p->Oldval);
+    p = p->next;
+  }
 }
 
 WP* watchpoints_check(){
