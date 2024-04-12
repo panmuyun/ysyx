@@ -94,7 +94,10 @@ WP * wp_find(int index){
 
 void watchpoints_display(){
   WP *p = head;
-  printf("NO\tExpr\t\tOld value\n");
+  if(p!=NULL)
+    printf("NO\tExpr\t\tOld value\n");
+  else
+    printf("No watchpoints set\n");
   while (p != NULL){
     printf("%d\t%s\t\t0x%08x\n", p->NO, p->What, p->Oldval);
     p = p->next;
