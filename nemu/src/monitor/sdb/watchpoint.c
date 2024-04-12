@@ -82,6 +82,16 @@ void free_wp(WP *wp){
   
 }
 
+WP * wp_find(int index){
+  WP *p = head;
+  while(p!=NULL){
+    if(p->NO == index)
+      return p;
+    p = p->next;
+  }
+  return NULL;
+}
+
 void watchpoints_display(){
   WP *p = head;
   printf("NO\tExpr\t\tOld value\n");

@@ -126,12 +126,15 @@ static int cmd_p(char *args) {//表达式求值
 static int cmd_w(char *args) {//设置监视点
   WP *watchpoint = new_wp(args);
   Assert(watchpoint!=NULL, "watchpoint allocation fail");
-  printf("Set watchpoint #%d\nexpr\t= %s\nold value = 0x%08x\n", watchpoint->NO, watchpoint->What, watchpoint->Oldval);
+  printf("Set watchpoint #%d\n\texpr\t= %s\n\told value = 0x%08x\n", watchpoint->NO, watchpoint->What, watchpoint->Oldval);
   return 0;
 }
 
 static int cmd_d(char *args) {//删除监视点
-  
+  int index = atoi(args);
+  WP *del_wp = wp_find(index);
+  Assert(del_wp!=NULL, "watchpoint which is going to be deleted isn't exist");
+  free_wp(del_wp);
   return 0;
 }
 

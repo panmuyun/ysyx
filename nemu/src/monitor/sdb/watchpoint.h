@@ -24,6 +24,7 @@ typedef struct watchpoint {
 
 WP* new_wp(char *e);
 void free_wp(WP *wp);
+WP * wp_find(int index);
 void watchpoints_display();
 bool watchpoints_hit();
 
