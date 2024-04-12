@@ -98,7 +98,7 @@ WP* watchpoints_check(){
     p->Newval = expr(p->What, &success);
     if(p->Newval != p->Oldval){
       p->Oldval = p->Newval; 
-      printf("Hit watchpoint %d \n", p->NO);//at address 0x%08x
+      printf("Hit watchpoint %d : %s \n", p->NO, p->What);//at address 0x%08x
       break;     
     }
     p = p->next;
