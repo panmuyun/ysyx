@@ -95,7 +95,7 @@ static int cmd_x(char *args) {//扫描内存
 
   bool success;
   EXPR_value_TYPE addr = expr(hexnum, &success);
-  printf("value of the expression = %u\n", addr);
+  printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", addr, addr);
   assert(success==true);
 
   // vaddr_t addr;
@@ -118,7 +118,7 @@ static int cmd_x(char *args) {//扫描内存
 static int cmd_p(char *args) {//表达式求值
   bool success=NULL;
   EXPR_value_TYPE exprvalue = expr(args, &success);
-  printf("value of the expression = %u\n", exprvalue);
+  printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", exprvalue, exprvalue);
   assert(success==true);
   return 0;
 }
