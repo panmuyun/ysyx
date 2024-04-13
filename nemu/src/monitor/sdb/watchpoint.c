@@ -13,20 +13,13 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-#include "sdb.h"
+#include "watchpoint.h"
 
-#define NR_WP 32
-
-typedef struct watchpoint {
-  int NO;
-  struct watchpoint *next;
-
-  /* TODO: Add more members if necessary */
-
-} WP;
 
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
+// /*  head：用于组织使用中的监视点结构
+//     free_：用于组织空闲的监视点结构   */
 
 void init_wp_pool() {
   int i;
@@ -40,4 +33,92 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* new_wp(char *e){
+  WP *re=NULL;
+  if(free_==NULL)
+    Assert(0, "no available watchpoint");
+  else{
+    re = free_;
+    strcpy(re->What, e);
+    bool success;
+    re->Oldval = expr(e, &success);
+    free_ = free_->next;
+    //处理head链表
+    re->next=NULL;
+    if (head==NULL)
+      head=re;
+    else{
+      WP *p = head;
+      while(p->next != NULL)
+        p = p->next;
+      p->next = re;
+    }
+  }
+  return re;
+}
+
+void free_wp(WP *wp){
+  //处理head链表
+  if(wp==head){ 
+    head=NULL;
+  }else{
+    WP *p = head;
+    while(p->next != wp){
+      p = p->next;
+    }
+    p->next = wp->next;
+  }
+  //处理free_链表
+  strcpy(wp->What, "\0");
+  wp->next = NULL;
+  if(free_ == NULL)
+    free_ = wp;
+  else{
+    WP *p = free_;
+    while(p->next != NULL)
+      p = p->next;
+    p->next = wp;
+  }
+  printf("Delete watchpoint %d\n", wp->NO);
+}
+
+WP * wp_find(int index){
+  WP *p = head;
+  while(p!=NULL){
+    if(p->NO == index)
+      return p;
+    p = p->next;
+  }
+  return NULL;
+}
+
+void watchpoints_display(){
+  WP *p = head;
+  if(p!=NULL)
+    printf("NO\tExpr\t\tOld value\n");
+  else
+    printf("No watchpoints set\n");
+  while (p != NULL){
+    printf("%d\t%s\t\t0x%08x\n", p->NO, p->What, p->Oldval);
+    p = p->next;
+  }
+}
+
+bool watchpoints_hit(){
+  WP *p = head;
+  while (p != NULL){
+    bool success;
+    p->Newval = expr(p->What, &success);
+    if(p->Newval != p->Oldval){
+      p->Oldval = p->Newval; 
+      Log("\033[0;33m Hit watchpoint %d : %s \033[0m", p->NO, p->What);//at address 0x%08x
+      break;     
+    }
+    p = p->next;
+  }
+  if(p!=NULL)
+    return true;
+  else
+    return false;
+}
 

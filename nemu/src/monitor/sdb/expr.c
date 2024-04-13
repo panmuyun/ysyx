@@ -98,7 +98,8 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-static Token tokens[500] __attribute__((used)) = {};
+#define Tokens_LEN 500
+static Token tokens[Tokens_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -115,7 +116,7 @@ static bool make_token(char *e) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        if( ( tokens[nr_token-1].type==TK_NUMBER || tokens[nr_token-1].type=='(' ||  tokens[nr_token-1].type==')' )
+        if(nr_token!=0 && ( tokens[nr_token-1].type==TK_NUMBER || tokens[nr_token-1].type=='(' ||  tokens[nr_token-1].type==')' )
         && *substr_start=='-'){ //上一个token是数字 且 当前获取了一个‘-’
           substr_len=1;
           Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
@@ -137,7 +138,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
         
-        char substr[32]={};
+        char substr[Tokens_LEN]={};
         for (int index = 0; index < substr_len; index++){
           substr[index]=*(substr_start+index);
         }
@@ -297,7 +298,7 @@ EXPR_value_TYPE expr(char *e, bool *success) {
   for (int i = 0; i < length_tokens; i++){
     if (tokens[i].type != 0){
       q++;
-      printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+      //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
     }else
       break;
   }

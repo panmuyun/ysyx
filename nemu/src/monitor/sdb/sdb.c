@@ -18,7 +18,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "watchpoint.h"
 #include <memory/vaddr.h>
+
 
 static int is_batch_mode = false;
 
@@ -66,7 +68,7 @@ static int cmd_info(char *args) {//打印程序状态
     isa_reg_display();  //打印寄存器状态
     break;
   case 'w':
-      //打印监视点信息
+    watchpoints_display();  //打印监视点信息
     break;
   default:
     break;
@@ -85,22 +87,22 @@ static int cmd_x(char *args) {//扫描内存
   }
   //printf("n=%lu\n",n);
 
-  char *hexnum = num + strlen(num) + 1;
+  char *hexnum = num + strlen(num) + 1; //第二个参数的起始位置
   if (hexnum >= args_end) {
     hexnum = NULL;
   }
   Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
 
-  // bool success=NULL;
-  // EXPR_value_TYPE exprvalue = expr(hexnum, &success);
-  // printf("value of the expression = %u\n", exprvalue);
-  // assert(success==true);
+  bool success;
+  EXPR_value_TYPE addr = expr(hexnum, &success);
+  printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", addr, addr);
+  assert(success==true);
 
-  vaddr_t addr;
-  char *endptr;
-  if(hexnum!=NULL){
-    addr = (vaddr_t)strtol(hexnum, &endptr, 0);
-  }
+  // vaddr_t addr;
+  // char *endptr;
+  // if(hexnum!=NULL){
+  //   addr = (vaddr_t)strtol(hexnum, &endptr, 0);
+  // }
   //printf("addr=%08x\n",addr);
 
   printf("Address\t\tDword block\tByte sequence\n");
@@ -116,18 +118,23 @@ static int cmd_x(char *args) {//扫描内存
 static int cmd_p(char *args) {//表达式求值
   bool success=NULL;
   EXPR_value_TYPE exprvalue = expr(args, &success);
-  printf("value of the expression = %u\n", exprvalue);
+  printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", exprvalue, exprvalue);
   assert(success==true);
   return 0;
 }
 
 static int cmd_w(char *args) {//设置监视点
-  
+  WP *watchpoint = new_wp(args);
+  Assert(watchpoint!=NULL, "watchpoint allocation fail");
+  printf("Set watchpoint #%d :\n\texpr\t= %s\n\told value = 0x%08x\n", watchpoint->NO, watchpoint->What, watchpoint->Oldval);
   return 0;
 }
 
 static int cmd_d(char *args) {//删除监视点
-  
+  int index = atoi(args);
+  WP *del_wp = wp_find(index);
+  Assert(del_wp!=NULL, "watchpoint which is going to be deleted isn't exist");
+  free_wp(del_wp);
   return 0;
 }
 
