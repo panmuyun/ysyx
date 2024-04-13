@@ -87,22 +87,22 @@ static int cmd_x(char *args) {//扫描内存
   }
   //printf("n=%lu\n",n);
 
-  char *hexnum = num + strlen(num) + 1;
+  char *hexnum = num + strlen(num) + 1; //第二个参数的起始位置
   if (hexnum >= args_end) {
     hexnum = NULL;
   }
   Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
 
-  // bool success=NULL;
-  // EXPR_value_TYPE exprvalue = expr(hexnum, &success);
-  // printf("value of the expression = %u\n", exprvalue);
-  // assert(success==true);
+  bool success;
+  EXPR_value_TYPE addr = expr(hexnum, &success);
+  printf("value of the expression = %u\n", addr);
+  assert(success==true);
 
-  vaddr_t addr;
-  char *endptr;
-  if(hexnum!=NULL){
-    addr = (vaddr_t)strtol(hexnum, &endptr, 0);
-  }
+  // vaddr_t addr;
+  // char *endptr;
+  // if(hexnum!=NULL){
+  //   addr = (vaddr_t)strtol(hexnum, &endptr, 0);
+  // }
   //printf("addr=%08x\n",addr);
 
   printf("Address\t\tDword block\tByte sequence\n");
