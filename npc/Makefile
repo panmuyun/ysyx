@@ -1,5 +1,5 @@
 
-# TOPNAME = 顶级模块的模块名；可在命令行中输入“make TOPNAME=top sim”
+# TOPNAME = 顶级模块的模块名；可在命令行中输入“make TOPNAME=top sim”    若不可运行，先make clean
 TOPNAME ?=
 SIMFILE = $(TOPNAME)_sim
 WAVEFILE = wave_$(TOPNAME)
