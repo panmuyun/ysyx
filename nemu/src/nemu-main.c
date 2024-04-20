@@ -14,7 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
-// #include "monitor/sdb/sdb.h"
+#include "monitor/sdb/sdb.h"
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -33,22 +33,22 @@ int main(int argc, char *argv[]) {
 
 
 
-  // int num;
-  // char expressions[500];
-  // int linenum=0;
+  int num;
+  char expressions[500];
+  int linenum=0;
 
-  // while(scanf("%d %[^\n]", &num, expressions)!=EOF){
-  //   linenum++;
-  //   //printf("line %d : %s\n", linenum, expressions);
+  while(scanf("%d %[^\n]", &num, expressions)!=EOF){
+    linenum++;
+    //printf("line %d : %s\n", linenum, expressions);
 
-  //   bool success;
-  //   int val = expr(expressions, &success);
-  //   if(num == val){
-  //     printf("line %d : YES!! (%d)\n", linenum, val);
-  //   }else
-  //     printf("line %d : NO-------------------\n", linenum);
+    bool success;
+    int val = expr(expressions, &success);
+    if(num == val){
+      printf("line %d : YES!! (%d)\n", linenum, val);
+    }else
+      printf("line %d : NO-------------------\n", linenum);
 
-  // }
+  }
 
 
 
