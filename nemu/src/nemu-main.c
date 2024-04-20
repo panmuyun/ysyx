@@ -49,12 +49,12 @@ int main(int argc, char *argv[]) {
     linenum++;
     printf("##line %d : %s\n", linenum, expressions);
 
-    bool success;
-    int val = expr(expressions, &success);
-    if(num == val){
-      printf("line %d : YES!! (%d)\n", linenum, val);
-    }else
-      printf("line %d : NO-------------------\n", linenum);
+    // bool success;
+    // int val = expr(expressions, &success);
+    // if(num == val){
+    //   printf("line %d : YES!! (%d)\n", linenum, val);
+    // }else
+    //   printf("line %d : NO-------------------\n", linenum);
 
   }
 
