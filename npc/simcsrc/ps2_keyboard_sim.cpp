@@ -9,7 +9,7 @@
 VerilatedContext* contextp = NULL;
 VerilatedVcdC* tfp = NULL;
 
-static Vkeyboard_sim* top;
+static Vps2_keyboard* top;
 
 void sim_init(int argc, char** argv){
     contextp = new VerilatedContext;
