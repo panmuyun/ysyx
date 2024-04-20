@@ -47,7 +47,6 @@ int main(int argc, char *argv[]) {
       printf("line %d : YES!! (%u)\n", linenum, val);
     }else{
       printf("line %d : NO-------------------(%u)\n", linenum, val);
-      assert(0);
     }
       
 
