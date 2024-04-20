@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vtop_keyboard__Syms.h"
-#include "Vtop_keyboard.h"
-#include "Vtop_keyboard___024root.h"
+#include "Vprio_encoder83__Syms.h"
+#include "Vprio_encoder83.h"
+#include "Vprio_encoder83___024root.h"
 
 // FUNCTIONS
-Vtop_keyboard__Syms::~Vtop_keyboard__Syms()
+Vprio_encoder83__Syms::~Vprio_encoder83__Syms()
 {
 }
 
-Vtop_keyboard__Syms::Vtop_keyboard__Syms(VerilatedContext* contextp, const char* namep, Vtop_keyboard* modelp)
+Vprio_encoder83__Syms::Vprio_encoder83__Syms(VerilatedContext* contextp, const char* namep, Vprio_encoder83* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}
