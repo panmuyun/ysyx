@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
   int linenum=0;
 
   while(1){ //
-    char expressions[400];
+    char expressions[1000];
     if(scanf("%d %[^\n]", &num, expressions)==EOF)
       break;
     linenum++;
