@@ -35,7 +35,7 @@ static void gen_rand_expr(int depth) {
   if (rand() & 1){
     strcat(buf, " "); //随机插入空格
   }
-  if(depth > 20){
+  if(depth > 10){
     char num_str[16];
     unsigned num = rand()%1000+1;
     snprintf(num_str, sizeof(num_str), "%u", num);
