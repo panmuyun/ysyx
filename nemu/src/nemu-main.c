@@ -37,12 +37,12 @@ int main(int argc, char *argv[]) {
   char expressions[600];
   int linenum=0;
 
-  while(scanf("%d", &num)!=EOF){ //%[^\\n], expressions
-    int k=0;
-    while ( (expressions[k]=getchar())!='\n' )
-    {
-      k++;
-    }
+  while(scanf("%d %[^\n]", &num, expressions)!=EOF){ //
+    // int k=0;
+    // while ( (expressions[k]=getchar())!='\n' )
+    // {
+    //   k++;
+    // }
     
     // if(fgets(expressions, 600, stdin)==NULL)
     //   printf("读取失败\n");
