@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vmux41__Syms.h"
-#include "Vmux41.h"
-#include "Vmux41___024root.h"
+#include "VALU__Syms.h"
+#include "VALU.h"
+#include "VALU___024root.h"
 
 // FUNCTIONS
-Vmux41__Syms::~Vmux41__Syms()
+VALU__Syms::~VALU__Syms()
 {
 }
 
-Vmux41__Syms::Vmux41__Syms(VerilatedContext* contextp, const char* namep, Vmux41* modelp)
+VALU__Syms::VALU__Syms(VerilatedContext* contextp, const char* namep, VALU* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}
