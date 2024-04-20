@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){
     linenum++;
-    //printf("line %d : %s\n", linenum, expressions);
+    printf("line %d : %s\n", linenum, expressions);
 
     bool success;
     int val = expr(expressions, &success);
