@@ -34,22 +34,19 @@ int main(int argc, char *argv[]) {
 
 
   int num;
-  
+  char expressions[500];
   int linenum=0;
 
-  while(1){ //
-    char expressions[500];
-    if(scanf("%d %[^\n]", &num, expressions)==EOF)
-      break;
+  while(scanf("%d %[^\n]", &num, expressions)!=EOF){ //
     linenum++;
     printf("##line %d : %s\n", linenum, expressions);
 
-    // bool success;
-    // int val = expr(expressions, &success);
-    // if(num == val){
-    //   printf("line %d : YES!! (%d)\n", linenum, val);
-    // }else
-    //   printf("line %d : NO-------------------\n", linenum);
+    bool success;
+    int val = expr(expressions, &success);
+    if(num == val){
+      printf("line %d : YES!! (%d)\n", linenum, val);
+    }else
+      printf("line %d : NO-------------------\n", linenum);
 
   }
 
