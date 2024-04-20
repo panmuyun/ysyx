@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 
 
 
-  int num;
+  unsigned num;
   char expressions[500];
   int linenum=0;
 
@@ -42,11 +42,11 @@ int main(int argc, char *argv[]) {
     printf("##line %d : %s\n", linenum, expressions);
 
     bool success;
-    int val = expr(expressions, &success);
+    unsigned val = expr(expressions, &success);
     if(num == val){
-      printf("line %d : YES!! (%d)\n", linenum, val);
+      printf("line %d : YES!! (%u)\n", linenum, val);
     }else{
-      printf("line %d : NO-------------------(%d)\n", linenum, val);
+      printf("line %d : NO-------------------(%u)\n", linenum, val);
       assert(0);
     }
       
