@@ -37,7 +37,8 @@ int main(int argc, char *argv[]) {
   char expressions[600];
   int linenum=0;
 
-  while(scanf("%d %[^\n]", &num, expressions)!=EOF){
+  while(scanf("%d %[^\\n]", &num, expressions)!=EOF){ //
+    // gets(expressions);
     linenum++;
     printf("##line %d : %s\n", linenum, expressions);
 
