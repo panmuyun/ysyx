@@ -98,7 +98,7 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-#define Tokens_LEN 400
+#define Tokens_LEN 600
 static Token tokens[Tokens_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
@@ -146,13 +146,13 @@ static bool make_token(char *e) {
         if(rules[i].token_type != TK_NOTYPE){
           tokens[nr_token].type = rules[i].token_type;
           strcpy(tokens[nr_token].str, substr);
-          // if(tokens[nr_token].type == '*' 
-          // && (nr_token==0 || tokens[nr_token-1].type=='+' || tokens[nr_token-1].type=='-'
-          //     || tokens[nr_token-1].type=='*' || tokens[nr_token-1].type=='/' 
-          //     || tokens[nr_token-1].type==TK_EQ || tokens[nr_token-1].type==TK_NOTEQ
-          //     || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况
-          //   tokens[nr_token].type = TK_DEREFERENCE;
-          // }
+          if(tokens[nr_token].type == '*' 
+          && (nr_token==0 || tokens[nr_token-1].type=='+' || tokens[nr_token-1].type=='-'
+              || tokens[nr_token-1].type=='*' || tokens[nr_token-1].type=='/' 
+              || tokens[nr_token-1].type==TK_EQ || tokens[nr_token-1].type==TK_NOTEQ
+              || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况
+            tokens[nr_token].type = TK_DEREFERENCE;
+          }
           nr_token++;
         }
       
