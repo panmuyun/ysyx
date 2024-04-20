@@ -45,8 +45,11 @@ int main(int argc, char *argv[]) {
     int val = expr(expressions, &success);
     if(num == val){
       printf("line %d : YES!! (%d)\n", linenum, val);
-    }else
+    }else{
       printf("line %d : NO-------------------\n", linenum);
+      assert(0);
+    }
+      
 
   }
 
