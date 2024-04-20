@@ -33,16 +33,16 @@ int main(int argc, char *argv[]) {
 
 
 
-  int num;
+  // int num;
   char expressions[600];
   int linenum=0;
-
-  while(scanf("%d", &num)!=EOF){ //, expressions 
-    getchar();
-    if ( scanf("%[^\n]", expressions) )
-    {
-      printf("读取失败\n");
-    }
+  // scanf("%d", &num)!=EOF
+  while(scanf("%[^\n]", expressions)!=EOF){ //, expressions 
+    // getchar();
+    // if ( scanf("%[^\n]", expressions)!=NULL )
+    // {
+    //   printf("读取失败\n");
+    // }
     
     
     // int k=0;
