@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vprio_encoder83.mk for the caller.
+# See Vshifter.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,25 +23,25 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	Vprio_encoder83 \
-	Vprio_encoder83___024root__DepSet_h2cc4c023__0 \
-	Vprio_encoder83___024root__DepSet_h40144231__0 \
+	Vshifter \
+	Vshifter___024root__DepSet_h646c86c9__0 \
+	Vshifter___024root__DepSet_h927a87e1__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	Vprio_encoder83__ConstPool_0 \
-	Vprio_encoder83___024root__Slow \
-	Vprio_encoder83___024root__DepSet_h2cc4c023__0__Slow \
-	Vprio_encoder83___024root__DepSet_h40144231__0__Slow \
+	Vshifter__ConstPool_0 \
+	Vshifter___024root__Slow \
+	Vshifter___024root__DepSet_h646c86c9__0__Slow \
+	Vshifter___024root__DepSet_h927a87e1__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	Vprio_encoder83__Trace__0 \
+	Vshifter__Trace__0 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	Vprio_encoder83__Syms \
-	Vprio_encoder83__Trace__0__Slow \
+	Vshifter__Syms \
+	Vshifter__Trace__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

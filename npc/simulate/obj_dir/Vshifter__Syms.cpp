@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vprio_encoder83__Syms.h"
-#include "Vprio_encoder83.h"
-#include "Vprio_encoder83___024root.h"
+#include "Vshifter__Syms.h"
+#include "Vshifter.h"
+#include "Vshifter___024root.h"
 
 // FUNCTIONS
-Vprio_encoder83__Syms::~Vprio_encoder83__Syms()
+Vshifter__Syms::~Vshifter__Syms()
 {
 }
 
-Vprio_encoder83__Syms::Vprio_encoder83__Syms(VerilatedContext* contextp, const char* namep, Vprio_encoder83* modelp)
+Vshifter__Syms::Vshifter__Syms(VerilatedContext* contextp, const char* namep, Vshifter* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}
