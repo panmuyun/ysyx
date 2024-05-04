@@ -22,11 +22,6 @@ void sim_init(int argc, char** argv){
 }
 
 void step_and_dump_wave(){  
-    top->clk=0;
-    top->eval();  
-    tfp->dump(contextp->time()); //dump wave
-    contextp->timeInc(1); //仿真时间推进
-    top->clk=1;
     top->eval();  
     tfp->dump(contextp->time()); //dump wave
     contextp->timeInc(1); //仿真时间推进
@@ -38,7 +33,7 @@ void sim_exit(){
     delete contextp;
 }
 
-// int kbd_clk_period = 60;
+int kbd_clk_period = 60;
 
 void kbd_sendcode(std::string code){
     int i;
@@ -52,12 +47,16 @@ void kbd_sendcode(std::string code){
     i=0;
     while(i<11){
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
-        // for (int t = 0; t < kbd_clk_period/2; t++)
-            step_and_dump_wave();
+
+        contextp->timeInc(kbd_clk_period/2); 
         top->ps2_clk = 0;
-        // for (int t = 0; t < kbd_clk_period/2; t++)
-            step_and_dump_wave();
+        top->eval();
+        tfp->dump(contextp->time()); //dump wave
+
+        contextp->timeInc(kbd_clk_period/2);
         top->ps2_clk = 1;
+        top->eval();
+        tfp->dump(contextp->time()); //dump wave
     }
 }
 
@@ -67,19 +66,18 @@ int main(int argc, char** argv) {
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
-        // top->clk = 0;
+        top->clk = 0;
         top->resetn = 0;
-        // for (int t = 0; t < 20; t++)
-            step_and_dump_wave();
-        top->resetn = 1;
-        // for (int t = 0; t < 20; t++)
-            step_and_dump_wave();
+        top->eval();
+
+        contextp->timeInc(5);
+        top->clk = !top->clk;
         kbd_sendcode("00011100");
-        kbd_sendcode("11110000");
-        kbd_sendcode("00011100");
-        kbd_sendcode("00011011");
-        kbd_sendcode("11110000");
-        kbd_sendcode("00011011");
+        // kbd_sendcode("11110000");
+        // kbd_sendcode("00011100");
+        // kbd_sendcode("00011011");
+        // kbd_sendcode("11110000");
+        // kbd_sendcode("00011011");
         // step_and_dump_wave();
         printf("clk = %d, resetn = %d, ps2_clk = %d, ps2_data = %d\n", top->clk, top->resetn, top->ps2_clk, top->ps2_data);
         //assert(top->f == (a ^ b));
