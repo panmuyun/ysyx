@@ -80,6 +80,11 @@ int main(int argc, char** argv) {
     while (!contextp->gotFinish()) {
         if(cycle==50)   //设定最长时钟周期
             break;
+            
+        contextp->timeInc(5);
+        top->clk = !top->clk;
+        top->eval();
+        tfp->dump(contextp->time()); //dump wave
 
         if(i==11)
             i=0;
