@@ -76,25 +76,25 @@ int main(int argc, char** argv) {
     top->ps2_clk = 0;
     top->ps2_data = 1;
     top->eval();
-    // tfp->dump(contextp->time()); //dump wave
+    tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
         
 
-        step();
-        // contextp->timeInc(5);
-        // top->clk = 1-top->clk;
+        // step();
+        contextp->timeInc(5);
+        top->clk = 1-top->clk;
         // kbd_sendcode("00011100");
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011100");
         // kbd_sendcode("00011011");
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011011");
-        // step_and_dump_wave();
-        // top->eval();
-        // tfp->dump(contextp->time()); //dump wave
+        
+        top->eval();
+        tfp->dump(contextp->time()); //dump wave
         // printf("clk = %d, resetn = %d, ps2_clk = %d, ps2_data = %d\n", top->clk, top->resetn, top->ps2_clk, top->ps2_data);
         //assert(top->f == (a ^ b));
         cycle++;
