@@ -71,6 +71,7 @@ int main(int argc, char** argv) {
         top->ps2_clk = 0;
         top->ps2_data = 1;
         top->eval();
+        tfp->dump(contextp->time()); //dump wave
 
         contextp->timeInc(5);
         top->clk = 1-top->clk;
