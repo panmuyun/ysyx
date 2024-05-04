@@ -19,6 +19,7 @@ SIM_OBJ_DIR = $(SIMULATE_DIR)/obj_dir
 SIM_EXE = $(SIM_OBJ_DIR)/V$(TOPNAME)
 
 # 创建simulate文件夹
+$(rm -rf $(SIMULATE_DIR))
 $(shell mkdir -p $(SIMULATE_DIR)) 
 
 # 找出vsrc文件夹中的.v文件
@@ -47,6 +48,7 @@ BIN = $(BUILD_DIR)/$(TOPNAME)
 default: $(BIN)
 
 # 创建build文件夹
+$(rm -rf $(BUILD_DIR))
 $(shell mkdir -p $(BUILD_DIR))  
 
 # constraint file
