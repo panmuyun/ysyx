@@ -76,8 +76,9 @@ int main(int argc, char** argv) {
             break;
         
         contextp->timeInc(5);
-        top->clk = 1-top->clk;
-        kbd_sendcode("00011100");
+        top->clk = !top->clk;
+
+        // kbd_sendcode("00011100");
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011100");
         // kbd_sendcode("00011011");
