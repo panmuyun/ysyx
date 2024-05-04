@@ -22,6 +22,11 @@ void sim_init(int argc, char** argv){
 }
 
 void step_and_dump_wave(){  
+    top->clk=0;
+    top->eval();  
+    tfp->dump(contextp->time()); //dump wave
+    contextp->timeInc(1); //仿真时间推进
+    top->clk=1;
     top->eval();  
     tfp->dump(contextp->time()); //dump wave
     contextp->timeInc(1); //仿真时间推进
@@ -62,6 +67,7 @@ int main(int argc, char** argv) {
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
+        // top->clk = 0;
         top->resetn = 0;
         // for (int t = 0; t < 20; t++)
             step_and_dump_wave();
@@ -75,7 +81,7 @@ int main(int argc, char** argv) {
         kbd_sendcode("11110000");
         kbd_sendcode("00011011");
         // step_and_dump_wave();
-        //printf("a = %d, b = %d, f = %d\n", a, b, top->f);
+        printf("clk = %d, b = %d, f = %d\n", a, b, top->f);
         //assert(top->f == (a ^ b));
         cycle++;
     }
