@@ -47,10 +47,10 @@ void kbd_sendcode(std::string code){
     i=0;
     while(i<11){
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
-        for (int t = 0; t < kbd_clk_period/2; t++)
+        // for (int t = 0; t < kbd_clk_period/2; t++)
             step_and_dump_wave();
         top->ps2_clk = 0;
-        for (int t = 0; t < kbd_clk_period/2; t++)
+        // for (int t = 0; t < kbd_clk_period/2; t++)
             step_and_dump_wave();
         top->ps2_clk = 1;
     }
@@ -63,10 +63,10 @@ int main(int argc, char** argv) {
         if(cycle==30)   //设定最长时钟周期
             break;
         top->resetn = 0;
-        for (int t = 0; t < 20; t++)
+        // for (int t = 0; t < 20; t++)
             step_and_dump_wave();
         top->resetn = 1;
-        for (int t = 0; t < 20; t++)
+        // for (int t = 0; t < 20; t++)
             step_and_dump_wave();
         kbd_sendcode("00011100");
         kbd_sendcode("11110000");
