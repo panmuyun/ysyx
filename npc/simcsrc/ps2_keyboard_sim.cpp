@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
         kbd_sendcode("11110000");
         kbd_sendcode("00011011");
         // step_and_dump_wave();
-        printf("clk = %d, b = %d, f = %d\n", a, b, top->f);
+        // printf("clk = %d, b = %d, f = %d\n", a, b, top->f);
         //assert(top->f == (a ^ b));
         cycle++;
     }
