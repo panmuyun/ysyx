@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
     top->clk = 0;
     top->resetn = 0;
     top->eval();
-    tfp->dump(contextp->time()); //dump wave
+    // tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
         if(cycle==50)   //设定最长时钟周期
