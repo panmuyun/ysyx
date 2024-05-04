@@ -11,6 +11,13 @@ VerilatedVcdC* tfp = NULL;
 
 static Vps2_keyboard* top;
 
+#define step(statements) do { \
+        contextp->timeInc(1); \
+        top->clk = !top->clk; \
+            {statements}      \
+        top->eval();          \
+    } while (0)
+
 void sim_init(int argc, char** argv){
     contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);
@@ -73,8 +80,9 @@ int main(int argc, char** argv) {
         top->eval();
         tfp->dump(contextp->time()); //dump wave
 
-        contextp->timeInc(5);
-        top->clk = 1-top->clk;
+        step();
+        // contextp->timeInc(5);
+        // top->clk = 1-top->clk;
         // kbd_sendcode("00011100");
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011100");
@@ -82,9 +90,9 @@ int main(int argc, char** argv) {
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011011");
         // step_and_dump_wave();
-        top->eval();
-        tfp->dump(contextp->time()); //dump wave
-        printf("clk = %d, resetn = %d, ps2_clk = %d, ps2_data = %d\n", top->clk, top->resetn, top->ps2_clk, top->ps2_data);
+        // top->eval();
+        // tfp->dump(contextp->time()); //dump wave
+        // printf("clk = %d, resetn = %d, ps2_clk = %d, ps2_data = %d\n", top->clk, top->resetn, top->ps2_clk, top->ps2_data);
         //assert(top->f == (a ^ b));
         cycle++;
     }
