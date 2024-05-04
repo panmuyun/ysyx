@@ -26,7 +26,6 @@ module ps2_keyboard(
     always @(posedge clk) begin
         if (resetn == 0) begin // reset
             count <= 0;
-            data <= 0;
         end
         else begin
             if (sampling) begin //位有效
