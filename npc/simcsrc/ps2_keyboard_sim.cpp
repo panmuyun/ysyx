@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
         top->eval();
 
         contextp->timeInc(5);
-        top->clk = 0-top->clk;
+        top->clk = 1-top->clk;
         // kbd_sendcode("00011100");
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011100");
