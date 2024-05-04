@@ -35,14 +35,14 @@ void sim_exit(){
 
 int kbd_clk_period = 60;
 
-void kbd_sendcode(bitset<8> code){
+void kbd_sendcode(std::bitset<8> code){
     int i;
     //bitset<1> startbit(0);
-    bitset<1> oddparitybit=code[0];
+    std::bitset<1> oddparitybit=code[0];
     for(int k=1;k<8;k++)
         oddparitybit = oddparitybit ^ code[k];
     //bitset<1> stopbit(1);
-    bitset<11> send_buffer("0"+code.to_string()+oddparitybit.to_string()+"1");
+    std::bitset<11> send_buffer("0"+code.to_string()+oddparitybit.to_string()+"1");
     i=0;
     while(i<11){
         top->ps2_data = send_buffer[i];
