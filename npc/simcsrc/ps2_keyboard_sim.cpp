@@ -87,15 +87,33 @@ int main(int argc, char** argv) {
             kbd_sendcode("00011100", &send_buffer);
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
 
-        contextp->timeInc(20); 
+        for(int t=0;t<3;t++){
+            contextp->timeInc(5);
+            top->clk = !top->clk;
+            top->eval();
+            tfp->dump(contextp->time()); //dump wave
+        }
+        contextp->timeInc(5);
+        top->clk = !top->clk;
         top->ps2_clk = 0;
         top->eval();
         tfp->dump(contextp->time()); //dump wave
-
-        contextp->timeInc(20);
+        
+        for(int t=0;t<3;t++){
+            contextp->timeInc(5);
+            top->clk = !top->clk;
+            top->eval();
+            tfp->dump(contextp->time()); //dump wave
+        }
+        contextp->timeInc(5);
+        top->clk = !top->clk;
         top->ps2_clk = 1;
         top->eval();
         tfp->dump(contextp->time()); //dump wave
+        // contextp->timeInc(20);
+        // top->ps2_clk = 1;
+        // top->eval();
+        // tfp->dump(contextp->time()); //dump wave
 
         i++;
         // kbd_sendcode("11110000");
