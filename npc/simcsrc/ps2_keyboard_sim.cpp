@@ -70,15 +70,18 @@ void kbd_sendcode(std::string code){
 int main(int argc, char** argv) {
     sim_init(argc, argv);
     int cycle=0;
+
+    top->clk = 0;
+    top->resetn = 0;
+    top->ps2_clk = 0;
+    top->ps2_data = 1;
+    top->eval();
+    tfp->dump(contextp->time()); //dump wave
+    
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
-        top->clk = 0;
-        top->resetn = 0;
-        top->ps2_clk = 0;
-        top->ps2_data = 1;
-        top->eval();
-        tfp->dump(contextp->time()); //dump wave
+        
 
         step();
         // contextp->timeInc(5);
