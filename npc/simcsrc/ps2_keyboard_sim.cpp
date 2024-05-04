@@ -67,12 +67,12 @@ int main(int argc, char** argv) {
         top->resetn = 1;
         for (int t = 0; t < 20; t++)
             step_and_dump_wave();
-        kbd_sendcode("00011100");
-        kbd_sendcode("11110000");
-        kbd_sendcode("00011100");
-        kbd_sendcode("00011011");
-        kbd_sendcode("11110000");
-        kbd_sendcode("00011011");
+        kbd_sendcode(std::bitset<8>("00011100"));
+        kbd_sendcode(std::bitset<8>("11110000"));
+        kbd_sendcode(std::bitset<8>("00011100"));
+        kbd_sendcode(std::bitset<8>("00011011"));
+        kbd_sendcode(std::bitset<8>("11110000"));
+        kbd_sendcode(std::bitset<8>("00011011"));
         // step_and_dump_wave();
         //printf("a = %d, b = %d, f = %d\n", a, b, top->f);
         //assert(top->f == (a ^ b));
