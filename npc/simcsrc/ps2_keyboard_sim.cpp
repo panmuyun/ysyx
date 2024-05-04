@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <bitset>
+#include <vector>
 
 VerilatedContext* contextp = NULL;
 VerilatedVcdC* tfp = NULL;
@@ -65,26 +66,24 @@ int main(int argc, char** argv) {
     int cycle=0;
     std::string send_buffer="";
     int i=0;
+    int v=0;
+    std::vector<std::string> vt={"00011100", "11110000", "00011100", "00011011", "11110000", "00011011"};
+
 
     top->clk = 0;
     top->resetn = 0;
-    // top->ps2_clk = 0;
-    // top->ps2_data = 1;
     top->eval();
     tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
         if(cycle==50)   //设定最长时钟周期
             break;
-        
-        // contextp->timeInc(5);
-        // top->clk = !top->clk;
 
         if(i==11)
             i=0;
         
         if(i==0)
-            kbd_sendcode("00011100", &send_buffer);
+            kbd_sendcode(vt[v++], &send_buffer);
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
 
         for(int t=0;t<3;t++){
