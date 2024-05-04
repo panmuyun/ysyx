@@ -11,13 +11,6 @@ VerilatedVcdC* tfp = NULL;
 
 static Vps2_keyboard* top;
 
-#define step(statements) do { \
-        contextp->timeInc(1); \
-        top->clk = !top->clk; \
-            {statements}      \
-        top->eval();          \
-    } while (0)
-
 void sim_init(int argc, char** argv){
     contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);
@@ -73,8 +66,8 @@ int main(int argc, char** argv) {
 
     top->clk = 0;
     top->resetn = 0;
-    top->ps2_clk = 0;
-    top->ps2_data = 1;
+    // top->ps2_clk = 0;
+    // top->ps2_data = 1;
     top->eval();
     tfp->dump(contextp->time()); //dump wave
 
@@ -82,11 +75,9 @@ int main(int argc, char** argv) {
         if(cycle==30)   //设定最长时钟周期
             break;
         
-
-        // step();
         contextp->timeInc(5);
         top->clk = 1-top->clk;
-        // kbd_sendcode("00011100");
+        kbd_sendcode("00011100");
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011100");
         // kbd_sendcode("00011011");
