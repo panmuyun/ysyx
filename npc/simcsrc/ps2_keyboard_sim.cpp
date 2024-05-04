@@ -81,6 +81,7 @@ int main(int argc, char** argv) {
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011011");
         // step_and_dump_wave();
+        top->eval();
         printf("clk = %d, resetn = %d, ps2_clk = %d, ps2_data = %d\n", top->clk, top->resetn, top->ps2_clk, top->ps2_data);
         //assert(top->f == (a ^ b));
         cycle++;
