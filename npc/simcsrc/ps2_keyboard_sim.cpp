@@ -76,8 +76,8 @@ int main(int argc, char** argv) {
     top->ps2_clk = 0;
     top->ps2_data = 1;
     top->eval();
-    tfp->dump(contextp->time()); //dump wave
-    
+    // tfp->dump(contextp->time()); //dump wave
+
     while (!contextp->gotFinish()) {
         if(cycle==30)   //设定最长时钟周期
             break;
