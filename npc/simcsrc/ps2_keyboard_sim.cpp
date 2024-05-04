@@ -86,12 +86,12 @@ int main(int argc, char** argv) {
             kbd_sendcode("00011100", &send_buffer);
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
 
-        contextp->timeInc(kbd_clk_period/2); 
+        // contextp->timeInc(kbd_clk_period/2); 
         top->ps2_clk = 0;
         top->eval();
         tfp->dump(contextp->time()); //dump wave
 
-        contextp->timeInc(kbd_clk_period/2);
+        // contextp->timeInc(kbd_clk_period/2);
         top->ps2_clk = 1;
         top->eval();
         tfp->dump(contextp->time()); //dump wave
