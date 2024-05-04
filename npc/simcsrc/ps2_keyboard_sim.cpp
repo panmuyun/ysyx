@@ -74,6 +74,7 @@ int main(int argc, char** argv) {
     top->resetn = 0;
     top->ps2_clk = 1;
     top->eval();
+    top->resetn = 1;
     // tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
