@@ -68,11 +68,13 @@ int main(int argc, char** argv) {
             break;
         top->clk = 0;
         top->resetn = 0;
+        top->ps2_clk = 0;
+        top->ps2_data = 1;
         top->eval();
 
         contextp->timeInc(5);
         top->clk = !top->clk;
-        kbd_sendcode("00011100");
+        // kbd_sendcode("00011100");
         // kbd_sendcode("11110000");
         // kbd_sendcode("00011100");
         // kbd_sendcode("00011011");
