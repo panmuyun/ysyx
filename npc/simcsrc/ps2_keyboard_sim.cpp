@@ -89,12 +89,12 @@ int main(int argc, char** argv) {
         // contextp->timeInc(kbd_clk_period/2); 
         top->ps2_clk = 0;
         top->eval();
-        tfp->dump(contextp->time()); //dump wave
+        // tfp->dump(contextp->time()); //dump wave
 
         // contextp->timeInc(kbd_clk_period/2);
         top->ps2_clk = 1;
         top->eval();
-        tfp->dump(contextp->time()); //dump wave
+        // tfp->dump(contextp->time()); //dump wave
 
         i++;
         // kbd_sendcode("11110000");
