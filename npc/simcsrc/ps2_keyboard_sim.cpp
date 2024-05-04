@@ -74,27 +74,28 @@ int main(int argc, char** argv) {
     tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
-        if(cycle==30)   //设定最长时钟周期
+        if(cycle==50)   //设定最长时钟周期
             break;
         
         contextp->timeInc(5);
         top->clk = !top->clk;
-        if(i==11){
+
+        if(i==11)
             i=0;
-        }
+        
         if(i==0)
             kbd_sendcode("00011100", &send_buffer);
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
 
-        // contextp->timeInc(kbd_clk_period/2); 
+        contextp->timeInc(20); 
         top->ps2_clk = 0;
         top->eval();
-        // tfp->dump(contextp->time()); //dump wave
+        tfp->dump(contextp->time()); //dump wave
 
-        // contextp->timeInc(kbd_clk_period/2);
+        contextp->timeInc(20);
         top->ps2_clk = 1;
         top->eval();
-        // tfp->dump(contextp->time()); //dump wave
+        tfp->dump(contextp->time()); //dump wave
 
         i++;
         // kbd_sendcode("11110000");
