@@ -33,7 +33,7 @@ void sim_exit(){
     delete contextp;
 }
 
-int kbd_clk_period = 60;
+// int kbd_clk_period = 60;
 
 void kbd_sendcode(std::string code){
     int i;
