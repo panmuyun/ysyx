@@ -78,8 +78,8 @@ int main(int argc, char** argv) {
     // tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
-        if(cycle==50)   //设定最长时钟周期
-            break;
+        // if(cycle==50)   //设定最长时钟周期
+        //     break;
             
         contextp->timeInc(5);
         top->clk = !top->clk;
@@ -130,6 +130,7 @@ int main(int argc, char** argv) {
         
         // top->eval();
         // tfp->dump(contextp->time()); //dump wave
+        printf("ps2_data = %d, data = %d, presscount\n", top->ps2_data, top->data, top->presscount);
         // printf("clk = %d, resetn = %d, ps2_clk = %d, ps2_data = %d\n", top->clk, top->resetn, top->ps2_clk, top->ps2_data);
         //assert(top->f == (a ^ b));
         cycle++;
