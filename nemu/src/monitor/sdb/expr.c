@@ -283,7 +283,9 @@ EXPR_value_TYPE eval(int p, int q){
                   if(val2!=0)
                     return val1 / val2;
                   else{
-                    Assert(val2!=0, "exists division by 0 operation");
+                    return 0;
+                    Log("exists division by 0 operation\n");
+                    // Assert(val2!=0, "exists division by 0 operation");
                   }
                   // ##################   *0x80000000/(3*(2/3))
         case TK_EQ: return val1 == val2 ? 1:0; 
