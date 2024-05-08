@@ -45,6 +45,7 @@ void kbd_sendcode(std::string code, std::string *send_buffer){
     std::bitset<1> oddparitybit=databits.test(0)?1:0;
     for(int k=1;k<8;k++)
         oddparitybit = oddparitybit^std::bitset<1>(databits.test(k)?1:0);
+    oddparitybit = !oddparitybit;
     //bitset<1> stopbit(1);
     reverse(code.begin(),code.end());
     *send_buffer = "0"+ code + oddparitybit.to_string()+"1";
