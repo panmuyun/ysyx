@@ -78,8 +78,12 @@ int main(int argc, char** argv) {
         if(i==12)
             i=0;
         
-        if(i==0 && v<6)
-            kbd_sendcode(vt[v++], &send_buffer);
+        if(i==0 && v<6){
+            kbd_sendcode(vt[v], &send_buffer);
+            std::cout<<vt[v]<<std::endl;
+            v++;
+        }
+            
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
         top->eval();
         // tfp->dump(contextp->time()); //dump wave
