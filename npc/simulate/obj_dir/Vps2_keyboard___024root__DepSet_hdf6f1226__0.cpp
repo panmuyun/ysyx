@@ -46,11 +46,7 @@ VL_INLINE_OPT void Vps2_keyboard___024root___nba_sequent__TOP__0(Vps2_keyboard__
                     __Vdly__data = ((0xffffff00U & __Vdly__data) 
                                     | (0xffU & ((IData)(vlSelf->ps2_keyboard__DOT__buffer) 
                                                 >> 1U)));
-                    if (((0xf0U == (0xffU & vlSelf->data)) 
-                         & ((0xffU & (vlSelf->data 
-                                      >> 0x10U)) != 
-                            (0xffU & (vlSelf->data 
-                                      >> 8U))))) {
+                    if ((0xf0U == (0xffU & vlSelf->data))) {
                         vlSelf->presscount = (0xffU 
                                               & ((IData)(1U) 
                                                  + (IData)(vlSelf->presscount)));
