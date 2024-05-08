@@ -40,6 +40,7 @@ module ps2_keyboard(
                     $display("receive %x", buffer[8:1]);
                 end
                 count <= 0;     // for next
+                buffer<=0;
               end else begin
                 buffer[count] <= ps2_data;  // store ps2_data
                 count <= count + 3'b1;
