@@ -46,6 +46,7 @@ void kbd_sendcode(std::string code, std::string *send_buffer){
     for(int k=1;k<8;k++)
         oddparitybit = oddparitybit^std::bitset<1>(databits.test(k)?1:0);
     oddparitybit = ~oddparitybit;
+    printf("oddparity = %d\n", oddparitybit);
     //bitset<1> stopbit(1);
     reverse(code.begin(),code.end());
     *send_buffer = "0"+ code + oddparitybit.to_string()+"1";
@@ -127,7 +128,8 @@ int main(int argc, char** argv) {
         
         // top->eval();
         // tfp->dump(contextp->time()); //dump wave
-        printf("ps2_data = %d, data = %d, presscount = %d\n", top->ps2_data, top->data, top->presscount);
+        printf("buffer = %x\n", top->buffer);
+        // printf("ps2_data = %d, data = %d, presscount = %d\n", top->ps2_data, top->data, top->presscount);
         // printf("clk = %d, resetn = %d, ps2_clk = %d, ps2_data = %d\n", top->clk, top->resetn, top->ps2_clk, top->ps2_data);
         //assert(top->f == (a ^ b));
         cycle++;
