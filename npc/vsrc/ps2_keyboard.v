@@ -35,7 +35,7 @@ module ps2_keyboard(
                     (^buffer[9:1])) begin      // odd  parity
                     data <= data<<8;
                     data[7:0] <= buffer[8:1];   //把当前接收到的8个数据位保存到data的低8位
-                    if(data[7:0]==8'hf0 && data[23:16]!=data[15:8]) 
+                    if(data[7:0]==8'hf0) //出现F0时，说明释放了
                         presscount <= presscount+1;
                     $display("receive %x", buffer[8:1]);
                 end
