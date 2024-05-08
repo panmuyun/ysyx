@@ -25,8 +25,9 @@ static char buf[65536] = {};
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
+"#include <stdint.h>\n"
 "int main() { "
-"  unsigned result = %s; "
+"  uint32_t result = %s; "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
@@ -35,7 +36,7 @@ static void gen_rand_expr(int depth) {
   if (rand() & 1){
     strcat(buf, " "); //随机插入空格
   }
-  if(depth > 20){
+  if(depth > 10){
     char num_str[16];
     unsigned num = rand()%1000+1;
     snprintf(num_str, sizeof(num_str), "%u", num);

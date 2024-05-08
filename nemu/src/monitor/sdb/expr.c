@@ -98,7 +98,7 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-#define Tokens_LEN 500
+#define Tokens_LEN 400
 static Token tokens[Tokens_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
@@ -274,7 +274,7 @@ EXPR_value_TYPE eval(int p, int q){
         case '+': return val1 + val2;
         case '-': return val1 - val2;
         case '*': return val1 * val2;
-        case '/': return val1 / val2;
+        case '/': return (val2!=0)?val1 / val2 : 0;   // ##################   *0x80000000/(3*(2/3))
         case TK_EQ: return val1 == val2 ? 1:0; 
         case TK_NOTEQ: return val1 != val2 ? 1:0;
         case TK_AND: return val1 && val2 ? 1:0;

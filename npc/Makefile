@@ -19,6 +19,7 @@ SIM_OBJ_DIR = $(SIMULATE_DIR)/obj_dir
 SIM_EXE = $(SIM_OBJ_DIR)/V$(TOPNAME)
 
 # 创建simulate文件夹
+# $(rm -rf $(SIMULATE_DIR))
 $(shell mkdir -p $(SIMULATE_DIR)) 
 
 # 找出vsrc文件夹中的.v文件
@@ -47,13 +48,14 @@ BIN = $(BUILD_DIR)/$(TOPNAME)
 default: $(BIN)
 
 # 创建build文件夹
+# $(rm -rf $(BUILD_DIR))
 $(shell mkdir -p $(BUILD_DIR))  
 
 # constraint file
 SRC_AUTO_BIND = $(abspath $(BUILD_DIR)/auto_bind.cpp)   # auto_bind.cpp的绝对路径
 
-$(SRC_AUTO_BIND): $(NXDC_FILES)
-	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $^ $@
+# $(SRC_AUTO_BIND): $(NXDC_FILES)
+# 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $^ $@
 
 # project source
 # 找出csrc文件夹中的.cpp文件
@@ -69,6 +71,7 @@ CXXFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 
 $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 	@rm -rf $(OBJ_DIR)
+	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $(NXDC_FILES) $(SRC_AUTO_BIND)
 	$(VERILATOR) $(VERILATOR_CFLAGS) \
 		--top-module $(TOPNAME) $^ \
 		$(addprefix -CFLAGS , $(CXXFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
@@ -82,7 +85,7 @@ all: default
 clean:
 	rm -rf $(BUILD_DIR)
 	rm -rf $(SIMULATE_DIR)
-	rm $(WAVEFILE).vcd
+	# rm $(WAVEFILE).vcd
 
 .PHONY: default all clean run sim
 
