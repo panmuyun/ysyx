@@ -80,18 +80,14 @@ $(BIN): $(VSRCS) $(CSRCS) $(NVBOARD_ARCHIVE)
 run: $(BIN)
 	@$^     # 运行./build/top可执行文件
 
-
-
-
 all: default
 
 clean:
 	rm -rf $(BUILD_DIR)
 	rm -rf $(SIMULATE_DIR)
-	-rm -rf result/
 	# rm $(WAVEFILE).vcd
 
-.PHONY: default all clean run sim 
+.PHONY: default all clean run sim
 
 
 include ../Makefile
