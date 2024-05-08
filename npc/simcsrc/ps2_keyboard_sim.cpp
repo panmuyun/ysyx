@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
             kbd_sendcode(vt[v++], &send_buffer);
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
         top->eval();
-        tfp->dump(contextp->time()); //dump wave
+        // tfp->dump(contextp->time()); //dump wave
 
         for(int t=0;t<3;t++){
             contextp->timeInc(5);
