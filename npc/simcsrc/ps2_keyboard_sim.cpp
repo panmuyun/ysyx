@@ -68,15 +68,19 @@ int main(int argc, char** argv) {
     top->eval();
     top->resetn = 1;
     // tfp->dump(contextp->time()); //dump wave
+    contextp->timeInc(5);
+    top->clk = !top->clk;
+    top->eval();
+    tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
         if(cycle==150)   //设定最长时钟周期
             break;
             
-        contextp->timeInc(5);
-        top->clk = !top->clk;
-        top->eval();
-        tfp->dump(contextp->time()); //dump wave
+        // contextp->timeInc(5);
+        // top->clk = !top->clk;
+        // top->eval();
+        // tfp->dump(contextp->time()); //dump wave
 
         if(i==12)
             i=0;

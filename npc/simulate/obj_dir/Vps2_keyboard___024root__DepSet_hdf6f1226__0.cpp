@@ -57,6 +57,7 @@ VL_INLINE_OPT void Vps2_keyboard___024root___nba_sequent__TOP__0(Vps2_keyboard__
                     }
                 }
                 __Vdly__ps2_keyboard__DOT__count = 0U;
+                vlSelf->ps2_keyboard__DOT__buffer = 0U;
             } else {
                 vlSelf->ps2_keyboard__DOT____Vlvbound_h1a91ade8__0 
                     = vlSelf->ps2_data;
