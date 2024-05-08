@@ -107,7 +107,7 @@ static bool make_token(char *e) {
   int i;
   regmatch_t pmatch;
 
-  nr_token = 0;
+  nr_token = 0; //表示当前在处理第几个token
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
@@ -150,7 +150,7 @@ static bool make_token(char *e) {
           && (nr_token==0 || tokens[nr_token-1].type=='+' || tokens[nr_token-1].type=='-'
               || tokens[nr_token-1].type=='*' || tokens[nr_token-1].type=='/' 
               || tokens[nr_token-1].type==TK_EQ || tokens[nr_token-1].type==TK_NOTEQ
-              || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况
+              || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况，根据前一个token的类型来判断
             tokens[nr_token].type = TK_DEREFERENCE;
           }
           nr_token++;
