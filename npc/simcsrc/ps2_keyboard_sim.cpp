@@ -45,20 +45,7 @@ void kbd_sendcode(std::string code, std::string *send_buffer){
         oddparitybit = oddparitybit^std::bitset<1>(databits.test(k)?1:0);
     //bitset<1> stopbit(1);
     *send_buffer = "0"+code+oddparitybit.to_string()+"1";
-    // i=0;
-    // while(i<11){
-    //     top->ps2_data = send_buffer[i]=='1'? 1 : 0;
-
-    //     contextp->timeInc(kbd_clk_period/2); 
-    //     top->ps2_clk = 0;
-    //     top->eval();
-    //     tfp->dump(contextp->time()); //dump wave
-
-    //     contextp->timeInc(kbd_clk_period/2);
-    //     top->ps2_clk = 1;
-    //     top->eval();
-    //     tfp->dump(contextp->time()); //dump wave
-    // }
+    
 }
 
 int main(int argc, char** argv) {
@@ -89,7 +76,7 @@ int main(int argc, char** argv) {
         if(i==11)
             i=0;
         
-        if(i==0)
+        if(i==0 && v<6)
             kbd_sendcode(vt[v++], &send_buffer);
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
         top->eval();
