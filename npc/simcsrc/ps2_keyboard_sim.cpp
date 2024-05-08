@@ -114,6 +114,11 @@ int main(int argc, char** argv) {
         top->ps2_clk = 1;
         top->eval();
         tfp->dump(contextp->time()); //dump wave
+
+        contextp->timeInc(5);
+        top->clk = !top->clk;
+        top->eval();
+        tfp->dump(contextp->time()); //dump wave
         // contextp->timeInc(20);
         // top->ps2_clk = 1;
         // top->eval();
