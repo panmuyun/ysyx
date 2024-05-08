@@ -68,21 +68,12 @@ int main(int argc, char** argv) {
     top->eval();
     top->resetn = 1;
     // tfp->dump(contextp->time()); //dump wave
-    contextp->timeInc(5);
-    top->clk = !top->clk;
-    top->eval();
-    tfp->dump(contextp->time()); //dump wave
 
     while (!contextp->gotFinish()) {
         if(cycle==150)   //设定最长时钟周期
             break;
-            
-        // contextp->timeInc(5);
-        // top->clk = !top->clk;
-        // top->eval();
-        // tfp->dump(contextp->time()); //dump wave
 
-        if(i==12)
+        if(i==11)
             i=0;
         
         if(i==0 && v<6){
@@ -90,7 +81,12 @@ int main(int argc, char** argv) {
             std::cout<<send_buffer<<std::endl;
             v++;
         }
-            
+
+        contextp->timeInc(5);
+        top->clk = !top->clk;
+        top->eval();
+        tfp->dump(contextp->time()); //dump wave
+
         top->ps2_data = send_buffer[i]=='1'? 1 : 0;
         top->eval();
         // tfp->dump(contextp->time()); //dump wave
