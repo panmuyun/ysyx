@@ -7,6 +7,7 @@
 #include <bitset>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 VerilatedContext* contextp = NULL;
 VerilatedVcdC* tfp = NULL;
