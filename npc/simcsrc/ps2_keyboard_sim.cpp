@@ -99,11 +99,11 @@ int main(int argc, char** argv) {
         }
         contextp->timeInc(5);
         top->clk = !top->clk;
-        
         top->eval();
-        tfp->dump(contextp->time()); //dump wave
         top->ps2_clk = 0;
         top->eval();
+        tfp->dump(contextp->time()); //dump wave
+        
 
         for(int t=0;t<3;t++){
             contextp->timeInc(5);
@@ -113,11 +113,12 @@ int main(int argc, char** argv) {
         }
         contextp->timeInc(5);
         top->clk = !top->clk;
-        
         top->eval();
-        tfp->dump(contextp->time()); //dump wave
         top->ps2_clk = 1;
         top->eval();
+        tfp->dump(contextp->time()); //dump wave
+        
+        
         // contextp->timeInc(20);
         // top->ps2_clk = 1;
         // top->eval();
