@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
         top->eval();
         tfp->dump(contextp->time()); //dump wave
 
-        if(i==11)
+        if(i==12)
             i=0;
         
         if(i==0 && v<6)
