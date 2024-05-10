@@ -319,5 +319,5 @@ EXPR_value_TYPE expr(char *e, bool *success) {
 
   *success = true;
 
-  return eval(0, q-1);
+  return 0;//eval(0, q-1);
 }
