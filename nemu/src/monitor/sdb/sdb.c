@@ -62,17 +62,17 @@ static int cmd_si(char *args) { //单步执行
 }
 
 static int cmd_info(char *args) {//打印程序状态
-  switch (*args)
-  {
-  case 'r':
-    isa_reg_display();  //打印寄存器状态
-    break;
-  case 'w':
-    watchpoints_display();  //打印监视点信息
-    break;
-  default:
-    break;
-  }
+  // switch (*args)
+  // {
+  // case 'r':
+  //   isa_reg_display();  //打印寄存器状态
+  //   break;
+  // case 'w':
+  //   watchpoints_display();  //打印监视点信息
+  //   break;
+  // default:
+  //   break;
+  // }
   return 0;
 }
 
