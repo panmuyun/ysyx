@@ -56,78 +56,78 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args) { //单步执行
-  // uint64_t n = (args==NULL)? 1 : (uint64_t)atoi(args);
-  // cpu_exec(n);
+  uint64_t n = (args==NULL)? 1 : (uint64_t)atoi(args);
+  cpu_exec(n);
   return 0;
 }
 
 static int cmd_info(char *args) {//打印程序状态
-  // switch (*args)
-  // {
-  // case 'r':
-  //   isa_reg_display();  //打印寄存器状态
-  //   break;
-  // case 'w':
-  //   watchpoints_display();  //打印监视点信息
-  //   break;
-  // default:
-  //   break;
-  // }
+  switch (*args)
+  {
+  case 'r':
+    isa_reg_display();  //打印寄存器状态
+    break;
+  case 'w':
+    watchpoints_display();  //打印监视点信息
+    break;
+  default:
+    break;
+  }
   return 0;
 }
 
 static int cmd_x(char *args) {//扫描内存
-  // char *args_end = args + strlen(args);
+  char *args_end = args + strlen(args);
 
-  // char *num = strtok(args, " ");
-  // Assert(num != NULL, "scan memory: Input invalid N");
-  // uint64_t n=0;
-  // if (num!=NULL){
-  //   n=(uint64_t)atoi(num);
-  // }
-  // //printf("n=%lu\n",n);
+  char *num = strtok(args, " ");
+  Assert(num != NULL, "scan memory: Input invalid N");
+  uint64_t n=0;
+  if (num!=NULL){
+    n=(uint64_t)atoi(num);
+  }
+  //printf("n=%lu\n",n);
 
-  // char *hexnum = num + strlen(num) + 1; //第二个参数的起始位置
-  // if (hexnum >= args_end) {
-  //   hexnum = NULL;
-  // }
-  // Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
+  char *hexnum = num + strlen(num) + 1; //第二个参数的起始位置
+  if (hexnum >= args_end) {
+    hexnum = NULL;
+  }
+  Assert(hexnum != NULL, "scan memory: Input invalid EXPR");
 
-  // bool success;
-  // EXPR_value_TYPE addr = expr(hexnum, &success);
-  // printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", addr, addr);
-  // assert(success==true);
+  bool success;
+  EXPR_value_TYPE addr = expr(hexnum, &success);
+  printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", addr, addr);
+  assert(success==true);
 
-  // printf("Address\t\tDword block\tByte sequence\n");
-  // for(uint64_t i=0;i<n;i++){
-  //   word_t value = vaddr_read(addr, 4);
-  //   printf("0x%08x\t0x%08x\t",addr,value);
-  //   printf("%02x %02x %02x %02x\n", value & 0xFF, (value >> 8) & 0xFF, (value >> 16) & 0xFF, (value >> 24) & 0xFF);
-  //   addr += 4;
-  // }
+  printf("Address\t\tDword block\tByte sequence\n");
+  for(uint64_t i=0;i<n;i++){
+    word_t value = vaddr_read(addr, 4);
+    printf("0x%08x\t0x%08x\t",addr,value);
+    printf("%02x %02x %02x %02x\n", value & 0xFF, (value >> 8) & 0xFF, (value >> 16) & 0xFF, (value >> 24) & 0xFF);
+    addr += 4;
+  }
   return 0;
 }
 
 static int cmd_p(char *args) {//表达式求值
-  // bool success=NULL;
-  // EXPR_value_TYPE exprvalue = expr(args, &success);
-  // printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", exprvalue, exprvalue);
-  // assert(success==true);
+  bool success=NULL;
+  EXPR_value_TYPE exprvalue = expr(args, &success);
+  printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", exprvalue, exprvalue);
+  assert(success==true);
   return 0;
 }
 
 static int cmd_w(char *args) {//设置监视点
-  // WP *watchpoint = new_wp(args);
-  // Assert(watchpoint!=NULL, "watchpoint allocation fail");
-  // printf("Set watchpoint #%d :\n\texpr\t= %s\n\told value = 0x%08x\n", watchpoint->NO, watchpoint->What, watchpoint->Oldval);
+  WP *watchpoint = new_wp(args);
+  Assert(watchpoint!=NULL, "watchpoint allocation fail");
+  printf("Set watchpoint #%d :\n\texpr\t= %s\n\told value = 0x%08x\n", watchpoint->NO, watchpoint->What, watchpoint->Oldval);
   return 0;
 }
 
 static int cmd_d(char *args) {//删除监视点
-  // int index = atoi(args);
-  // WP *del_wp = wp_find(index);
-  // Assert(del_wp!=NULL, "watchpoint which is going to be deleted isn't exist");
-  // free_wp(del_wp);
+  int index = atoi(args);
+  WP *del_wp = wp_find(index);
+  Assert(del_wp!=NULL, "watchpoint which is going to be deleted isn't exist");
+  free_wp(del_wp);
   return 0;
 }
 
