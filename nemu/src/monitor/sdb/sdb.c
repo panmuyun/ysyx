@@ -56,8 +56,8 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args) { //单步执行
-  uint64_t n = (args==NULL)? 1 : (uint64_t)atoi(args);
-  cpu_exec(n);
+  // uint64_t n = (args==NULL)? 1 : (uint64_t)atoi(args);
+  // cpu_exec(n);
   return 0;
 }
 
