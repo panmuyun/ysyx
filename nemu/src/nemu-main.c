@@ -36,12 +36,13 @@ int main(int argc, char *argv[]) {
   uint32_t num;
   char expressions[300];
   int linenum=0;
+  bool success;
 
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){ //
     linenum++;
     printf("##line %d : %s\n", linenum, expressions);
 
-    bool success;
+    
     uint32_t val = expr(expressions, &success);
     if(num == val){
       printf("line %d : YES!! (%u)\n", linenum, val);
