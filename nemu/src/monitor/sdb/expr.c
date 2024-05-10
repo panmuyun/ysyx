@@ -98,7 +98,7 @@ void resetTokens(Token tmptokens[], int size) {
     }
 }
 
-#define Tokens_LEN 250
+#define Tokens_LEN 200
 static Token tokens[Tokens_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
