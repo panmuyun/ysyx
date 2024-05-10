@@ -283,7 +283,7 @@ EXPR_value_TYPE eval(int p, int q){
                   if(val2!=0)
                     return val1 / val2;
                   else{
-                    Log("exists division by 0 operation\n");
+                    Log("exists division by 0 operation");
                     return 0;
                     // Assert(val2!=0, "exists division by 0 operation");
                   }
