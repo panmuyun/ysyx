@@ -302,7 +302,8 @@ EXPR_value_TYPE expr(char *e, bool *success) {
   resetTokens(tokens, length_tokens);
 
   if (!make_token(e)) {
-    *success = false;
+    if(success!=NULL)
+      *success = false;
     return 0;
   }
 
@@ -316,8 +317,8 @@ EXPR_value_TYPE expr(char *e, bool *success) {
       break;
   }
   //printf("q = %d\n", q);
-
-  *success = true;
+  if(success!=NULL)
+    *success = true;
 
   return eval(0, q-1);
 }
