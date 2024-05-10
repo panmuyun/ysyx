@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 /* 表达式测试：make run < tools/gen-expr/input */
 
   uint32_t num;
-  char expressions[500];
+  char expressions[250];
   int linenum=0;
 
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){ //
