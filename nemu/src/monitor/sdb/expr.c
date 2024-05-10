@@ -298,26 +298,26 @@ EXPR_value_TYPE eval(int p, int q){
 }
 
 EXPR_value_TYPE expr(char *e, bool *success) {
-  int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
-  resetTokens(tokens, length_tokens);
+  // int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
+  // resetTokens(tokens, length_tokens);
 
   if (!make_token(e)) {
-    *success = false;
+    // *success = false;
     return 0;
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  int q=0;
-  for (int i = 0; i < length_tokens; i++){
-    if (tokens[i].type != 0){
-      q++;
-      //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
-    }else
-      break;
-  }
+  // int q=0;
+  // for (int i = 0; i < length_tokens; i++){
+  //   if (tokens[i].type != 0){
+  //     q++;
+  //     //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+  //   }else
+  //     break;
+  // }
   //printf("q = %d\n", q);
 
   *success = true;
 
-  return eval(0, q-1);
+  return 0;//eval(0, q-1);
 }
