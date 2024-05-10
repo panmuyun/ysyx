@@ -103,71 +103,71 @@ static Token tokens[Tokens_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 /*分解表达式为多个token*/
-// static bool make_token(char *e) { 
-//   int position = 0;
-//   int i;
-//   regmatch_t pmatch;
+static bool make_token(char *e) { 
+  int position = 0;
+  int i;
+  regmatch_t pmatch;
 
-//   nr_token = 0; //表示当前在处理第几个token
+  nr_token = 0; //表示当前在处理第几个token
 
-//   while (e[position] != '\0') {
-//     /* Try all rules one by one. */
-//     for (i = 0; i < NR_REGEX; i ++) {
-//       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) { //匹配成功 且 从目标串的第一个字符开始匹配
-//         char *substr_start = e + position;
-//         int substr_len = pmatch.rm_eo;
+  while (e[position] != '\0') {
+    /* Try all rules one by one. */
+    for (i = 0; i < NR_REGEX; i ++) {
+      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) { //匹配成功 且 从目标串的第一个字符开始匹配
+        char *substr_start = e + position;
+        int substr_len = pmatch.rm_eo;
 
-//         if(nr_token!=0 && ( tokens[nr_token-1].type==TK_NUMBER || tokens[nr_token-1].type=='(' ||  tokens[nr_token-1].type==')' )
-//         && *substr_start=='-'){ //上一个token是数字 且 当前获取了一个‘-’
-//           substr_len=1;
-//           // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-//           //   i, "\\-", position, substr_len, substr_len, substr_start);
-//           position += substr_len;
-//           tokens[nr_token].type='-';
-//           strcpy(tokens[nr_token].str, "-");
-//           nr_token++;
-//           break;
-//         }
+        if(nr_token!=0 && ( tokens[nr_token-1].type==TK_NUMBER || tokens[nr_token-1].type=='(' ||  tokens[nr_token-1].type==')' )
+        && *substr_start=='-'){ //上一个token是数字 且 当前获取了一个‘-’
+          substr_len=1;
+          // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+          //   i, "\\-", position, substr_len, substr_len, substr_start);
+          position += substr_len;
+          tokens[nr_token].type='-';
+          strcpy(tokens[nr_token].str, "-");
+          nr_token++;
+          break;
+        }
         
-//         // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-//         //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
-//         position += substr_len;
+        position += substr_len;
 
-//         /* TODO: Now a new token is recognized with rules[i]. Add codes
-//          * to record the token in the array `tokens'. For certain types
-//          * of tokens, some extra actions should be performed.
-//          */
+        /* TODO: Now a new token is recognized with rules[i]. Add codes
+         * to record the token in the array `tokens'. For certain types
+         * of tokens, some extra actions should be performed.
+         */
         
-//         char substr[Tokens_LEN]={};
-//         for (int index = 0; index < substr_len; index++){
-//           substr[index]=*(substr_start+index);
-//         }
+        char substr[Tokens_LEN]={};
+        for (int index = 0; index < substr_len; index++){
+          substr[index]=*(substr_start+index);
+        }
 
-//         if(rules[i].token_type != TK_NOTYPE){
-//           tokens[nr_token].type = rules[i].token_type;
-//           strcpy(tokens[nr_token].str, substr);
-//           if(tokens[nr_token].type == '*' 
-//           && (nr_token==0 || tokens[nr_token-1].type=='+' || tokens[nr_token-1].type=='-'
-//               || tokens[nr_token-1].type=='*' || tokens[nr_token-1].type=='/' 
-//               || tokens[nr_token-1].type==TK_EQ || tokens[nr_token-1].type==TK_NOTEQ
-//               || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况，根据前一个token的类型来判断
-//             tokens[nr_token].type = TK_DEREFERENCE;
-//           }
-//           nr_token++;
-//         }
+        if(rules[i].token_type != TK_NOTYPE){
+          tokens[nr_token].type = rules[i].token_type;
+          strcpy(tokens[nr_token].str, substr);
+          if(tokens[nr_token].type == '*' 
+          && (nr_token==0 || tokens[nr_token-1].type=='+' || tokens[nr_token-1].type=='-'
+              || tokens[nr_token-1].type=='*' || tokens[nr_token-1].type=='/' 
+              || tokens[nr_token-1].type==TK_EQ || tokens[nr_token-1].type==TK_NOTEQ
+              || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况，根据前一个token的类型来判断
+            tokens[nr_token].type = TK_DEREFERENCE;
+          }
+          nr_token++;
+        }
       
-//         break;
-//       }
-//     }
+        break;
+      }
+    }
 
-//     if (i == NR_REGEX) {
-//       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
-//       return false;
-//     }
-//   }
-//   return true;
-// }
+    if (i == NR_REGEX) {
+      printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
+      return false;
+    }
+  }
+  return true;
+}
 
 
 /*判断最外层的“()”是否可以删掉*/
@@ -298,26 +298,26 @@ EXPR_value_TYPE eval(int p, int q){
 }
 
 EXPR_value_TYPE expr(char *e, bool *success) {
-  // int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
-  // resetTokens(tokens, length_tokens);
+  int length_tokens = sizeof(tokens)/sizeof(tokens[0]);
+  resetTokens(tokens, length_tokens);
 
-  // if (!make_token(e)) {
-  //   *success = false;
-  //   return 0;
-  // }
+  if (!make_token(e)) {
+    *success = false;
+    return 0;
+  }
 
   /* TODO: Insert codes to evaluate the expression. */
-  // int q=0;
-  // for (int i = 0; i < length_tokens; i++){
-  //   if (tokens[i].type != 0){
-  //     q++;
-  //     //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
-  //   }else
-  //     break;
-  // }
+  int q=0;
+  for (int i = 0; i < length_tokens; i++){
+    if (tokens[i].type != 0){
+      q++;
+      //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+    }else
+      break;
+  }
   //printf("q = %d\n", q);
 
   *success = true;
 
-  return 0;//eval(0, q-1);
+  return eval(0, q-1);
 }
