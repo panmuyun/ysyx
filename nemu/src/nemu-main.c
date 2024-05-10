@@ -14,7 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
-// #include "monitor/sdb/sdb.h"
+#include "monitor/sdb/sdb.h"
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -33,22 +33,22 @@ int main(int argc, char *argv[]) {
 
 /* 表达式测试：make run < tools/gen-expr/input */
 
-  // uint32_t num;
-  // char expressions[500];
-  // int linenum=0;
+  uint32_t num;
+  char expressions[500];
+  int linenum=0;
 
-  // while(scanf("%d %[^\n]", &num, expressions)!=EOF){ //
-  //   linenum++;
-  //   printf("##line %d : %s\n", linenum, expressions);
+  while(scanf("%d %[^\n]", &num, expressions)!=EOF){ //
+    linenum++;
+    printf("##line %d : %s\n", linenum, expressions);
 
-  //   bool success;
-  //   uint32_t val = expr(expressions, &success);
-  //   if(num == val){
-  //     printf("line %d : YES!! (%u)\n", linenum, val);
-  //   }else{
-  //     printf("line %d : NO-------------------(%u)\n", linenum, val);
-  //   }
-  // }
+    bool success;
+    uint32_t val = expr(expressions, &success);
+    if(num == val){
+      printf("line %d : YES!! (%u)\n", linenum, val);
+    }else{
+      printf("line %d : NO-------------------(%u)\n", linenum, val);
+    }
+  }
 
 
 
