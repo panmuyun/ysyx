@@ -307,14 +307,14 @@ EXPR_value_TYPE expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  int q=0;
-  for (int i = 0; i < length_tokens; i++){
-    if (tokens[i].type != 0){
-      q++;
-      //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
-    }else
-      break;
-  }
+  // int q=0;
+  // for (int i = 0; i < length_tokens; i++){
+  //   if (tokens[i].type != 0){
+  //     q++;
+  //     //printf("tokens[%d].type = %d  ;  str = %s\n", i, tokens[i].type, tokens[i].str);
+  //   }else
+  //     break;
+  // }
   //printf("q = %d\n", q);
 
   *success = true;
