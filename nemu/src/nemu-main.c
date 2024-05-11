@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
 #else
-  init_monitor(argc, argv);
+  // init_monitor(argc, argv);
 #endif
 
 /* 表达式测试：make run < tools/gen-expr/input */
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
 
 
   /* Start engine. */
-  engine_start();
+  // engine_start();
 
-  return is_exit_status_bad();
+  return 0;//is_exit_status_bad();
 }
