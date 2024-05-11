@@ -110,7 +110,7 @@ static int cmd_x(char *args) {//扫描内存
 
 static int cmd_p(char *args) {//表达式求值
   assert(args!=NULL);
-  printf("EXPR = %s\n", args);
+  printf("expression : %s\n", args);
   bool success=NULL;
   EXPR_value_TYPE exprvalue = expr(args, &success);
   printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", exprvalue, exprvalue);
