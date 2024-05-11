@@ -62,6 +62,7 @@ static int cmd_si(char *args) { //单步执行
 }
 
 static int cmd_info(char *args) {//打印程序状态
+  assert(args!=NULL);
   switch (*args)
   {
   case 'r':
@@ -77,6 +78,7 @@ static int cmd_info(char *args) {//打印程序状态
 }
 
 static int cmd_x(char *args) {//扫描内存
+  assert(args!=NULL);
   char *args_end = args + strlen(args);
 
   char *num = strtok(args, " ");
@@ -109,6 +111,8 @@ static int cmd_x(char *args) {//扫描内存
 }
 
 static int cmd_p(char *args) {//表达式求值
+  assert(args!=NULL);
+  printf("expression : %s\n", args);
   bool success=NULL;
   EXPR_value_TYPE exprvalue = expr(args, &success);
   printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", exprvalue, exprvalue);
@@ -117,6 +121,7 @@ static int cmd_p(char *args) {//表达式求值
 }
 
 static int cmd_w(char *args) {//设置监视点
+  assert(args!=NULL);
   WP *watchpoint = new_wp(args);
   Assert(watchpoint!=NULL, "watchpoint allocation fail");
   printf("Set watchpoint #%d :\n\texpr\t= %s\n\told value = 0x%08x\n", watchpoint->NO, watchpoint->What, watchpoint->Oldval);
@@ -124,6 +129,7 @@ static int cmd_w(char *args) {//设置监视点
 }
 
 static int cmd_d(char *args) {//删除监视点
+  assert(args!=NULL);
   int index = atoi(args);
   WP *del_wp = wp_find(index);
   Assert(del_wp!=NULL, "watchpoint which is going to be deleted isn't exist");
