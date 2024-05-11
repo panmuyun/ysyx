@@ -171,7 +171,7 @@ static bool make_token(char *e) {
 
 
 /*判断最外层的“()”是否可以删掉*/
-bool check_parentheses(int p, int q){ 
+bool check_parentheses(int p, int q, bool *success){ 
   if(tokens[p].type=='(' && tokens[q].type==')'){
     int left_parenthese = 0;
     for (int i = p+1; i < q; i++){
@@ -186,7 +186,9 @@ bool check_parentheses(int p, int q){
       return true;
     else{
       printf("p = %d; q = %d; left_parenthese = %d\n", p, q, left_parenthese);
-      Assert(left_parenthese==0, "expression invalid (parenthese)");
+      Log("expression invalid (parenthese)");
+      *success = false;
+      // Assert(left_parenthese==0, "expression invalid (parenthese)");
       return false;
     }
       
@@ -264,9 +266,14 @@ EXPR_value_TYPE eval(int p, int q, bool *success){
     *success = false;
     return -1;
     // Assert(0, "expression after deference '*' is missing");
-  }else if(check_parentheses(p, q) == true){  //是否删除最外层的括号
-    return eval(p+1, q-1, success);
-  }else{ //处理 expr <op> expr的情况
+  }else{ 
+    //是否删除最外层的括号
+    if(check_parentheses(p, q, success) == true)  
+      return eval(p+1, q-1, success);
+    if(*success==false)
+      return -1;
+    
+    //处理 expr <op> expr的情况
     int mainop=-1;
     find_mainop(p, q, &mainop);
     if(mainop==-1 && tokens[p].type==TK_DEREFERENCE){
