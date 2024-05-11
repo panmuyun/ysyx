@@ -4,8 +4,8 @@ module ps2_keyboard(
     input resetn,
     input ps2_clk,  //传输时钟的信号线，用于指示数据线上的比特位在何时有效
     input ps2_data, //传输数据的信号线 ; 两根信号线都为高电平（空闲）时，键盘才可以给主机发送信号
-    output reg [31:0] data,
-    output reg [7:0] presscount
+    output reg [31:0] data, //存储最近三次扫描码
+    output reg [7:0] presscount //记录按键次数
 );
     /*
     键盘以每帧11位的格式串行传送数据给主机：
@@ -15,10 +15,10 @@ module ps2_keyboard(
     
     reg [9:0] buffer;        // 保存每一帧的前10位数据位
     reg [3:0] count;  // 保存已接收到多少位数据位
-    reg [2:0] ps2_clk_sync; 
+    reg [2:0] ps2_clk_sync; //记录ps2时钟信号的历史信息
 
     always @(posedge clk) begin
-        ps2_clk_sync <=  {ps2_clk_sync[1:0],ps2_clk};   //记录ps2时钟信号的历史信息
+        ps2_clk_sync <=  {ps2_clk_sync[1:0],ps2_clk};   
     end
 
     wire sampling = ps2_clk_sync[2] & ~ps2_clk_sync[1]; //[上][下][]；发现下降沿时，sampling置1

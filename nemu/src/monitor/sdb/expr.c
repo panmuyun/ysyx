@@ -90,7 +90,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-// 初始化结构体数组 tokens 的默认值
+/*初始化结构体数组 tokens 的默认值*/
 void resetTokens(Token tmptokens[], int size) {
     for (int i = 0; i < size; i++) {
         tmptokens[i].type = 0; // 设置默认值
@@ -102,12 +102,13 @@ void resetTokens(Token tmptokens[], int size) {
 static Token tokens[Tokens_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
-static bool make_token(char *e) {
+/*分解表达式为多个token*/
+static bool make_token(char *e) { 
   int position = 0;
   int i;
   regmatch_t pmatch;
 
-  nr_token = 0;
+  nr_token = 0; //表示当前在处理第几个token
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
@@ -119,8 +120,8 @@ static bool make_token(char *e) {
         if(nr_token!=0 && ( tokens[nr_token-1].type==TK_NUMBER || tokens[nr_token-1].type=='(' ||  tokens[nr_token-1].type==')' )
         && *substr_start=='-'){ //上一个token是数字 且 当前获取了一个‘-’
           substr_len=1;
-          Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, "\\-", position, substr_len, substr_len, substr_start);
+          // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+          //   i, "\\-", position, substr_len, substr_len, substr_start);
           position += substr_len;
           tokens[nr_token].type='-';
           strcpy(tokens[nr_token].str, "-");
@@ -128,8 +129,8 @@ static bool make_token(char *e) {
           break;
         }
         
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
@@ -150,7 +151,7 @@ static bool make_token(char *e) {
           && (nr_token==0 || tokens[nr_token-1].type=='+' || tokens[nr_token-1].type=='-'
               || tokens[nr_token-1].type=='*' || tokens[nr_token-1].type=='/' 
               || tokens[nr_token-1].type==TK_EQ || tokens[nr_token-1].type==TK_NOTEQ
-              || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况
+              || tokens[nr_token-1].type==TK_AND )){ //特别处理指针解引用的情况，根据前一个token的类型来判断
             tokens[nr_token].type = TK_DEREFERENCE;
           }
           nr_token++;
@@ -169,19 +170,19 @@ static bool make_token(char *e) {
 }
 
 
-
-bool check_parentheses(int p, int q){
+/*判断最外层的“()”是否可以删掉*/
+bool check_parentheses(int p, int q){ 
   if(tokens[p].type=='(' && tokens[q].type==')'){
     int left_parenthese = 0;
     for (int i = p+1; i < q; i++){
-      if(left_parenthese<0)
+      if(left_parenthese<0) //一旦为负数，说明右括号个数多于左括号个数，必不匹配
         return false;
       if(tokens[i].type=='(')
         left_parenthese++;
       else if(tokens[i].type==')')
         left_parenthese--;
     }
-    if(left_parenthese==0)
+    if(left_parenthese==0)  //除去最外层的括号“()”，内部的所有括号能匹配上
       return true;
     else{
       printf("p = %d; q = %d; left_parenthese = %d\n", p, q, left_parenthese);
@@ -193,7 +194,8 @@ bool check_parentheses(int p, int q){
     return false;
 }
 
-void find_mainop(int p, int q, int *mainop){
+/*找到主操作符，赋值给mainop*/
+void find_mainop(int p, int q, int *mainop){  
   int flag_parentheses=0; //不能简单用0/1值，否则“2+(((2+3)*4)-1)”时，由于右括号的出现，会让mainop指向'-'
   for (int op = p; op <= q; op++){
     if (tokens[op].type=='('){
@@ -235,18 +237,20 @@ void find_mainop(int p, int q, int *mainop){
   }
 }
 
+/*表达式求值*/
 EXPR_value_TYPE eval(int p, int q){
-  if(p > q){
+  if(p > q){  //表达式为空
     Assert(p<=q, "expression is missing");
     return -1;
-  }else if(p == q){
+  }else if(p == q){ //表达式中只有一个token
     switch (tokens[p].type){
       case TK_NUMBER:
         return (EXPR_value_TYPE)atoi(tokens[p].str); //整数
       case TK_HEXADECIMAL:
         char *endptr;
         vaddr_t addr = (vaddr_t)strtol(tokens[p].str, &endptr, 0);
-        return (EXPR_value_TYPE)vaddr_read(addr, 4); //内存中的值
+        return addr;  //内存地址
+        // return (EXPR_value_TYPE)vaddr_read(addr, 4); //内存中的值
       case TK_REGNAME:
         char *regname = (tokens[p].str[1]=='0') ? tokens[p].str : tokens[p].str+1;
         bool success;
@@ -266,7 +270,8 @@ EXPR_value_TYPE eval(int p, int q){
     Assert(mainop!=-1, "expression invalid (parenthese fail or mainop miss)");
 
     if(tokens[mainop].type==TK_DEREFERENCE){
-      return eval(mainop+1, q);
+      vaddr_t addr = eval(mainop+1, q);
+      return (EXPR_value_TYPE)vaddr_read(addr, 4); //内存中的值
     }else{
       EXPR_value_TYPE val1 = eval(p, mainop-1);
       EXPR_value_TYPE val2 = eval(mainop+1, q);
@@ -274,7 +279,15 @@ EXPR_value_TYPE eval(int p, int q){
         case '+': return val1 + val2;
         case '-': return val1 - val2;
         case '*': return val1 * val2;
-        case '/': return (val2!=0)?val1 / val2 : 0;   // ##################   *0x80000000/(3*(2/3))
+        case '/': 
+                  if(val2!=0)
+                    return val1 / val2;
+                  else{
+                    Log("exists division by 0 operation");
+                    return 0;
+                    // Assert(val2!=0, "exists division by 0 operation");
+                  }
+                  // ##################   *0x80000000/(3*(2/3))
         case TK_EQ: return val1 == val2 ? 1:0; 
         case TK_NOTEQ: return val1 != val2 ? 1:0;
         case TK_AND: return val1 && val2 ? 1:0;
@@ -289,7 +302,8 @@ EXPR_value_TYPE expr(char *e, bool *success) {
   resetTokens(tokens, length_tokens);
 
   if (!make_token(e)) {
-    *success = false;
+    if(success!=NULL)
+      *success = false;
     return 0;
   }
 
@@ -303,8 +317,8 @@ EXPR_value_TYPE expr(char *e, bool *success) {
       break;
   }
   //printf("q = %d\n", q);
-
-  *success = true;
+  if(success!=NULL)
+    *success = true;
 
   return eval(0, q-1);
 }

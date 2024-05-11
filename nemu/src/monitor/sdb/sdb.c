@@ -98,13 +98,6 @@ static int cmd_x(char *args) {//扫描内存
   printf("value of the expression = %u (dec) ; 0x%08x (hex)\n", addr, addr);
   assert(success==true);
 
-  // vaddr_t addr;
-  // char *endptr;
-  // if(hexnum!=NULL){
-  //   addr = (vaddr_t)strtol(hexnum, &endptr, 0);
-  // }
-  //printf("addr=%08x\n",addr);
-
   printf("Address\t\tDword block\tByte sequence\n");
   for(uint64_t i=0;i<n;i++){
     word_t value = vaddr_read(addr, 4);
@@ -216,7 +209,7 @@ void sdb_mainloop() {
     int i;
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        if (cmd_table[i].handler(args) < 0) { return; }   //执行调试命令对应的功能，并控制是否退出
         break;
       }
     }

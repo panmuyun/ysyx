@@ -31,11 +31,12 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
-
+/* 表达式测试：make run < tools/gen-expr/input */
 
   uint32_t num;
-  char expressions[500];
+  char expressions[400];
   int linenum=0;
+  
 
   while(scanf("%d %[^\n]", &num, expressions)!=EOF){ //
     linenum++;
@@ -48,8 +49,6 @@ int main(int argc, char *argv[]) {
     }else{
       printf("line %d : NO-------------------(%u)\n", linenum, val);
     }
-      
-
   }
 
 

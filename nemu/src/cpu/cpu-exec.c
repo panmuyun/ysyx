@@ -43,7 +43,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
 #ifdef CONFIG_WATCHPOINT
-  bool is_hit = watchpoints_hit();
+  bool is_hit = watchpoints_hit();  //判断是否有监视点命中（监视点对应表达式的值改变）
   if(is_hit)
     nemu_state.state = NEMU_STOP;
 #endif  
@@ -81,12 +81,13 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #endif
 }
 
+/*执行n条指令*/
 static void execute(uint64_t n) {
   Decode s;
   for (;n > 0; n --) {
-    exec_once(&s, cpu.pc);
+    exec_once(&s, cpu.pc);  //执行一条指令
     g_nr_guest_inst ++;
-    trace_and_difftest(&s, cpu.pc);
+    trace_and_difftest(&s, cpu.pc); //检查监视点是否命中
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }
@@ -118,12 +119,12 @@ void cpu_exec(uint64_t n) {
 
   uint64_t timer_start = get_time();
 
-  execute(n);
+  execute(n); //执行n条指令
 
   uint64_t timer_end = get_time();
   g_timer += timer_end - timer_start;
 
-  switch (nemu_state.state) {
+  switch (nemu_state.state) { //检查nemu的运行状态
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
     case NEMU_END: case NEMU_ABORT:
