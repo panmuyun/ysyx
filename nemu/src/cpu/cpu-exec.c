@@ -51,10 +51,18 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
+  /* exec_once()接受一个Decode类型的结构体指针s, 这个结构体用于存放在执行一条指令过程中所需的信息, 
+     包括指令的PC, 下一条指令的PC等. 还有一些信息是ISA相关的, NEMU用一个结构类型ISADecodeInfo来对这
+     些信息进行抽象, 具体的定义在nemu/src/isa/$ISA/include/isa-def.h中. 
+
+     exec_once()函数覆盖了指令周期的所有阶段: 取指, 译码, 执行, 更新PC
+  */
+
+  // 把当前的PC保存到s的成员pc和snpc中. s->pc就是当前指令的PC, 而s->snpc则是下一条指令的PC, 这里的snpc是"static next PC"的意思.
   s->pc = pc;
   s->snpc = pc;
-  isa_exec_once(s);
-  cpu.pc = s->dnpc;
+  isa_exec_once(s);   // 在nemu/src/isa/$ISA/inst.c中定义. 会随着取指的过程修改s->snpc的值, 使得从isa_exec_once()返回后s->snpc正好为下一条指令的PC.
+  cpu.pc = s->dnpc;   // dnpc是"dynamic next PC"的意思. 代码将会通过s->dnpc来更新PC
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -85,9 +93,9 @@ static void exec_once(Decode *s, vaddr_t pc) {
 static void execute(uint64_t n) {
   Decode s;
   for (;n > 0; n --) {
-    exec_once(&s, cpu.pc);  //执行一条指令
-    g_nr_guest_inst ++;
-    trace_and_difftest(&s, cpu.pc); //检查监视点是否命中
+    exec_once(&s, cpu.pc);  // 执行一条指令
+    g_nr_guest_inst ++;   // 用于记录客户指令的计数器加1
+    trace_and_difftest(&s, cpu.pc);   // 检查监视点是否命中
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }

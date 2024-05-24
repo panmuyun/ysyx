@@ -20,8 +20,8 @@
 
 typedef struct Decode {
   vaddr_t pc;
-  vaddr_t snpc; // static next pc
-  vaddr_t dnpc; // dynamic next pc
+  vaddr_t snpc; // static next pc，指程序代码中的指令
+  vaddr_t dnpc; // dynamic next pc，指程序运行过程中的指令; 对于顺序执行的指令, snpc和dnpc是一样的 / 对于跳转指令, snpc和dnpc有所不同, dnpc应该指向跳转目标的指令. 
   ISADecodeInfo isa;
   IFDEF(CONFIG_ITRACE, char logbuf[128]);
 } Decode;
@@ -87,6 +87,10 @@ finish:
 
 
 // --- pattern matching wrappers for decode ---
+/* &&__instpat_end_ 使用了GCC提供的标签地址扩展功能，goto语句将会跳转到最后的__instpat_end_标签；
+   pattern_decode()函数将模式字符串中的0和1抽取到整型变量key中, mask表示key的掩码, 而shift则表示opcode距离最低位的比特数量, 用于帮助编译器进行优化.
+   宏参数中的...表示可变数量的参数（variadic arguments）;__VA_ARGS__ 是一个宏，用于表示可变数量的参数（所有传递给宏的参数，可以是零个或多个参数）;
+*/
 #define INSTPAT(pattern, ...) do { \
   uint64_t key, mask, shift; \
   pattern_decode(pattern, STRLEN(pattern), &key, &mask, &shift); \

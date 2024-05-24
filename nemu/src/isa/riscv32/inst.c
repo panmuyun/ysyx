@@ -27,12 +27,15 @@ enum {
   TYPE_N, // none
 };
 
+/* 宏BITS和SEXT, 它们均在nemu/include/macro.h中定义, 分别用于位抽取和符号扩展 */
 #define src1R() do { *src1 = R(rs1); } while (0)
 #define src2R() do { *src2 = R(rs2); } while (0)
 #define immI() do { *imm = SEXT(BITS(i, 31, 20), 12); } while(0)
 #define immU() do { *imm = SEXT(BITS(i, 31, 12), 20) << 12; } while(0)
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
 
+/* decode_operand函数根据传入的指令类型type来进行操作数的译码, 译码结果将记录到函数参数rd、src1、src2和imm中, 
+   它们分别代表目的操作数的寄存器号码、两个源操作数和立即数. */
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst.val;
   int rs1 = BITS(i, 19, 15);
@@ -50,19 +53,19 @@ static int decode_exec(Decode *s) {
   word_t src1 = 0, src2 = 0, imm = 0;
   s->dnpc = s->snpc;
 
-#define INSTPAT_INST(s) ((s)->isa.inst.val)
+#define INSTPAT_INST(s) ((s)->isa.inst.val) //s->isa.inst.val中记录的是指令，如“0x00000297”即“auipc t0,0”
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
   decode_operand(s, &rd, &src1, &src2, &imm, concat(TYPE_, type)); \
   __VA_ARGS__ ; \
 }
 
   INSTPAT_START();
-  INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm);
+  INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm); // INSTPAT(意思是instruction pattern)是一个宏(在nemu/include/cpu/decode.h中定义), 它用于定义一条模式匹配规则。格式为：INSTPAT(模式字符串, 指令名称, 指令类型, 指令执行操作);
   INSTPAT("??????? ????? ????? 100 ????? 00000 11", lbu    , I, R(rd) = Mr(src1 + imm, 1));
   INSTPAT("??????? ????? ????? 000 ????? 01000 11", sb     , S, Mw(src1 + imm, 1, src2));
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
-  INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
+  INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));  // inv的规则表示：若前面所有的模式匹配规则都无法成功匹配, 则将该指令视为非法指令
   INSTPAT_END();
 
   R(0) = 0; // reset $zero to 0
@@ -71,6 +74,8 @@ static int decode_exec(Decode *s) {
 }
 
 int isa_exec_once(Decode *s) {
-  s->isa.inst.val = inst_fetch(&s->snpc, 4);
-  return decode_exec(s);
+  s->isa.inst.val = inst_fetch(&s->snpc, 4); // inst_fetch函数在nemu/include/cpu/ifetch.h中定义,专门负责取指令的工作。
+                                             // 取指的本质是一次内存的访问。
+                                             // inst_fetch()会根据len来更新s->snpc, 从而让s->snpc指向下一条指令
+  return decode_exec(s); //decode_exec函数首先进行译码相关的操作
 }
