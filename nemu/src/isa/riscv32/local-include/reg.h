@@ -23,7 +23,7 @@ static inline int check_reg_idx(int idx) {
   return idx;
 }
 
-#define gpr(idx) (cpu.gpr[check_reg_idx(idx)])
+#define gpr(idx) (cpu.gpr[check_reg_idx(idx)]) // gpr(idx)表示regs[]中第idx个寄存器
 
 static inline const char* reg_name(int idx) {
   extern const char* regs[];
