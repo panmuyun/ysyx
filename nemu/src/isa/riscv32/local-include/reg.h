@@ -19,7 +19,6 @@
 #include <common.h>
 
 static inline int check_reg_idx(int idx) {
-  printf("%d\n", idx);
   IFDEF(CONFIG_RT_CHECK, assert(idx >= 0 && idx < MUXDEF(CONFIG_RVE, 16, 32))); // CONFIG_RVE为真则idx在[0,16)之间，否则在[0,32)之间
   return idx;
 }
