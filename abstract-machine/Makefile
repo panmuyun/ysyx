@@ -67,8 +67,8 @@ LINKAGE   = $(OBJS) \
 
 ### (Cross) compilers, e.g., mips-linux-gnu-g++
 AS        = $(CROSS_COMPILE)gcc
-CC        = $(CROSS_COMPILE)gcc
-CXX       = $(CROSS_COMPILE)g++
+CC        = $(CROSS_COMPILE)gcc -DCONFIG_TARGET_AM
+CXX       = $(CROSS_COMPILE)g++ -DCONFIG_TARGET_AM
 LD        = $(CROSS_COMPILE)ld
 AR        = $(CROSS_COMPILE)ar
 OBJDUMP   = $(CROSS_COMPILE)objdump
