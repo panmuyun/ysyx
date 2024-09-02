@@ -26,8 +26,10 @@ int main(int argc, char *argv[]) {
 
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
+#pragma message("CONFIG_FEATURE_ENABLED is defined")
   am_init_monitor();
 #else
+#pragma message("CONFIG_FEATURE_ENABLED is not defined")
   init_monitor(argc, argv);
 #endif
 
