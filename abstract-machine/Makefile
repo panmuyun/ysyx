@@ -67,8 +67,8 @@ LINKAGE   = $(OBJS) \
 
 ### (Cross) compilers, e.g., mips-linux-gnu-g++
 AS        = $(CROSS_COMPILE)gcc
-CC        = $(CROSS_COMPILE)gcc -DCONFIG_TARGET_AM
-CXX       = $(CROSS_COMPILE)g++ -DCONFIG_TARGET_AM
+CC        = $(CROSS_COMPILE)gcc
+CXX       = $(CROSS_COMPILE)g++
 LD        = $(CROSS_COMPILE)ld
 AR        = $(CROSS_COMPILE)ar
 OBJDUMP   = $(CROSS_COMPILE)objdump
@@ -76,6 +76,8 @@ OBJCOPY   = $(CROSS_COMPILE)objcopy
 READELF   = $(CROSS_COMPILE)readelf
 
 ### Compilation flags
+CFLAGS += -DCONFIG_TARGET_AM
+
 INC_PATH += $(WORK_DIR)/include $(addsuffix /include/, $(addprefix $(AM_HOME)/, $(LIBS)))
 INCFLAGS += $(addprefix -I, $(INC_PATH))
 
