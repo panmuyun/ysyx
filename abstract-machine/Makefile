@@ -13,13 +13,6 @@ ifeq ($(MAKECMDGOALS),)
   .DEFAULT_GOAL = image
 endif
 
-# 检查是否定义了 CONFIG_TARGET_AM
-ifeq ($(CONFIG_TARGET_AM), 1)
-  CFLAGS += -DCONFIG_TARGET_AM=1
-else
-  CFLAGS += -DCONFIG_TARGET_AM=0
-endif
-
 ### Override checks when `make clean/clean-all/html`
 ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html),)
 
@@ -97,7 +90,6 @@ CFLAGS   += -O2 -MMD -Wall -Werror $(INCFLAGS) \
 CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
 ASFLAGS  += -MMD $(INCFLAGS)
 LDFLAGS  += -z noexecstack
-
 
 ## 4. Arch-Specific Configurations
 
