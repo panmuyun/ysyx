@@ -34,7 +34,46 @@ void itoa(int value, char* str, int base) { // 将整数转换为字符串（辅
 
 
 int printf(const char *fmt, ...) {
-  panic("Not implemented");
+  // panic("Not implemented");
+  char buffer[32]; // 用于数字转换的临时缓冲区
+  va_list args;
+  va_start(args, fmt);  // 初始化 va_list，指向可变参数
+  const char *p = fmt;
+  int total_chars = 0;
+  
+  while (*p) {
+    if (*p == '%') {  
+      p++;
+      switch (*p) {
+        case 'd': // 整数
+        {
+            int num = va_arg(args, int);
+            itoa(num, buffer, 10);
+            putstr(buffer);
+            total_chars += strlen(buffer);
+            break;
+        }
+        case 's': // 字符串
+        {
+            const char *str = va_arg(args, const char*);
+            putstr(str);
+            total_chars += strlen(str);
+            break;
+        }
+        default:
+            // 处理未知格式说明符（可能会输出警告）
+            putch('%');
+            putch(*p);
+            total_chars += 2;
+            break;
+      }
+    } else {
+      putch(*p);
+      total_chars++;
+    }
+    p++;
+  }
+  return total_chars;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
@@ -63,15 +102,15 @@ int sprintf(char *out, const char *fmt, ...) {
             total_chars += strlen(buffer);
             break;
         }
-        case 'x': // 十六进制数
-        {
-            int num = va_arg(args, int);
-            itoa(num, buffer, 16);
-            strcpy(pout,buffer);
-            pout += strlen(buffer);
-            total_chars += strlen(buffer);
-            break;
-        }
+        // case 'x': // 十六进制数
+        // {
+        //     int num = va_arg(args, int);
+        //     itoa(num, buffer, 16);
+        //     strcpy(pout,buffer);
+        //     pout += strlen(buffer);
+        //     total_chars += strlen(buffer);
+        //     break;
+        // }
         case 's': // 字符串
         {
             const char *str = va_arg(args, const char*);
@@ -80,14 +119,14 @@ int sprintf(char *out, const char *fmt, ...) {
             total_chars += strlen(str);
             break;
         }
-        case 'c': // 字符
-        {
-            char ch = (char)va_arg(args, int);
-            *pout = ch;
-            pout ++;
-            total_chars++;
-            break;
-        }
+        // case 'c': // 字符
+        // {
+        //     char ch = (char)va_arg(args, int);
+        //     *pout = ch;
+        //     pout ++;
+        //     total_chars++;
+        //     break;
+        // }
         default:
             // 处理未知格式说明符（可能会输出警告）
             *pout = '%';
