@@ -15,8 +15,9 @@ size_t strlen(const char *s) {
 char *strcpy(char *dst, const char *src) {
   // panic("Not implemented");
   char *d = dst;  //保存起始地址
-  while((*dst++ = *src++) != '\0');
-  return d;
+  const char *s = src;
+  while((*d++ = *s++) != '\0');
+  return dst;
 }
 
 char *strncpy(char *dst, const char *src, size_t n) {
