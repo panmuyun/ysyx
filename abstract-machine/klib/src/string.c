@@ -43,12 +43,14 @@ char *strcat(char *dst, const char *src) {
 
 int strcmp(const char *s1, const char *s2) {
   // panic("Not implemented");
-  while (*s1 && (*s1 == *s2)) {
-    s1++;
-    s2++;
+  const char *l = s1; //防止源指针指向的位置被修改
+  const char *r = s2;
+  while (*l && (*l == *r)) {
+    l++;
+    r++;
   }
                                                       // 用 (unsigned char) 强制转换是为了确保字符比较时不会因为符号位影响比较结果
-  return *(unsigned char *)s1 - *(unsigned char *)s2; // 返回两字符的差值
+  return *(unsigned char *)l - *(unsigned char *)r; // 返回两字符的差值
 }
 
 int strncmp(const char *s1, const char *s2, size_t n) {
