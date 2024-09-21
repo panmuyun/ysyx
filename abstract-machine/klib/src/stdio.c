@@ -144,6 +144,7 @@ int sprintf(char *out, const char *fmt, ...) {
     }
     p++;
   }
+  *pout = '\0';
   return total_chars;
 }
 
