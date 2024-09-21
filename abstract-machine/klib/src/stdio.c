@@ -82,7 +82,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
 int sprintf(char *out, const char *fmt, ...) {
   // panic("Not implemented");
-  memset(out, '\0', sizeof(out));
+  // memset(out, '\0', sizeof(out));
   char buffer[32]; // 用于数字转换的临时缓冲区
   va_list args;
   va_start(args, fmt);  // 初始化 va_list，指向可变参数
