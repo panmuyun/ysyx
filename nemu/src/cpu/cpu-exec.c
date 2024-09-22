@@ -49,6 +49,7 @@ void init_ringbuffer(RingBuffer rb)
 }
 void write_ringbuffer(RingBuffer rb, Decode *s)
 {
+  printf("wwwwwwwww\n");
   if(rb.count != RINGBUFFER_SIZE)
   {
     rb.buffer[rb.tail] = *s;
