@@ -62,6 +62,7 @@ void write_ringbuffer(RingBuffer rb, Decode *s)
 }
 void print_ringbuffer(RingBuffer rb)
 {
+  printf("ssssssssssssss\n");
   if(rb.head < rb.tail) //ringbuffer没存满的情况
   {
     for (int i = rb.head; i < rb.tail; i++)
@@ -186,6 +187,6 @@ void cpu_exec(uint64_t n) {
           nemu_state.halt_pc);
       // fall through
     case NEMU_QUIT: statistic();
-                    printf("ssssssssssssss\n");
+                    print_ringbuffer(ringbuf);
   }
 }
