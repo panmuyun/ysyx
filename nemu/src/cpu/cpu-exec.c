@@ -41,45 +41,43 @@ typedef struct {
 
 RingBuffer ringbuf; //环形缓冲区
 
-void init_ringbuffer(RingBuffer rb)
+void init_ringbuffer(RingBuffer *rb)
 {
-  rb.head = 0;
-  rb.tail = 0;
-  rb.count = 0;
+  rb->head = 0;
+  rb->tail = 0;
+  rb->count = 0;
 }
-void write_ringbuffer(RingBuffer rb, Decode *s)
+void write_ringbuffer(RingBuffer *rb, Decode *s)
 {
-  
-  if(rb.count != RINGBUFFER_SIZE)
+  if(rb->count != RINGBUFFER_SIZE)
   {
-    printf("wwwwwwwww\n");
-    rb.buffer[rb.tail] = *s;
-    rb.tail = (rb.tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
-    rb.count++;     // 元素计数增加
+    rb->buffer[rb->tail] = *s;
+    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb->count++;     // 元素计数增加
   }else{
-    rb.buffer[rb.tail] = *s;
-    rb.tail = (rb.tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
-    rb.head = (rb.head + 1) % RINGBUFFER_SIZE;  //头指针循环移动
+    rb->buffer[rb->tail] = *s;
+    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb->head = (rb->head + 1) % RINGBUFFER_SIZE;  //头指针循环移动
   }
 }
-void print_ringbuffer(RingBuffer rb)
+void print_ringbuffer(RingBuffer *rb)
 {
-  printf("%d\n", rb.count);
-  if(rb.head < rb.tail) //ringbuffer没存满的情况
+  printf("%d\n", rb->count);
+  if(rb->head < rb->tail) //ringbuffer没存满的情况
   {
-    for (int i = rb.head; i < rb.tail; i++)
+    for (int i = rb->head; i < rb->tail; i++)
     {
-      Log("%s\n", (rb.buffer[i]).logbuf);
+      Log("%s\n", (rb->buffer[i]).logbuf);
     }
   }
-  else if(rb.head == rb.tail && rb.count == RINGBUFFER_SIZE){//存满了的情况
-    for (int i = rb.head; i < RINGBUFFER_SIZE; i++)
+  else if(rb->head == rb->tail && rb->count == RINGBUFFER_SIZE){//存满了的情况
+    for (int i = rb->head; i < RINGBUFFER_SIZE; i++)
     {
-      Log("%s\n", (rb.buffer[i]).logbuf);
+      Log("%s\n", (rb->buffer[i]).logbuf);
     }
-    for (int i = 0; i < rb.tail; i++)
+    for (int i = 0; i < rb->tail; i++)
     {
-      Log("%s\n", (rb.buffer[i]).logbuf);
+      Log("%s\n", (rb->buffer[i]).logbuf);
     }
   }
 }
@@ -132,7 +130,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   p[0] = '\0'; // the upstream llvm does not support loongarch32r
 #endif
 #endif
-  write_ringbuffer(ringbuf, s); //写入环形缓冲区
+  write_ringbuffer(&ringbuf, s); //写入环形缓冲区
 }
 
 /*执行n条指令*/
@@ -163,7 +161,7 @@ void assert_fail_msg() {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
-  init_ringbuffer(ringbuf); //初始化环形缓冲区
+  init_ringbuffer(&ringbuf); //初始化环形缓冲区
   g_print_step = (n < MAX_INST_TO_PRINT);
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
@@ -190,6 +188,6 @@ void cpu_exec(uint64_t n) {
           nemu_state.halt_pc);
       // fall through
     case NEMU_QUIT: statistic();
-                    print_ringbuffer(ringbuf);
+                    print_ringbuffer(&ringbuf);
   }
 }
