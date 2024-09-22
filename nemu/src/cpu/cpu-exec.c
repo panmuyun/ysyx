@@ -86,7 +86,7 @@ void print_ringbuffer(RingBuffer rb)
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
-  write_ringbuffer(ringbuf, _this); //写入环形缓冲区
+  
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
@@ -130,6 +130,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   p[0] = '\0'; // the upstream llvm does not support loongarch32r
 #endif
 #endif
+  write_ringbuffer(ringbuf, s); //写入环形缓冲区
 }
 
 /*执行n条指令*/
