@@ -62,7 +62,7 @@ void write_ringbuffer(RingBuffer rb, Decode *s)
 }
 void print_ringbuffer(RingBuffer rb)
 {
-  printf("ssssssssssssss\n");
+  printf("%d\n", rb.count);
   if(rb.head < rb.tail) //ringbuffer没存满的情况
   {
     for (int i = rb.head; i < rb.tail; i++)
