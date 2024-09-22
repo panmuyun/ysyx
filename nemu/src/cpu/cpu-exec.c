@@ -49,9 +49,10 @@ void init_ringbuffer(RingBuffer rb)
 }
 void write_ringbuffer(RingBuffer rb, Decode *s)
 {
-  printf("wwwwwwwww\n");
+  
   if(rb.count != RINGBUFFER_SIZE)
   {
+    printf("wwwwwwwww\n");
     rb.buffer[rb.tail] = *s;
     rb.tail = (rb.tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
     rb.count++;     // 元素计数增加
