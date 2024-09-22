@@ -39,44 +39,44 @@ typedef struct {
   int count;  //当前缓冲区中的元素数量
 }RingBuffer;
 
-RingBuffer *ringbuf = NULL; //环形缓冲区
+RingBuffer ringbuf; //环形缓冲区
 
-void init_ringbuffer(RingBuffer *rb)
+void init_ringbuffer(RingBuffer rb)
 {
-  rb->head = 0;
-  rb->tail = 0;
-  rb->count = 0;
+  rb.head = 0;
+  rb.tail = 0;
+  rb.count = 0;
 }
-void write_ringbuffer(RingBuffer *rb, Decode *s)
+void write_ringbuffer(RingBuffer rb, Decode *s)
 {
-  if(rb->count != RINGBUFFER_SIZE)
+  if(rb.count != RINGBUFFER_SIZE)
   {
-    rb->buffer[rb->tail] = *s;
-    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
-    rb->count++;     // 元素计数增加
+    rb.buffer[rb.tail] = *s;
+    rb.tail = (rb.tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb.count++;     // 元素计数增加
   }else{
-    rb->buffer[rb->tail] = *s;
-    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
-    rb->head = (rb->head + 1) % RINGBUFFER_SIZE;  //头指针循环移动
+    rb.buffer[rb.tail] = *s;
+    rb.tail = (rb.tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb.head = (rb.head + 1) % RINGBUFFER_SIZE;  //头指针循环移动
   }
 }
-void print_ringbuffer(RingBuffer *rb)
+void print_ringbuffer(RingBuffer rb)
 {
-  if(rb->head < rb->tail) //ringbuffer没存满的情况
+  if(rb.head < rb.tail) //ringbuffer没存满的情况
   {
-    for (int i = rb->head; i < rb->tail; i++)
+    for (int i = rb.head; i < rb.tail; i++)
     {
-      Log("%s\n", (rb->buffer[i]).logbuf);
+      Log("%s\n", (rb.buffer[i]).logbuf);
     }
   }
-  else if(rb->head == rb->tail && rb->count == RINGBUFFER_SIZE){//存满了的情况
-    for (int i = rb->head; i < RINGBUFFER_SIZE; i++)
+  else if(rb.head == rb.tail && rb.count == RINGBUFFER_SIZE){//存满了的情况
+    for (int i = rb.head; i < RINGBUFFER_SIZE; i++)
     {
-      Log("%s\n", (rb->buffer[i]).logbuf);
+      Log("%s\n", (rb.buffer[i]).logbuf);
     }
-    for (int i = 0; i < rb->tail; i++)
+    for (int i = 0; i < rb.tail; i++)
     {
-      Log("%s\n", (rb->buffer[i]).logbuf);
+      Log("%s\n", (rb.buffer[i]).logbuf);
     }
   }
 }
@@ -85,7 +85,7 @@ void print_ringbuffer(RingBuffer *rb)
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
-  write_ringbuffer(ringbuf, _this);
+  write_ringbuffer(ringbuf, _this); //写入环形缓冲区
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
@@ -105,7 +105,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->snpc = pc;
   isa_exec_once(s);
   cpu.pc = s->dnpc;
-  //TODO: iringbuf
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -156,12 +155,12 @@ static void statistic() {
 void assert_fail_msg() {
   isa_reg_display();
   statistic();
-  print_ringbuffer(ringbuf);
+  print_ringbuffer(ringbuf);  //打印环形缓冲区
 }
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
-  init_ringbuffer(ringbuf);
+  init_ringbuffer(ringbuf); //初始化环形缓冲区
   g_print_step = (n < MAX_INST_TO_PRINT);
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
