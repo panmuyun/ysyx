@@ -62,22 +62,22 @@ void write_ringbuffer(RingBuffer *rb, Decode *s)
 }
 void print_ringbuffer(RingBuffer *rb)
 {
-  printf("%d\n", rb->count);
+  Log("%d records\n", rb->count);
   if(rb->head < rb->tail) //ringbuffer没存满的情况
   {
     for (int i = rb->head; i < rb->tail; i++)
     {
-      Log("%s\n", (rb->buffer[i]).logbuf);
+      printf("%s\n", (rb->buffer[i]).logbuf);
     }
   }
   else if(rb->head == rb->tail && rb->count == RINGBUFFER_SIZE){//存满了的情况
     for (int i = rb->head; i < RINGBUFFER_SIZE; i++)
     {
-      Log("%s\n", (rb->buffer[i]).logbuf);
+      printf("%s\n", (rb->buffer[i]).logbuf);
     }
     for (int i = 0; i < rb->tail; i++)
     {
-      Log("%s\n", (rb->buffer[i]).logbuf);
+      printf("%s\n", (rb->buffer[i]).logbuf);
     }
   }
 }
