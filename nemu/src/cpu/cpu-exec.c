@@ -186,6 +186,6 @@ void cpu_exec(uint64_t n) {
           nemu_state.halt_pc);
       // fall through
     case NEMU_QUIT: statistic();
-                    print_ringbuffer(ringbuf);  //打印环形缓冲区
+                    printf("ssssssssssssss\n");
   }
 }
