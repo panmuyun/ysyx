@@ -31,11 +31,61 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
+#define RINGBUFFER_SIZE 10  //环形缓冲区的大小
+typedef struct {
+  Decode buffer[RINGBUFFER_SIZE];  //存储数据的数组
+  int head;
+  int tail;
+  int count;  //当前缓冲区中的元素数量
+}RingBuffer;
+
+RingBuffer *ringbuf = NULL; //环形缓冲区
+
+void init_ringbuffer(RingBuffer *rb)
+{
+  rb->head = 0;
+  rb->tail = 0;
+  rb->count = 0;
+}
+void write_ringbuffer(RingBuffer *rb, Decode *s)
+{
+  if(rb->count != RINGBUFFER_SIZE)
+  {
+    rb->buffer[rb->tail] = *s;
+    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb->count++;     // 元素计数增加
+  }else{
+    rb->buffer[rb->tail] = *s;
+    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb->head = (rb->head + 1) % RINGBUFFER_SIZE;  //头指针循环移动
+  }
+}
+void print_ringbuffer(RingBuffer *rb)
+{
+  if(rb->head < rb->tail) //ringbuffer没存满的情况
+  {
+    for (int i = rb->head; i < rb->tail; i++)
+    {
+      Log("%s\n", (rb->buffer[i]).logbuf);
+    }
+  }
+  else if(rb->head == rb->tail && rb->count == RINGBUFFER_SIZE){//存满了的情况
+    for (int i = rb->head; i < RINGBUFFER_SIZE; i++)
+    {
+      Log("%s\n", (rb->buffer[i]).logbuf);
+    }
+    for (int i = 0; i < rb->tail; i++)
+    {
+      Log("%s\n", (rb->buffer[i]).logbuf);
+    }
+  }
+}
 
 
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
+  write_ringbuffer(ringbuf, _this);
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
@@ -55,6 +105,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->snpc = pc;
   isa_exec_once(s);
   cpu.pc = s->dnpc;
+  //TODO: iringbuf
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -105,10 +156,12 @@ static void statistic() {
 void assert_fail_msg() {
   isa_reg_display();
   statistic();
+  print_ringbuffer(ringbuf);
 }
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
+  init_ringbuffer(ringbuf);
   g_print_step = (n < MAX_INST_TO_PRINT);
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
