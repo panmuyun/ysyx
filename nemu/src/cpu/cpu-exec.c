@@ -31,11 +31,62 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 
+#define RINGBUFFER_SIZE 10  //环形缓冲区的大小
+typedef struct {
+  Decode buffer[RINGBUFFER_SIZE];  //存储数据的数组
+  int head;
+  int tail;
+  int count;  //当前缓冲区中的元素数量
+}RingBuffer;
+
+RingBuffer ringbuf; //环形缓冲区
+
+void init_ringbuffer(RingBuffer *rb)
+{
+  rb->head = 0;
+  rb->tail = 0;
+  rb->count = 0;
+}
+void write_ringbuffer(RingBuffer *rb, Decode *s)
+{
+  if(rb->count != RINGBUFFER_SIZE)
+  {
+    rb->buffer[rb->tail] = *s;
+    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb->count++;     // 元素计数增加
+  }else{
+    rb->buffer[rb->tail] = *s;
+    rb->tail = (rb->tail + 1) % RINGBUFFER_SIZE;  //尾指针循环移动
+    rb->head = (rb->head + 1) % RINGBUFFER_SIZE;  //头指针循环移动
+  }
+}
+void print_ringbuffer(RingBuffer *rb)
+{
+  Log("%d records", rb->count);
+  if(rb->head < rb->tail) //ringbuffer没存满的情况
+  {
+    for (int i = rb->head; i < rb->tail; i++)
+    {
+      printf("%s\n", (rb->buffer[i]).logbuf);
+    }
+  }
+  else if(rb->head == rb->tail && rb->count == RINGBUFFER_SIZE){//存满了的情况
+    for (int i = rb->head; i < RINGBUFFER_SIZE; i++)
+    {
+      printf("%s\n", (rb->buffer[i]).logbuf);
+    }
+    for (int i = 0; i < rb->tail; i++)
+    {
+      printf("%s\n", (rb->buffer[i]).logbuf);
+    }
+  }
+}
 
 
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
+  
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
@@ -79,6 +130,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   p[0] = '\0'; // the upstream llvm does not support loongarch32r
 #endif
 #endif
+  write_ringbuffer(&ringbuf, s); //写入环形缓冲区
 }
 
 /*执行n条指令*/
@@ -109,6 +161,7 @@ void assert_fail_msg() {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
+  init_ringbuffer(&ringbuf); //初始化环形缓冲区
   g_print_step = (n < MAX_INST_TO_PRINT);
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
@@ -135,5 +188,6 @@ void cpu_exec(uint64_t n) {
           nemu_state.halt_pc);
       // fall through
     case NEMU_QUIT: statistic();
+                    print_ringbuffer(&ringbuf);
   }
 }

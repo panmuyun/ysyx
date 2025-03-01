@@ -19,11 +19,11 @@
 #include <common.h>
 
 static inline int check_reg_idx(int idx) {
-  IFDEF(CONFIG_RT_CHECK, assert(idx >= 0 && idx < MUXDEF(CONFIG_RVE, 16, 32)));
+  IFDEF(CONFIG_RT_CHECK, assert(idx >= 0 && idx < MUXDEF(CONFIG_RVE, 16, 32))); // CONFIG_RVE为真则idx在[0,16)之间，否则在[0,32)之间
   return idx;
 }
 
-#define gpr(idx) (cpu.gpr[check_reg_idx(idx)])
+#define gpr(idx) (cpu.gpr[check_reg_idx(idx)]) // gpr(idx)表示regs[]中第idx个寄存器
 
 static inline const char* reg_name(int idx) {
   extern const char* regs[];
